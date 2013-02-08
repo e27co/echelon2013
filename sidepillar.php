@@ -1,0 +1,145 @@
+<?php
+$side = false;
+$ptype = "echelon_sponsor";
+$args = array(
+	'post_type'=> $ptype,
+	'order'    => 'ASC',
+	'orderby'	=> 'meta_value',
+	'meta_key' 	=> $ptype.'_order',
+	'posts_per_page' => -1
+);              
+$the_query = new WP_Query( $args );
+$sponsors = array();
+if($the_query->have_posts() ){
+	while ( $the_query->have_posts() ){
+		$the_query->the_post();
+		$p = get_post( get_the_ID(), OBJECT );
+		$image_id = get_post_meta( $p->ID, $ptype.'_image_id', true );
+		$type = get_post_meta( $p->ID, $ptype.'_type', true );
+		$link = get_post_meta( $p->ID, $ptype.'_link', true );
+		$html = get_post_meta( $p->ID, $ptype.'_html', true );
+		
+		$image_src = wp_get_attachment_url( $image_id );
+		$v = array();
+		$v['post'] = $p;
+		$v['image_src'] = $image_src;
+		$v['link'] = $link;
+		$v['html'] = $html;		
+		if(!is_array($sponsors[$type])){
+			$sponsors[$type] = array();
+		}
+		$sponsors[$type][] = $v;
+		$side = true;
+	}
+}
+
+wp_reset_postdata();
+foreach($sponsors as $key=>$value){
+$t = count($sponsors[$key]);
+	if($t){
+		?>
+		<div class="head-pillar"><p><?php echo $key; ?></p></div>
+		<ul>
+		<?php
+		for($i=0; $i<$t; $i++){
+			?>
+			<li>
+			<?php
+			if(trim($sponsors[$key][$i]['html'])){
+				echo trim($sponsors[$key][$i]['html']);
+			}
+			else{
+				e_view($sponsors[$key][$i]['post']);
+				if(trim($sponsors[$key][$i]['link'])){
+					?>
+					<a href="<?php echo e_clickurl($sponsors[$key][$i]['link'], $sponsors[$key][$i]['post']); ?>"><img src="<?php echo $sponsors[$key][$i]['image_src']; ?>" title="<?php echo htmlentities($sponsors[$key][$i]['post']->post_title); ?>" alt="<?php echo htmlentities($sponsors[$key][$i]['post']->post_title); ?>"></a>
+					<?php
+				}
+				else{
+					?>
+					<img src="<?php echo $sponsors[$key][$i]['image_src']; ?>" title="<?php echo htmlentities($sponsors[$key][$i]['post']->post_title); ?>" alt="<?php echo htmlentities($sponsors[$key][$i]['post']->post_title); ?>">
+					<?php
+				}
+			}
+			?>
+			</li>
+			<?php
+		}
+		?>
+		</ul>
+		<?php
+	}
+}
+
+
+$ptype = "mediapartner";
+$args = array(
+	'post_type'=> $ptype,
+	'order'    => 'ASC',
+	'orderby'	=> 'meta_value',
+	'meta_key' 	=> $ptype.'_order',
+	'posts_per_page' => -1
+);              
+$the_query = new WP_Query( $args );
+$mps = array();
+if($the_query->have_posts() ){
+	while ( $the_query->have_posts() ){
+		$the_query->the_post();
+		$p = get_post( get_the_ID(), OBJECT );
+		$image_id = get_post_meta( $p->ID, $ptype.'_image_id', true );
+		$type = get_post_meta( $p->ID, $ptype.'_type', true );
+		$link = get_post_meta( $p->ID, $ptype.'_link', true );
+		$html = get_post_meta( $p->ID, $ptype.'_html', true );
+		
+		$image_src = wp_get_attachment_url( $image_id );
+		$v = array();
+		$v['post'] = $p;
+		$v['image_src'] = $image_src;
+		$v['link'] = $link;
+		$v['html'] = $html;
+		
+		if(!is_array($mps[$type])){
+			$mps[$type] = array();
+		}
+		$mps[$type][] = $v;
+	}
+}
+
+wp_reset_postdata();
+foreach($mps as $key=>$value){
+$t = count($mps[$key]);
+	if($t){
+		?>
+		<div class="head-pillar"><p><?php echo $key; ?></p></div>
+		<ul>
+		<?php
+		for($i=0; $i<$t; $i++){
+			?>
+			<li>
+			<?php
+			if(trim($mps[$key][$i]['html'])){
+				echo trim($mps[$key][$i]['html']);
+			}
+			else{
+				e_view($mps[$key][$i]['post']);
+				if(trim($mps[$key][$i]['link'])){
+					?>
+					<a href="<?php echo e_clickurl($mps[$key][$i]['link'], $mps[$key][$i]['post']); ?>"><img src="<?php echo $mps[$key][$i]['image_src']; ?>" title="<?php echo htmlentities($mps[$key][$i]['post']->post_title); ?>" alt="<?php echo htmlentities($mps[$key][$i]['post']->post_title); ?>"></a>
+					<?php
+				}
+				else{
+					?>
+					<img src="<?php echo $mps[$key][$i]['image_src']; ?>" title="<?php echo htmlentities($mps[$key][$i]['post']->post_title); ?>" alt="<?php echo htmlentities($mps[$key][$i]['post']->post_title); ?>">
+					<?php
+				}
+			}
+			?>
+			</li>
+			<?php
+		}
+		?>
+		</ul>
+		<?php
+	}
+}
+?>

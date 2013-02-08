@@ -888,7 +888,7 @@ class E_Sponsor extends Echelon {
 	var $title;
 		
 	public function __construct() {
-		$this->slug = "e_sponsor";
+		$this->slug = "echelon_sponsor";
 		$this->label = "Echelon Sponsors";
 		$this->title = "Sponsor Name";
 		
@@ -1083,10 +1083,16 @@ class E_Sponsor extends Echelon {
 		<tr>
 			<td>
 			<br /><br />
-			<b>Type<br /></b>
+			<b>Category<br /></b>
 			<select name='type' id='xtype'>
-				<option value='Regular'>Regular</option>
-				<option value='Premier'>Premier</option>
+				<option value='Premier Sponsors'>Premier Sponsors</option>
+				<option value='Supporting Sponsors'>Supporting Sponsors</option>
+				<option value='Regular Sponsors'>Regular Sponsors</option>
+				<option value='Tech Sponsors'>Tech Sponsors</option>
+				<option value='Launchpad Prize Sponsors'>Launchpad Prize Sponsors</option>
+				<option value='Supporting Organizations'>Supporting Organizations</option>
+				<option value='Afterevent Sponsors'>Afterevent Sponsors</option>
+				<option value='Chill Out Sponsors'>Chill Out Sponsors</option>
 			</select>
 			<script>
 			jQuery("#xtype").val("<?php echo $type; ?>");
@@ -1174,7 +1180,7 @@ class E_MediaPartner extends Echelon {
 	var $title;
 		
 	public function __construct() {
-		$this->slug = "e_mediapartners";
+		$this->slug = "mediapartner";
 		$this->label = "Echelon Media Partners";
 		$this->title = "Media Partner Name";
 		
@@ -1364,8 +1370,8 @@ class E_MediaPartner extends Echelon {
 			<br /><br />
 			<b>Type<br /></b>
 			<select name='type' id='xtype'>
-				<option value='Regular'>Regular</option>
-				<option value='Premier'>Premier</option>
+				<option value='Premier Media Partner'>Premier Media Partner</option>
+				<option value='Community & Media Partners'>Community & Media Partners</option>
 			</select>
 			<script>
 			jQuery("#xtype").val("<?php echo $type; ?>");
