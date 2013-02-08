@@ -66,7 +66,7 @@ get_header();
       </div>
 
 
-    <div class="container">
+    <div class="container add-bot">
       <div class="row add-bot-med">
         <div class="span9 highlights">
           <?php
