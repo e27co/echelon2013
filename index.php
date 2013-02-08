@@ -48,7 +48,7 @@ get_header();
 						$the_query->the_post();
 						$p = get_post( get_the_ID(), OBJECT );
 						$youtube_link = get_post_meta( $p->ID, $ptype.'_youtube_link', true );
-						$youtube_id = explode("watch?v=", $youtube_link);
+						$youtube_id = explode("v=", $youtube_link);
 						$youtube_id = $youtube_id[1];
 						$youtube_id = explode("&", $youtube_id);
 						$youtube_id = $youtube_id[0];
