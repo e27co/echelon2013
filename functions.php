@@ -673,6 +673,270 @@ class E_Speaker extends Echelon {
 }
 
 
+class E_Staff extends Echelon {
+	
+	var $slug;
+	var $label;
+	var $title;
+		
+	public function __construct() {
+		$this->slug = "echelon_staff";
+		$this->label = "Echelon Staff";
+		$this->title = "Staff Name";
+		
+		add_action( 'init', $this->init($this->slug, $this->label) );	
+		if ( is_admin() ) {
+			add_action( 'admin_init', array( &$this, 'admin_init' ) );
+		}
+	}
+
+	
+	/** Admin methods ******************************************************/
+	
+	
+	/**
+	 * Initialize the admin, adding actions to properly display and handle 
+	 * the carousel custom post type add/edit page
+	 */
+	public function admin_init() {
+		global $pagenow, $post;
+		
+		if ( $pagenow == 'post-new.php' || $pagenow == 'post.php' || $pagenow == 'edit.php' ) {
+			
+			add_action( 'add_meta_boxes', array( &$this, 'meta_boxes' ) );
+			add_filter( 'enter_title_here', array( &$this, 'enter_title_here' ), 1, 2 );
+			add_action( 'save_post', array( &$this, 'meta_boxes_save' ), 1, 2 );
+			
+			add_filter( 'manage_edit-'.$this->slug."_columns", array( &$this, 'columns' ) ) ;
+			add_action( 'manage_'.$this->slug.'_posts_custom_column', array( &$this, 'manage_columns' ), 10, 2 );
+			
+			add_filter('manage_edit-'.$this->slug.'_sortable_columns',array( &$this,  'order_column_register_sortable'));
+			
+		}
+	}
+	
+	/**
+	* make column sortable
+	*/
+	function order_column_register_sortable($columns){
+	  $columns['order'] = 'order';
+	  return $columns;
+	}
+
+
+	/**
+	 * Save meta boxes
+	 * 
+	 * Runs when a post is saved and does an action which the write panel save scripts can hook into.
+	 */
+	public function meta_boxes_save( $post_id, $post ) {
+		if ( empty( $post_id ) || empty( $post ) || empty( $_POST ) ) return;
+		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) return;
+		if ( is_int( wp_is_post_revision( $post ) ) ) return;
+		if ( is_int( wp_is_post_autosave( $post ) ) ) return;
+		if ( ! current_user_can( 'edit_post', $post_id ) ) return;
+		if ( $post->post_type != $this->slug ) return;
+			
+		$this->process_meta( $post_id, $post );
+	}
+	
+	
+	
+	
+	
+	/**
+	 * Set a more appropriate placeholder text for the New carousel title field
+	 */
+	public function enter_title_here( $text, $post ) {
+		if ( $post->post_type == $this->slug ) return __( $this->title );
+		return $text;
+	}
+	
+	
+	
+	/**
+	 * Add and remove meta boxes from the edit page
+	 */
+	public function meta_boxes() {
+		add_meta_box( $this->slug."-metabox", __( "Speaker Details" ), array( &$this, 'meta_box' ), $this->slug, 'side', 'high' );
+	}
+	
+	/**
+	 * Function for processing and storing all carousel data.
+	 */
+	private function process_meta( $post_id, $post ) {
+		update_post_meta( $post_id, $this->slug.'_image_id', $_POST['upload_image_id'] );
+		update_post_meta( $post_id, $this->slug.'_designation', $_POST['designation'] );
+		update_post_meta( $post_id, $this->slug.'_order', $_POST['order'] );
+		update_post_meta( $post_id, $this->slug.'_frontpage', $_POST['frontpage'] );
+		update_post_meta( $post_id, $this->slug.'_fb', $_POST['fb'] );
+		update_post_meta( $post_id, $this->slug.'_tw', $_POST['tw'] );
+		update_post_meta( $post_id, $this->slug.'_in', $_POST['in'] );
+	}
+	
+	//columns in list view
+	function columns( $columns ) {
+		$columns = array(
+			'cb' => '<input type="checkbox" />',
+			'title' => __( $this->label ),
+			'image' => __( 'Profile Image' ),
+			'designation' => __( 'Designation' ),
+			'order' => __( 'Order' ),
+			'frontpage' => __( 'Frontpage' ),
+			'date' => __( 'Date' )
+		);
+
+		return $columns;
+	}
+	
+	function manage_columns( $column, $post_id ){
+		global $post;
+		
+		$image_id = get_post_meta( $post_id, $this->slug.'_image_id', true );
+		$image_src = wp_get_attachment_url( $image_id );
+		$designation = get_post_meta( $post_id, $this->slug.'_designation', true );
+		$fb = get_post_meta( $post_id, $this->slug.'_fb', true );
+		$tw = get_post_meta( $post_id, $this->slug.'_tw', true );
+		$in = get_post_meta( $post_id, $this->slug.'_in', true );
+		$order = get_post_meta( $post_id, $this->slug.'_order', true );
+		$frontpage = get_post_meta( $post_id, $this->slug.'_frontpage', true );
+		
+		if($column=='image'){
+			?><img id="carousel_image" src="<?php echo $image_src ?>" style="max-width:100px;" /><?php
+		}
+		else if($column=='designation'){
+			echo $designation;
+		}
+		else if($column=='order'){
+			echo $order;
+		}
+		else if($column=='frontpage'){
+			echo $frontpage;
+		}
+		
+		
+	}
+	
+	/**
+	 * Display the image meta box
+	 */
+	public function meta_box() {
+		global $post;
+		
+		$image_src = '';
+		
+		$image_id = get_post_meta( $post->ID, $this->slug.'_image_id', true );
+		$image_src = wp_get_attachment_url( $image_id );
+		$designation = get_post_meta( $post->ID, $this->slug.'_designation', true );
+		$order = get_post_meta( $post->ID, $this->slug.'_order', true );
+		$frontpage = get_post_meta( $post->ID, $this->slug.'_frontpage', true );
+		$fb = get_post_meta( $post->ID, $this->slug.'_fb', true );
+		$tw = get_post_meta( $post->ID, $this->slug.'_tw', true );
+		$in = get_post_meta( $post->ID, $this->slug.'_in', true );
+		$order *= 1;
+		?>
+		<style>
+		#<?php echo $this->slug; ?> td{
+			vertical-align:top;
+		}
+		</style>
+		<table id='<?php echo $this->slug; ?>' style='width:100%'>
+		<tr>
+			<td colspan=2>
+			<b>Profile Image (175px x 175px)<br /><br /></b>
+			<img id="speaker_image" src="<?php echo $image_src ?>" style="max-width:100%;" />
+			<input type="hidden" name="upload_image_id" id="upload_image_id" value="<?php echo $image_id; ?>" />
+			<p>
+				<input type='button' class='button' value="<?php _e( 'Set Image' ) ?>"  id="set-image" />
+				<input type='button' class='button' style="<?php echo ( ! $image_id ? 'display:none;' : '' ); ?>" value="<?php _e( 'Remove Image' ) ?>"  id="remove-image" />
+			</p>
+			</td>
+		</tr>
+		<tr>
+			<td>
+			<b>Designation (e.g. Media & Events Manage)<br /><br /></b>
+			<input type="text" name="designation" value="<?php echo htmlentities($designation); ?>" style='width:100%' />
+			<br /><br />
+			<b>Order<br /><br /></b>
+			<input type="text" name="order" value="<?php echo htmlentities($order); ?>" style='width:100%' /><br /><br />
+			<b>Facebook<br /><br /></b>
+			<input type="text" name="fb" value="<?php echo htmlentities($fb); ?>" style='width:100%' /><br /><br />
+			<b>Twitter<br /><br /></b>
+			<input type="text" name="tw" value="<?php echo htmlentities($tw); ?>" style='width:100%' /><br /><br />
+			<b>Linked In<br /><br /></b>
+			<input type="text" name="in" value="<?php echo htmlentities($in); ?>" style='width:100%' />
+			<br /><br />
+			<b>Frontpage<br /><br /></b>
+			<select name='frontpage' id='frontpagex'>
+				<option value='Yes'>Yes</option>
+				<option value='No'>No</option>
+			</select>
+			<script>
+			jQuery("#frontpagex").val("<?php echo htmlentities($frontpage); ?>");
+			</script>
+			
+			</td>
+		</tr>
+		</table>
+
+		<!--- script below -->
+		
+		<script type="text/javascript">
+		jQuery(document).ready(function($) {
+			
+			// save the send_to_editor handler function
+			window.send_to_editor_default = window.send_to_editor;
+	
+			$('#set-image').click(function(){
+				
+				// replace the default send_to_editor handler function with our own
+				window.send_to_editor = window.attach_image;
+				tb_show('', 'media-upload.php?post_id=<?php echo $post->ID ?>&amp;type=image&amp;TB_iframe=true');
+				
+				return false;
+			});
+			
+			$('#remove-image').click(function() {
+				
+				$('#upload_image_id').val('');
+				$('img').attr('src', '');
+				$(this).hide();
+				
+				return false;
+			});
+			
+			// handler function which is invoked after the user selects an image from the gallery popup.
+			// this function displays the image and sets the id so it can be persisted to the post meta
+			window.attach_image = function(html) {
+				
+				// turn the returned image html into a hidden image element so we can easily pull the relevant attributes we need
+				$('body').append('<div id="temp_image">' + html + '</div>');
+					
+				var img = $('#temp_image').find('img');
+				
+				imgurl   = img.attr('src');
+				imgclass = img.attr('class');
+				imgid    = parseInt(imgclass.replace(/\D/g, ''), 10);
+	
+				$('#upload_image_id').val(imgid);
+				$('#remove-image').show();
+	
+				$('img#speaker_image').attr('src', imgurl);
+				try{tb_remove();}catch(e){};
+				$('#temp_image').remove();
+				
+				// restore the send_to_editor handler function
+				window.send_to_editor = window.send_to_editor_default;
+				
+			}
+	
+		});
+		</script>
+		<?php
+	}
+}
+
+
 class E_Quote extends Echelon {
 	
 	var $slug;
@@ -1689,6 +1953,7 @@ register_nav_menu( 'primary', __( 'Primary Menu', 'echelon2013' ) );
 $GLOBALS['E_Carousel'] = new E_Carousel();
 $GLOBALS['E_Youtube'] = new E_Youtube();
 $GLOBALS['E_Speaker'] = new E_Speaker();
+$GLOBALS['E_Staff'] = new E_Staff();
 $GLOBALS['E_Quote'] = new E_Quote();
 $GLOBALS['E_Sponsor'] = new E_Sponsor();
 $GLOBALS['E_MediaPartner'] = new E_MediaPartner();
@@ -1925,6 +2190,45 @@ function e_news($content){
 
 function e_crew($content){
 	ob_start();
+	$ptype = "echelon_staff";
+	$args = array(
+		'post_type'=> $ptype,
+		'order'    => 'ASC',
+		'orderby'	=> 'meta_value',
+		'meta_key' 	=> $ptype.'_order',
+		'posts_per_page' => -1
+	);              
+	$the_query = new WP_Query( $args );
+	$i=0;
+	$astaff = array();
+	$thestaff = array();
+	if($the_query->have_posts() ){
+		while ( $the_query->have_posts() ){
+			$the_query->the_post();
+			$p = get_post( get_the_ID(), OBJECT );
+			$image_id = get_post_meta( $p->ID, $ptype.'_image_id', true );
+			$designation = get_post_meta( $p->ID, $ptype.'_designation', true );
+			$fb = get_post_meta( $p->ID, $ptype.'_fb', true );
+			$tw = get_post_meta( $p->ID, $ptype.'_tw', true );
+			$in = get_post_meta( $p->ID, $ptype.'_in', true );
+			$image_src = wp_get_attachment_url( $image_id );
+			
+			$s = array();
+			$s['p'] = $p;
+			$s['designation'] = $designation;
+			$s['fb'] = $fb;
+			$s['tw'] = $tw;
+			$s['in'] = $in;
+			$s['image_src'] = $image_src;
+			
+			if($p->ID==$_GET['staffid']){
+				$thestaff = $s;
+			}
+			$astaff[] = $s;
+		}
+	}
+	$t = count($astaff);
+	$leftt = ceil($t/2);
 	?>
 	<h2 class="add-top">e27 Crew</h2>
 	  <div class="row-fluid">
@@ -1932,37 +2236,67 @@ function e_crew($content){
 		You can be assured that we will delivered the utmost relevant trending Asia content.</p>
 
 		<div class="row-fluid wrapper-crew add-top">
-		  <div class="span6">
-			<div class="row-fluid add-bot pos-abs">
-			  <div class="span6">
-				<img class="rounded" alt="Mohan Belani" src="themes/img/crew/mohan_thumb.png">              
-			  </div>
-			  <div class="span6 crew-indiv">
-				<em>Mohan Belani</em><br/>Director
-				<div class="social add-top-xxs">
-				  <a href="" class="twitter">twitter</a>
-				  <a href="" class="facebook">facebook</a>
-				  <a href="" class="linkedin">linkedin</a>
-				</div>  
-			  </div>
-			</div>
 			
+		  <div class="span6">
+			 <?php
+			  for($i=0; $i<$leftt; $i++){
+				?>
+				<div class="row-fluid add-bot pos-abs">
+				  <div class="span6">
+					<img class="rounded" alt="Mohan Belani" src="<?php echo $astaff[$i]['image_src']; ?>">              
+				  </div>
+				  <div class="span6 crew-indiv">
+					<em><?php echo $astaff[$i]['p']->post_title; ?></em><br/><?php echo $astaff[$i]['designation']; ?>
+					<div class="social add-top-xxs">
+					  <?php
+					  if($astaff[$i]['tw']){
+						?><a href="<?php echo $astaff[$i]['tw']; ?>" class="twitter">twitter</a><?php
+					  }
+					  if($astaff[$i]['fb']){
+						?><a href="<?php echo $astaff[$i]['fb']; ?>" class="facebook">facebook</a><?php
+					  }
+					  if($astaff[$i]['in']){
+						?><a href="<?php echo $astaff[$i]['in']; ?>" class="linkedin">linkedin</a><?php
+					  }
+					  
+					  ?>
+					</div>  
+				  </div>
+				</div>
+				<?php
+			  }
+			  ?>
 		  </div>
 		  <!-- --> 
 		  <div class="span6">
-			<div class="row-fluid add-bot pos-abs">
-			  <div class="span6">
-				<img class="rounded" alt="Jit Siong Thaddeus Koh" src="themes/img/crew/js_thumb.png">               
-			  </div>
-			  <div class="span6 crew-indiv">
-				<em>Jit Siong Thaddeus Koh</em><br/>Chief Operations and Finance &amp; Co-Founder
-				<div class="social add-top-xxs">
-				  <a href="" class="twitter">twitter</a>
-				  <a href="" class="facebook">facebook</a>
-				  <a href="" class="linkedin">linkedin</a>
-				</div>  
-			  </div>
-			</div>
+			<?php
+			  for($i=$leftt; $i<$t; $i++){
+				?>
+				<div class="row-fluid add-bot pos-abs">
+				  <div class="span6">
+					<img class="rounded" alt="Mohan Belani" src="<?php echo $astaff[$i]['image_src']; ?>">              
+				  </div>
+				  <div class="span6 crew-indiv">
+					<em><?php echo $astaff[$i]['p']->post_title; ?></em><br/><?php echo $astaff[$i]['designation']; ?>
+					<div class="social add-top-xxs">
+					  <?php
+					  if($astaff[$i]['tw']){
+						?><a href="<?php echo $astaff[$i]['tw']; ?>" class="twitter">twitter</a><?php
+					  }
+					  if($astaff[$i]['fb']){
+						?><a href="<?php echo $astaff[$i]['fb']; ?>" class="facebook">facebook</a><?php
+					  }
+					  if($astaff[$i]['in']){
+						?><a href="<?php echo $astaff[$i]['in']; ?>" class="linkedin">linkedin</a><?php
+					  }
+					  
+					  ?>
+					</div>  
+				  </div>
+				</div>
+				<?php
+			  }
+			  ?>
 			
 		  </div>
 		</div>  
