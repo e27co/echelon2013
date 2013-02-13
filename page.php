@@ -19,10 +19,12 @@ get_header();
 		  
 		  ?>
 		</div>
-		<div class="span3 side-pillar txt-c" id='side_pillar' style='display:none'>
-			<?php
-			include_once(dirname(__FILE__)."/sidepillar.php");
-			?>
+		<div class="span3">
+			<div class="side-pillar txt-c" id='side_pillar' style='display:none'>
+				<?php
+				include_once(dirname(__FILE__)."/sidepillar.php");
+				?>
+			</div>
 		</div>
 	 
 

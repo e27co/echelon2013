@@ -421,7 +421,7 @@ ul.social-icons-footer li {
     line-height:22px
 }
 
-.subscribe input {
+.subscribe input.email {
     background-color: #EEEEEE;
     height: 25px;
     width: 230px;
