@@ -698,8 +698,8 @@ table.agenda td span.parallel,
 
 .country .cntry-big { text-transform:uppercase  }
 .country .country-det p { font-size:18px }
-.country .country-det a { font-weight:bold; display:block; }
-.country-det p.date { font-size:14px; padding-top:8px }
+.country .country-det a { display:block; }
+.country-det p.date { font-size:14px }
 .country-det p.satellite-caption { font-size:16px }
 .country-det .closed-btn {
     background:url('../img/satellite_closed_btn.png')no-repeat scroll 0 0 transparent;
