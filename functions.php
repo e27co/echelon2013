@@ -2239,7 +2239,7 @@ function e_crew($content){
 			
 		  <div class="span6">
 			 <?php
-			  for($i=0; $i<$leftt; $i++){
+			  for($i=0; $i<$t; $i+=2){
 				?>
 				<div class="row-fluid add-bot pos-abs">
 				  <div class="span6">
@@ -2270,7 +2270,7 @@ function e_crew($content){
 		  <!-- --> 
 		  <div class="span6">
 			<?php
-			  for($i=$leftt; $i<$t; $i++){
+			  for($i=1; $i<$t; $i+=2){
 				?>
 				<div class="row-fluid add-bot pos-abs">
 				  <div class="span6">

@@ -56,19 +56,19 @@
 		  <ul class="social-icons-footer clearfix">
 			<li>
 			  <span class="twitter"></span>
-			  <a href="">Twitter</a>
+			  <a href="<?php echo get_option("echelon_tw_url"); ?>">Twitter</a>
 			</li>
 			<li>
 			  <span class="facebook"></span>                  
-			  <a href="">Facebook</a>
+			  <a href="<?php echo get_option("echelon_fb_url"); ?>">Facebook</a>
 			</li>
 			<li>
 			  <span class="google"></span>
-			  <a href="">Google+</a>
+			  <a href="<?php echo get_option("echelon_gp_url"); ?>">Google+</a>
 			</li>   
 			<li>
 			  <span class="linkedin"></span>  
-			  <a href="">LinkedIn</a></li>
+			  <a href="<?php echo get_option("echelon_in_url"); ?>">LinkedIn</a></li>
 		  </ul>
 		</div>
 	  </div>
