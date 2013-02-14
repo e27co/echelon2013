@@ -168,10 +168,10 @@
             <div class="banner-1">Banner 1</div>
             <span class="social-top">
             <ul class="clearfix">
-              <li><a href="<?php echo get_option("echelon_fb_url"); ?>" class="facebook"></a></li> 
-              <li><a href="<?php echo get_option("echelon_tw_url"); ?>" class="twitter">twitter</a></li>
-              <li><a href="<?php echo get_option("echelon_gp_url"); ?>" class="google">google</a></li>
-              <li class="last"><a href="<?php echo get_option("echelon_in_url"); ?>" class="linkedin">linkedin</a></li>
+              <li><a href="<?php echo get_option("echelon_fb_url"); ?>" target="_blank" class="facebook"></a></li> 
+              <li><a href="<?php echo get_option("echelon_tw_url"); ?>" target="_blank" class="twitter">twitter</a></li>
+              <li><a href="<?php echo get_option("echelon_gp_url"); ?>" target="_blank" class="google">google</a></li>
+              <li class="last"><a href="<?php echo get_option("echelon_in_url"); ?>" target="_blank" class="linkedin">linkedin</a></li>
             </ul>          
           </span>
           </div>
