@@ -63,6 +63,8 @@ ul.nav > li.menu-item:hover ul.sub-menu li a{
 
 ul li { list-style-type:none }
 
+.highlights ol { font-size:15px }
+
 td {
     font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
     font-size:14px
@@ -311,6 +313,8 @@ h1.logo a {
     font-weight: bold;
     line-height: 20px;
 }
+
+.nu-box h3 { line-height:22px }
 
 .green-quote {
     background: url("../img/small_icons.png") no-repeat scroll 0 -457px transparent;
