@@ -78,7 +78,7 @@
 <footer class="footer">
   <div class="container add-top-small c-text">
 	<div class="pull-left">&copy;2013 Echelon | e27 Web Innovation Asia</div>
-	<div class="pull-right"><a href="/about">About</a> | <a href="/contact">Contact</a> | <a href="/register">Register</a></div>  
+	<div class="pull-right"><a href="<?php echo site_url('/about'); ?>">About</a> | <a href="<?php echo site_url('/register'); ?>">Register</a></div>  
   </div>    
 </footer>
 

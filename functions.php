@@ -2400,7 +2400,7 @@ function e_quotes($content){
 					?>
 			</div>
 			</div>
-			<div class="register-small" style='position:absolute; left:370px; top:0px'><a href="/register" alt="Register" title="Early Bird Registration">Early Bird</a></div>
+			<div class="register-small" style='position:absolute; left:370px; top:0px'><a href="<?php echo site_url('/register'); ?>" alt="Register" title="Early Bird Registration">Early Bird</a></div>
 		</div>
 	</div>
 	<?php

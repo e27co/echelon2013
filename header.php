@@ -186,7 +186,7 @@
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
             </a>
-            <a class="register" href="/register">Project name</a>
+            <a class="register" href="<?php echo site_url('/register'); ?>">Project name</a>
 
 			<?php
 			/*
