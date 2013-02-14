@@ -15,8 +15,8 @@ class Echelon{
 	/**
 	 * Register the custom post type
 	 */
-	public function init($slug, $label){
-		register_post_type( $slug, array( 'public' => true, 'label' => $label, 'supports' => null ) );
+	public function init($slug, $label, $supports=null){
+		register_post_type( $slug, array( 'public' => true, 'label' => $label, 'supports' => $supports ) );
 	}
 }
 
@@ -683,6 +683,22 @@ class E_Startup extends Echelon {
 		$this->label = "Echelon Startups";
 		$this->title = "Startup Name";
 		
+		/*
+		$args = array(
+			'labels' => $labels,
+			'public' => true,
+			'publicly_queryable' => true,
+			'show_ui' => true,
+			'query_var' => true,
+			'rewrite' => true,
+			'capability_type' => 'post',
+			'hierarchical' => false,
+			'menu_position' => null,
+			'supports' => array('title','thumbnail','excerpt')
+		  ); 
+		*/
+		//$supports = array('title','editor', 'excerpt');
+		
 		add_action( 'init', $this->init($this->slug, $this->label) );	
 		if ( is_admin() ) {
 			add_action( 'admin_init', array( &$this, 'admin_init' ) );
@@ -767,6 +783,7 @@ class E_Startup extends Echelon {
 		update_post_meta( $post_id, $this->slug.'_image_id', $_POST['upload_image_id'] );
 		update_post_meta( $post_id, $this->slug.'_order', $_POST['order'] );
 		update_post_meta( $post_id, $this->slug.'_country', $_POST['country'] );
+		update_post_meta( $post_id, $this->slug.'_excerpt', $_POST['excerpt'] );
 	}
 	
 	//columns in list view
@@ -816,6 +833,7 @@ class E_Startup extends Echelon {
 		$image_src = wp_get_attachment_url( $image_id );
 		$order = get_post_meta( $post->ID, $this->slug.'_order', true );
 		$country = get_post_meta( $post->ID, $this->slug.'_country', true );
+		$excerpt = get_post_meta( $post->ID, $this->slug.'_excerpt', true );
 		$order *= 1;
 		?>
 		<style>
@@ -826,7 +844,7 @@ class E_Startup extends Echelon {
 		<table id='<?php echo $this->slug; ?>' style='width:100%'>
 		<tr>
 			<td colspan=2>
-			<b>Image (175px x 175px)<br /><br /></b>
+			<b>Image (220x80)<br /><br /></b>
 			<img id="speaker_image" src="<?php echo $image_src ?>" style="max-width:100%;" />
 			<input type="hidden" name="upload_image_id" id="upload_image_id" value="<?php echo $image_id; ?>" />
 			<p>
@@ -841,7 +859,8 @@ class E_Startup extends Echelon {
 			<input type="text" name="order" value="<?php echo htmlentities($order); ?>" style='width:100%' /><br /><br />
 			<b>Country<br /><br /></b>
 			<input type="text" name="country" value="<?php echo htmlentities($country); ?>" style='width:100%' /><br /><br />
-			
+			<b>Excertp<br /><br /></b>
+			<textarea name="excerpt" style='width:100%; height:70px'><?php echo htmlentities($excerpt); ?></textarea><br /><br />
 			</td>
 		</tr>
 		</table>
@@ -912,7 +931,7 @@ class E_Staff extends Echelon {
 		
 	public function __construct() {
 		$this->slug = "echelon_staff";
-		$this->label = "Echelon Staff";
+		$this->label = "Echelon Crew";
 		$this->title = "Staff Name";
 		
 		add_action( 'init', $this->init($this->slug, $this->label) );	
@@ -2541,6 +2560,125 @@ function e_crew($content){
 	$content = str_replace("[[ep_crew]]", $crew, $content);
 	return $content;
 }
+
+function e_startups($content){
+	ob_start();
+	$ptype = "echelon_startup";
+	$args = array(
+		'post_type'=> $ptype,
+		'order'    => 'ASC',
+		'orderby'	=> 'meta_value',
+		'meta_key' 	=> $ptype.'_order',
+		'posts_per_page' => -1
+	);              
+	$the_query = new WP_Query( $args );
+	$i=0;
+	$astartups = array();
+	$thestartup = array();
+	$countries = array();
+	if($the_query->have_posts() ){
+		while ( $the_query->have_posts() ){
+			$the_query->the_post();
+			$p = get_post( get_the_ID(), OBJECT );
+			$image_id = get_post_meta( $p->ID, $ptype.'_image_id', true );
+			$country = get_post_meta( $p->ID, $ptype.'_country', true );
+			$excerpt = get_post_meta( $p->ID, $ptype.'_excerpt', true );
+			$image_src = wp_get_attachment_url( $image_id );
+			
+			
+			if(!in_array(strtoupper($country), $countries)){
+				$countries[] = strtoupper($country);
+			}
+			$s = array();
+			$s['p'] = $p;
+			$s['country'] = strtoupper($country);
+			$s['image_src'] = $image_src;
+			$s['excerpt'] = $excerpt;
+			
+			if($p->ID==$_GET['startupid']){
+				$thestartup = $s;
+			}
+			$astartups[] = $s;
+		}
+	}
+	
+	?>
+	<script>
+		jQuery(function(){
+			jQuery(".country-startup-btn").click(function(){
+				jQuery(".country-startup-btn").removeClass("selected");
+				jQuery(this).addClass("selected");
+				jQuery(".startup").hide();
+				if(jQuery(this).html()!='ALL COUNTRIES'){
+					jQuery(".c_"+jQuery(this).html()).show();
+				}
+				else{
+					jQuery(".startup").show();
+				}
+			});
+		});
+	</script>
+	<div class="row-fluid add-top">
+		<h2>Startup Marketplace</h2>
+		<p>After going through a grueling judging process, including at the regional satellite events, Echelon 2012 is proud to announce the following startups at our Startup Marketplace:</p>
+		<div class="country-startup add-top-small">
+		  <!--
+		  <a class="country-startup-btn selected" href="">all country</a>
+		  <a class="country-startup-btn" href="">australia</a>
+		  <a class="country-startup-btn" href="">japan</a>
+		  <a class="country-startup-btn" href="">korea</a>
+		  <a class="country-startup-btn" href="">indonesia</a>
+		  <a class="country-startup-btn" href="">malaysia</a>
+		  <a class="country-startup-btn" href="">philippines</a>
+		  <a class="country-startup-btn" href="">taiwan</a>
+		  <a class="country-startup-btn" href="">thailand</a>
+		  <a class="country-startup-btn" href="">vietnam</a>
+		  -->
+		  <a class="country-startup-btn selected">ALL COUNTRIES</a>
+		  <?php
+		  $ct = count($countries);
+		  for($i=0; $i<$ct; $i++){
+			?>
+			 <a class="country-startup-btn" ><?php echo $countries[$i]; ?></a>
+			<?php
+		  }
+		  ?>
+		</div>
+		<div class="row-fluid startups-list add-top">
+		  
+		  <?php
+		  $t = count($astartups);
+		  for($i=0; $i<$t; $i++){
+			  if($i==0){
+				?><div class="row-fluid"><?php
+			  }
+			  if($i>0&&$i%3==0){
+				?></div><div class="row-fluid"><?php
+			  }
+			  ?>
+				<div class="span4 startup <?php echo "c_".$astartups[$i]['country']; ?>">
+				  <div class="inner-top">
+					<a href=""><img style='max-width:220px; margin:auto;' src="<?php echo $astartups[$i]['image_src']; ?>"></a>
+					<h2><?php echo $astartups[$i]['p']->post_title; ?></h2>
+					<p><?php echo $astartups[$i]['country']; ?></p>
+				  </div>
+				  <p><?php echo $astartups[$i]['excerpt']; ?></p>
+				</div>
+			  <?php
+		  }
+		  ?>
+		  </div>
+		  
+		</div>
+	  </div>
+	<?php
+	$startups = ob_get_contents();
+	ob_end_clean();
+	
+	$content = str_replace("[[ep_startups]]", $startups, $content);
+	return $content;
+}
+
 //rss
 $url = "http://e27.sg/tag/echelon-2013/feed/";
 $e_rss = @fetch_rss( $url );
@@ -2550,6 +2688,7 @@ add_action("the_content", "e_speakers");
 add_action("the_content", "e_quotes");
 add_action("the_content", "e_news");
 add_action("the_content", "e_crew");
+add_action("the_content", "e_startups");
 
 
 
