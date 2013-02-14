@@ -840,7 +840,7 @@ class E_Startup extends Echelon {
 			<b>Order<br /><br /></b>
 			<input type="text" name="order" value="<?php echo htmlentities($order); ?>" style='width:100%' /><br /><br />
 			<b>Country<br /><br /></b>
-			<input type="text" name="fb" value="<?php echo htmlentities($country); ?>" style='width:100%' /><br /><br />
+			<input type="text" name="country" value="<?php echo htmlentities($country); ?>" style='width:100%' /><br /><br />
 			
 			</td>
 		</tr>
@@ -2184,6 +2184,7 @@ register_nav_menu( 'primary', __( 'Primary Menu', 'echelon2013' ) );
 $GLOBALS['E_Carousel'] = new E_Carousel();
 $GLOBALS['E_Youtube'] = new E_Youtube();
 $GLOBALS['E_Speaker'] = new E_Speaker();
+$GLOBALS['E_Startup'] = new E_Startup();
 $GLOBALS['E_Staff'] = new E_Staff();
 $GLOBALS['E_Quote'] = new E_Quote();
 $GLOBALS['E_Sponsor'] = new E_Sponsor();
