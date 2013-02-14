@@ -697,9 +697,9 @@ class E_Startup extends Echelon {
 			'supports' => array('title','thumbnail','excerpt')
 		  ); 
 		*/
-		//$supports = array('title','editor', 'excerpt');
-		
-		add_action( 'init', $this->init($this->slug, $this->label) );	
+		$supports = array('title');
+		$supports = null;
+		add_action( 'init', $this->init($this->slug, $this->label, $supports) );	
 		if ( is_admin() ) {
 			add_action( 'admin_init', array( &$this, 'admin_init' ) );
 		}
@@ -773,7 +773,7 @@ class E_Startup extends Echelon {
 	 * Add and remove meta boxes from the edit page
 	 */
 	public function meta_boxes() {
-		add_meta_box( $this->slug."-metabox", __( "Speaker Details" ), array( &$this, 'meta_box' ), $this->slug, 'side', 'high' );
+		add_meta_box( $this->slug."-metabox", __( "Startup Details" ), array( &$this, 'meta_box' ), $this->slug, 'side', 'high' );
 	}
 	
 	/**
@@ -784,6 +784,7 @@ class E_Startup extends Echelon {
 		update_post_meta( $post_id, $this->slug.'_order', $_POST['order'] );
 		update_post_meta( $post_id, $this->slug.'_country', $_POST['country'] );
 		update_post_meta( $post_id, $this->slug.'_excerpt', $_POST['excerpt'] );
+		update_post_meta( $post_id, $this->slug.'_url', $_POST['url'] );
 	}
 	
 	//columns in list view
@@ -834,6 +835,7 @@ class E_Startup extends Echelon {
 		$order = get_post_meta( $post->ID, $this->slug.'_order', true );
 		$country = get_post_meta( $post->ID, $this->slug.'_country', true );
 		$excerpt = get_post_meta( $post->ID, $this->slug.'_excerpt', true );
+		$url = get_post_meta( $post->ID, $this->slug.'_url', true );
 		$order *= 1;
 		?>
 		<style>
@@ -859,7 +861,9 @@ class E_Startup extends Echelon {
 			<input type="text" name="order" value="<?php echo htmlentities($order); ?>" style='width:100%' /><br /><br />
 			<b>Country<br /><br /></b>
 			<input type="text" name="country" value="<?php echo htmlentities($country); ?>" style='width:100%' /><br /><br />
-			<b>Excertp<br /><br /></b>
+			<b>Website URL<br /><br /></b>
+			<input type="text" name="url" value="<?php echo htmlentities($url); ?>" style='width:100%' /><br /><br />
+			<b>Excerpt<br /><br /></b>
 			<textarea name="excerpt" style='width:100%; height:70px'><?php echo htmlentities($excerpt); ?></textarea><br /><br />
 			</td>
 		</tr>
@@ -2583,6 +2587,7 @@ function e_startups($content){
 			$image_id = get_post_meta( $p->ID, $ptype.'_image_id', true );
 			$country = get_post_meta( $p->ID, $ptype.'_country', true );
 			$excerpt = get_post_meta( $p->ID, $ptype.'_excerpt', true );
+			$url = get_post_meta( $p->ID, $ptype.'_url', true );
 			$image_src = wp_get_attachment_url( $image_id );
 			
 			
@@ -2594,6 +2599,7 @@ function e_startups($content){
 			$s['country'] = strtoupper($country);
 			$s['image_src'] = $image_src;
 			$s['excerpt'] = $excerpt;
+			$s['url'] = $url;
 			
 			if($p->ID==$_GET['startupid']){
 				$thestartup = $s;
@@ -2658,7 +2664,7 @@ function e_startups($content){
 			  ?>
 				<div class="span4 startup <?php echo "c_".$astartups[$i]['country']; ?>">
 				  <div class="inner-top">
-					<a href=""><img style='max-width:220px; margin:auto;' src="<?php echo $astartups[$i]['image_src']; ?>"></a>
+					<a href="<?php echo $astartups[$i]['url']; ?>"><img style='max-width:220px; margin:auto;' src="<?php echo $astartups[$i]['image_src']; ?>"></a>
 					<h2><?php echo $astartups[$i]['p']->post_title; ?></h2>
 					<p><?php echo $astartups[$i]['country']; ?></p>
 				  </div>
