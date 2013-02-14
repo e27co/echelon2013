@@ -2421,14 +2421,14 @@ function e_news($content){
 		  <div class="span6 nu-box">
 			<h3><?php echo $e_rss->items[0]['title']; ?></h3>
 			<p>
-			<?php echo $e_rss->items[0]['description']; ?>
+			<?php echo preg_replace("/<p>The post <a href=\".*<\/p>/", "", $e_rss->items[0]['description']); ?>
 			</p>            
 			<a href="<?php echo $e_rss->items[0]['link']; ?>" class="readmore">Read more</a>              
 		  </div>
 		  <div class="span6 nu-box">
 			<h3><?php echo $e_rss->items[1]['title']; ?></h3>
 			<p>
-			<?php echo $e_rss->items[1]['description']; ?>
+			<?php echo preg_replace("/<p>The post <a href=\".*<\/p>/", "", $e_rss->items[0]['description']); ?>
 			</p>            
 			<a href="<?php echo $e_rss->items[1]['link']; ?>" class="readmore">Read more</a>              
 		  </div>
