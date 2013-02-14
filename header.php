@@ -1,10 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
+	<meta name="google-site-verification" content="DlzD62DJzM7eYqX0Q4QNWG9an2temBP2QWj1dhd5Ezo" />
 	<meta charset="<?php bloginfo( 'charset' ); ?>" />
 	<meta name="viewport" content="width=device-width" />
-
-	
 	<title><?php
 	/*
 	 * Print the <title> tag based on what is being viewed.
@@ -100,6 +99,7 @@
 		
 
 	</script>
+
 	<style>
 	.navbar .nav .current-menu-item > a,
 	.navbar .nav .current-menu-item > a:hover,
@@ -132,7 +132,7 @@
 	</style>
 	<?php wp_head(); ?>
 	</head>
-
+	
   <body>
   <div id="fb-root"></div>
 	<script>(function(d, s, id) {
