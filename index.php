@@ -160,9 +160,9 @@ get_header();
 					while ( $the_query->have_posts() ){
 						if($i%4==0){
 							if($i>0){
-								?></div><?php
+								?></div></div><?php
 							}
-							?><div class="wrapper-speakers"><?php
+							?><div class="row-fluid"> <div class="wrapper-speakers"><?php
 						}
 						$the_query->the_post();
 						$p = get_post( get_the_ID(), OBJECT );
@@ -177,7 +177,7 @@ get_header();
 						<?php
 						$i++;
 					}
-					?></div><?php
+					?></div></div><?php
 				}
 				wp_reset_postdata();
 			
