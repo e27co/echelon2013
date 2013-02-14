@@ -133,7 +133,7 @@ get_header();
 						?>
 				</div>
 				</div>
-				<div class="register-small" style='position:absolute; left:370px; top:0px'><a href="/register" alt="Register" title="Early Bird Registration">Early Bird</a></div>
+				<div class="register-small" style='position:absolute; left:370px; top:0px'><a href="<?php echo site_url('/register'); ?>" alt="Register" title="Early Bird Registration">Early Bird</a></div>
             </div>
           </div>
           <!--
@@ -185,7 +185,7 @@ get_header();
          
           </div>
           
-          <div class="view-more"><a href="/speakers" class="pull-right add-top">Check out our full list of speakers</a></div>          
+          <div class="view-more"><a href="<?php echo site_url('/speakers'); ?>" class="pull-right add-top">Check out our full list of speakers</a></div>          
           <div class="par-comment">
             <div class="row-fluid comment-wrapper" style='position:relative'>
 			 
@@ -241,7 +241,7 @@ get_header();
 						?>
 					</div>
 					</div>
-					<div class="register-small" style='position:absolute; left:370px; top:0px'><a href="/register" alt="Register" title="Early Bird Registration">Early Bird</a></div>
+					<div class="register-small" style='position:absolute; left:370px; top:0px'><a href="<?php echo site_url('/register'); ?>" alt="Register" title="Early Bird Registration">Early Bird</a></div>
               
             </div>
 			
