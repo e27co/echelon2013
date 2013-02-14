@@ -672,6 +672,237 @@ class E_Speaker extends Echelon {
 	}
 }
 
+class E_Startup extends Echelon {
+	
+	var $slug;
+	var $label;
+	var $title;
+		
+	public function __construct() {
+		$this->slug = "echelon_startup";
+		$this->label = "Echelon Startups";
+		$this->title = "Startup Name";
+		
+		add_action( 'init', $this->init($this->slug, $this->label) );	
+		if ( is_admin() ) {
+			add_action( 'admin_init', array( &$this, 'admin_init' ) );
+		}
+	}
+
+	
+	/** Admin methods ******************************************************/
+	
+	
+	/**
+	 * Initialize the admin, adding actions to properly display and handle 
+	 * the carousel custom post type add/edit page
+	 */
+	public function admin_init() {
+		global $pagenow, $post;
+		
+		if ( $pagenow == 'post-new.php' || $pagenow == 'post.php' || $pagenow == 'edit.php' ) {
+			
+			add_action( 'add_meta_boxes', array( &$this, 'meta_boxes' ) );
+			add_filter( 'enter_title_here', array( &$this, 'enter_title_here' ), 1, 2 );
+			add_action( 'save_post', array( &$this, 'meta_boxes_save' ), 1, 2 );
+			
+			add_filter( 'manage_edit-'.$this->slug."_columns", array( &$this, 'columns' ) ) ;
+			add_action( 'manage_'.$this->slug.'_posts_custom_column', array( &$this, 'manage_columns' ), 10, 2 );
+			
+			add_filter('manage_edit-'.$this->slug.'_sortable_columns',array( &$this,  'order_column_register_sortable'));
+			
+		}
+	}
+	
+	/**
+	* make column sortable
+	*/
+	function order_column_register_sortable($columns){
+	  $columns['order'] = 'order';
+	  return $columns;
+	}
+
+
+	/**
+	 * Save meta boxes
+	 * 
+	 * Runs when a post is saved and does an action which the write panel save scripts can hook into.
+	 */
+	public function meta_boxes_save( $post_id, $post ) {
+		if ( empty( $post_id ) || empty( $post ) || empty( $_POST ) ) return;
+		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) return;
+		if ( is_int( wp_is_post_revision( $post ) ) ) return;
+		if ( is_int( wp_is_post_autosave( $post ) ) ) return;
+		if ( ! current_user_can( 'edit_post', $post_id ) ) return;
+		if ( $post->post_type != $this->slug ) return;
+			
+		$this->process_meta( $post_id, $post );
+	}
+	
+	
+	
+	
+	
+	/**
+	 * Set a more appropriate placeholder text for the New carousel title field
+	 */
+	public function enter_title_here( $text, $post ) {
+		if ( $post->post_type == $this->slug ) return __( $this->title );
+		return $text;
+	}
+	
+	
+	
+	/**
+	 * Add and remove meta boxes from the edit page
+	 */
+	public function meta_boxes() {
+		add_meta_box( $this->slug."-metabox", __( "Speaker Details" ), array( &$this, 'meta_box' ), $this->slug, 'side', 'high' );
+	}
+	
+	/**
+	 * Function for processing and storing all carousel data.
+	 */
+	private function process_meta( $post_id, $post ) {
+		update_post_meta( $post_id, $this->slug.'_image_id', $_POST['upload_image_id'] );
+		update_post_meta( $post_id, $this->slug.'_order', $_POST['order'] );
+		update_post_meta( $post_id, $this->slug.'_country', $_POST['country'] );
+	}
+	
+	//columns in list view
+	function columns( $columns ) {
+		$columns = array(
+			'cb' => '<input type="checkbox" />',
+			'title' => __( $this->label ),
+			'image' => __( 'Image' ),
+			'order' => __( 'Order' ),
+			'country' => __( 'Country' ),
+			'date' => __( 'Date' )
+		);
+
+		return $columns;
+	}
+	
+	function manage_columns( $column, $post_id ){
+		global $post;
+		
+		$image_id = get_post_meta( $post_id, $this->slug.'_image_id', true );
+		$image_src = wp_get_attachment_url( $image_id );
+		$order = get_post_meta( $post_id, $this->slug.'_order', true );
+		$country = get_post_meta( $post_id, $this->slug.'_country', true );
+		
+		if($column=='image'){
+			?><img id="carousel_image" src="<?php echo $image_src ?>" style="max-width:100px;" /><?php
+		}
+		else if($column=='order'){
+			echo $order;
+		}
+		else if($column=='country'){
+			echo $country;
+		}
+		
+		
+	}
+	
+	/**
+	 * Display the image meta box
+	 */
+	public function meta_box() {
+		global $post;
+		
+		$image_src = '';
+		
+		$image_id = get_post_meta( $post->ID, $this->slug.'_image_id', true );
+		$image_src = wp_get_attachment_url( $image_id );
+		$order = get_post_meta( $post->ID, $this->slug.'_order', true );
+		$country = get_post_meta( $post->ID, $this->slug.'_country', true );
+		$order *= 1;
+		?>
+		<style>
+		#<?php echo $this->slug; ?> td{
+			vertical-align:top;
+		}
+		</style>
+		<table id='<?php echo $this->slug; ?>' style='width:100%'>
+		<tr>
+			<td colspan=2>
+			<b>Image (175px x 175px)<br /><br /></b>
+			<img id="speaker_image" src="<?php echo $image_src ?>" style="max-width:100%;" />
+			<input type="hidden" name="upload_image_id" id="upload_image_id" value="<?php echo $image_id; ?>" />
+			<p>
+				<input type='button' class='button' value="<?php _e( 'Set Image' ) ?>"  id="set-image" />
+				<input type='button' class='button' style="<?php echo ( ! $image_id ? 'display:none;' : '' ); ?>" value="<?php _e( 'Remove Image' ) ?>"  id="remove-image" />
+			</p>
+			</td>
+		</tr>
+		<tr>
+			<td>
+			<b>Order<br /><br /></b>
+			<input type="text" name="order" value="<?php echo htmlentities($order); ?>" style='width:100%' /><br /><br />
+			<b>Country<br /><br /></b>
+			<input type="text" name="fb" value="<?php echo htmlentities($country); ?>" style='width:100%' /><br /><br />
+			
+			</td>
+		</tr>
+		</table>
+
+		<!--- script below -->
+		
+		<script type="text/javascript">
+		jQuery(document).ready(function($) {
+			
+			// save the send_to_editor handler function
+			window.send_to_editor_default = window.send_to_editor;
+	
+			$('#set-image').click(function(){
+				
+				// replace the default send_to_editor handler function with our own
+				window.send_to_editor = window.attach_image;
+				tb_show('', 'media-upload.php?post_id=<?php echo $post->ID ?>&amp;type=image&amp;TB_iframe=true');
+				
+				return false;
+			});
+			
+			$('#remove-image').click(function() {
+				
+				$('#upload_image_id').val('');
+				$('img').attr('src', '');
+				$(this).hide();
+				
+				return false;
+			});
+			
+			// handler function which is invoked after the user selects an image from the gallery popup.
+			// this function displays the image and sets the id so it can be persisted to the post meta
+			window.attach_image = function(html) {
+				
+				// turn the returned image html into a hidden image element so we can easily pull the relevant attributes we need
+				$('body').append('<div id="temp_image">' + html + '</div>');
+					
+				var img = $('#temp_image').find('img');
+				
+				imgurl   = img.attr('src');
+				imgclass = img.attr('class');
+				imgid    = parseInt(imgclass.replace(/\D/g, ''), 10);
+	
+				$('#upload_image_id').val(imgid);
+				$('#remove-image').show();
+	
+				$('img#speaker_image').attr('src', imgurl);
+				try{tb_remove();}catch(e){};
+				$('#temp_image').remove();
+				
+				// restore the send_to_editor handler function
+				window.send_to_editor = window.send_to_editor_default;
+				
+			}
+	
+		});
+		</script>
+		<?php
+	}
+}
+
 
 class E_Staff extends Echelon {
 	
@@ -2086,6 +2317,7 @@ function e_speakers($content){
 	}
 	
 }
+
 
 function e_quotes($content){
 	ob_start();
