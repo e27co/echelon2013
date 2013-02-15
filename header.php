@@ -78,8 +78,8 @@
 				pagination: false,
 				preload: true,
 				preloadImage: '<?php echo get_template_directory_uri(); ?>/img/ajax-loader.gif',
-				play: 5000,
-				pause: 2500,
+				play: 8000,
+				pause: 5000,
 				hoverPause: true,
 				
 			});
@@ -89,8 +89,8 @@
 				pagination: false,
 				preload: true,
 				preloadImage: '<?php echo get_template_directory_uri(); ?>/img/ajax-loader.gif',
-				play: 5000,
-				pause: 2500,
+				play: 8000,
+				pause: 5000,
 				hoverPause: true,
 				
 			});

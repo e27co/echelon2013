@@ -83,12 +83,16 @@ get_header();
             <div class="row-fluid comment-wrapper" style='position:relative'>
               <style>
 				#quotes1{
-					width:370px;
+					width:600px;
 				}
 				#quotes1 .slides_container .div {
-					width:300px;
+					width:600px;
 					height:130px;
 					display:block;
+				}
+				#quotes1 .slides_container{
+					paddin-top:10px;
+					width:600px;
 				}
 				
 				</style>
@@ -119,7 +123,7 @@ get_header();
 											<div class="client-badge"><img src="<?php echo $image_src; ?>" style='height:70px; width:70px' /></div>
 										</td>
 										<td style='vertical-align:middle'>
-											<div class="sayings" style='margin-top:0px; float:left; width:230px;'><?php echo $p->post_content; echo " </p> <p align='right'>- "; echo $p->post_title; ?></div>
+											<div class="sayings" style='margin-top:0px; float:left; width:480px;'><?php echo $p->post_content; echo " </p> <p align='right'>- "; echo $p->post_title; ?></div>
 										</td>
 										</tr>
 										</table>
@@ -133,7 +137,7 @@ get_header();
 						?>
 				</div>
 				</div>
-				<div class="register-small" style='position:absolute; left:370px; top:0px'><a href="<?php echo site_url('/register'); ?>" alt="Register" title="Early Bird Registration">Early Bird</a></div>
+				
             </div>
           </div>
           <!--
@@ -188,15 +192,18 @@ get_header();
           <div class="view-more"><a href="<?php echo site_url('/speakers'); ?>" class="pull-right add-top">Check out our full list of speakers</a></div>          
           <div class="par-comment">
             <div class="row-fluid comment-wrapper" style='position:relative'>
-			 
-				<style>
+              <style>
 				#quotes2{
-					width:370px;
+					width:600px;
 				}
 				#quotes2 .slides_container .div {
-					width:300px;
+					width:600px;
 					height:130px;
 					display:block;
+				}
+				#quotes2 .slides_container{
+					paddin-top:10px;
+					width:600px;
 				}
 				
 				</style>
@@ -227,7 +234,7 @@ get_header();
 											<div class="client-badge"><img src="<?php echo $image_src; ?>" style='height:70px; width:70px' /></div>
 										</td>
 										<td style='vertical-align:middle'>
-											<div class="sayings" style='margin-top:0px; float:left; width:230px;'><?php echo $p->post_content; echo " </p> <p align='right'>- "; echo $p->post_title; ?></div>
+											<div class="sayings" style='margin-top:0px; float:left; width:480px;'><?php echo $p->post_content; echo " </p> <p align='right'>- "; echo $p->post_title; ?></div>
 										</td>
 										</tr>
 										</table>
@@ -239,12 +246,10 @@ get_header();
 						wp_reset_postdata();
 						
 						?>
-					</div>
-					</div>
-					<div class="register-small" style='position:absolute; left:370px; top:0px'><a href="<?php echo site_url('/register'); ?>" alt="Register" title="Early Bird Registration">Early Bird</a></div>
-              
+				</div>
+				</div>
+				
             </div>
-			
           </div>
           <div class="row-fluid add-top">
             <div class="span6">
