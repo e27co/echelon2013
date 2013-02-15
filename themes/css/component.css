@@ -63,7 +63,7 @@ ul.nav > li.menu-item:hover ul.sub-menu li a{
 
 ul li { list-style-type:none }
 
-.highlights ol { font-size:15px }
+.highlights ol li { font-size:15px; line-height:24px }
 
 td {
     font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
