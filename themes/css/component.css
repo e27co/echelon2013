@@ -559,6 +559,11 @@ a.startup-apply {
     left:140px
 }
 
+.crew-contact {
+    border-bottom: 1px solid #55B72B;
+    height: 140px;
+}
+
 .wrapper-speakers .crew-indiv em {
     font-size:16px;
     color:#55B72B
@@ -871,6 +876,8 @@ table.agenda td span.parallel,
 .span3-ftr-cnter {
     width:190px
 }
+
+.oblique { font-style:italic }
 
 
 
