@@ -103,10 +103,13 @@
 	<style>
 	.navbar .nav .current-menu-item > a,
 	.navbar .nav .current-menu-item > a:hover,
-	.navbar .nav .current-menu-item > a:focus {
+	.navbar .nav .current-menu-item > a:focus,
+	.current-menu-parent{
 	background-color:#ec6c25;
 	color:#ffffff;
 	} 
+	
+	
 	.client-badge img{
 		border-radius: 50%;
 	}

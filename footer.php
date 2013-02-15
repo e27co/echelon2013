@@ -1,11 +1,12 @@
 
 <div class="row-fluid socials add-bot" >
 	<div class="span4" >
-	  <div <?php /* onClick="_gaq.push(['_trackEvent', 'Button Clicks', 'Social Links', 'Facebook']);" */ ?> class="fb-like" data-href="http://www.facebook.com/e27" data-send="false" data-width="280" data-show-faces="true" data-font="arial"></div>
+	  <iframe scrolling="no" height="250" frameborder="0" width="290" src="http://www.facebook.com/connect/connect.php?id=7137316668&amp;connections=10&amp;stream=false&amp;header=false&amp;locale=" title="facebook">&amp;nbsp;</iframe>
+	  <!--<div <?php /* onClick="_gaq.push(['_trackEvent', 'Button Clicks', 'Social Links', 'Facebook']);" */ ?> class="fb-like" data-href="http://www.facebook.com/e27" data-send="false" data-width="280" data-show-faces="true" data-font="arial"></div>-->
 	</div>
 	<div class="span4" >
 		<div>
-		<a <?php /* onClick="_gaq.push(['_trackEvent', 'Button Clicks', 'Social Links', 'Twitter']);" */ ?> href="https://twitter.com/e27sg" class="twitter-follow-button" data-show-count="true">Follow @e27sg</a> 
+		<a <?php /* onClick="_gaq.push(['_trackEvent', 'Button Clicks', 'Social Links', 'Twitter']);" */ ?> href="https://twitter.com/e27co" class="twitter-follow-button" data-show-count="true">Follow @e27co</a> 
 		</div>
 		<!--
 		<div class="twitter-feed">
