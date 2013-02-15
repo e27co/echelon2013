@@ -83,7 +83,7 @@ get_header();
             <div class="row-fluid comment-wrapper" style='position:relative'>
               <style>
 				#quotes1{
-					width:600px;
+					width:650px;
 				}
 				#quotes1 .slides_container .div {
 					width:600px;
@@ -194,7 +194,7 @@ get_header();
             <div class="row-fluid comment-wrapper" style='position:relative'>
               <style>
 				#quotes2{
-					width:600px;
+					width:650px;
 				}
 				#quotes2 .slides_container .div {
 					width:600px;

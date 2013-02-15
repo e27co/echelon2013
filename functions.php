@@ -2350,7 +2350,7 @@ function e_quotes($content){
 		<div class="row-fluid comment-wrapper" style='position:relative'>
 		  <style>
 			#quotes1{
-				width:600px;
+				width:650px;
 			}
 			#quotes1 .slides_container .div {
 				width:600px;
