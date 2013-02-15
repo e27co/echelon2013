@@ -99,7 +99,7 @@ get_header();
 						$ptype = "e_quote";
 						$args = array(
 							'post_type'=> $ptype,
-							'order'    => 'ASC',
+							'order'    => 'DESC',
 							'orderby'	=> 'rand',
 							'posts_per_page' => -1
 						);              

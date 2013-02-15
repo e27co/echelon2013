@@ -7,6 +7,102 @@
 	<div class="span4" >
 		<div>
 		<a <?php /* onClick="_gaq.push(['_trackEvent', 'Button Clicks', 'Social Links', 'Twitter']);" */ ?> href="https://twitter.com/e27co" class="twitter-follow-button" data-show-count="true">Follow @e27co</a> 
+		
+		<?php
+		$feed = 'http://search.twitter.com/search.json?q=from:e27co';
+		$tweets = json_decode(file_get_contents($feed));
+		/*
+		stdClass Object
+		(
+			[completed_in] => 0.019
+			[max_id] => 3.02276351598E+17
+			[max_id_str] => 302276351598141441
+			[next_page] => ?page=2&max_id=302276351598141441&q=from%3Ae27co
+			[page] => 1
+			[query] => from%3Ae27co
+			[refresh_url] => ?since_id=302276351598141441&q=from%3Ae27co
+			[results] => Array
+				(
+					[0] => stdClass Object
+						(
+							[created_at] => Fri, 15 Feb 2013 04:41:12 +0000
+							[from_user] => e27co
+							[from_user_id] => 15315691
+							[from_user_id_str] => 15315691
+							[from_user_name] => e27
+							[geo] => 
+							[id] => 3.02276351598E+17
+							[id_str] => 302276351598141441
+							[iso_language_code] => en
+							[metadata] => stdClass Object
+								(
+									[result_type] => recent
+								)
+
+							[profile_image_url] => http://a0.twimg.com/profile_images/2817545201/83d0f88ad573ddf1a64f0b567a109a46_normal.jpeg
+							[profile_image_url_https] => https://si0.twimg.com/profile_images/2817545201/83d0f88ad573ddf1a64f0b567a109a46_normal.jpeg
+							[source] => <a href="http://www.hootsuite.com">HootSuite</a>
+							[text] => Creative Mixer 5 is here. The theme will be "push", exploring how #entrepreneurs are pushing the boundaries http://t.co/bH19QMon
+							[to_user] => 
+							[to_user_id] => 0
+							[to_user_id_str] => 0
+							[to_user_name] => 
+						)
+
+					[1] => stdClass Object
+						(
+							[created_at] => Fri, 15 Feb 2013 04:20:14 +0000
+							[from_user] => e27co
+							[from_user_id] => 15315691
+							[from_user_id_str] => 15315691
+							[from_user_name] => e27
+							[geo] => 
+							[id] => 3.02271073104E+17
+							[id_str] => 302271073104326656
+							[iso_language_code] => en
+							[metadata] => stdClass Object
+								(
+									[result_type] => recent
+								)
+
+							[profile_image_url] => http://a0.twimg.com/profile_images/2817545201/83d0f88ad573ddf1a64f0b567a109a46_normal.jpeg
+							[profile_image_url_https] => https://si0.twimg.com/profile_images/2817545201/83d0f88ad573ddf1a64f0b567a109a46_normal.jpeg
+							[source] => <a href="http://www.hootsuite.com">HootSuite</a>
+							[text] => What's going to be hot in #mobile #ecommerce this year? http://t.co/aZz5AF7H
+							[to_user] => 
+							[to_user_id] => 0
+							[to_user_id_str] => 0
+							[to_user_name] => 
+						)
+
+		*/
+		function convertLinks($str){
+			$str = preg_replace("/(http:\/\/[^\s]*)/i", "<a href='$1'>$1</a>", $str);
+			return $str;
+		}
+		for($i=0; $i<2; $i++){
+			echo "<div style='padding:20px 0px 0px 0px;'>";
+			echo "<div>";
+			echo convertLinks($tweets->results[$i]->text);
+			echo "</div>";
+			echo "<div>";
+			$hoursago = (time() - strtotime($tweets->results[$i]->created_at))/(60*60);
+			if($hoursago<1){
+				$hoursago = "less than an hour ago";
+			}
+			else if($hoursago<2){
+				$hoursago = "about an hour ago";
+			}
+			else{
+				$hoursago = floor($hoursago)." hours ago";
+			}
+			echo "<i>".$hoursago." by </i><a href='http://twitter.com/".$tweets->results[$i]->from_user."'>".$tweets->results[$i]->from_user."</a>";
+			echo "</div>";
+			echo "</div>";
+		}
+
+		?>
+		
 		</div>
 		<!--
 		<div class="twitter-feed">
