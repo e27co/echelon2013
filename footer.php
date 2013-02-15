@@ -77,7 +77,9 @@
 
 		*/
 		function convertLinks($str){
-			$str = preg_replace("/(http:\/\/[^\s]*)/i", "<a href='$1'>$1</a>", $str);
+			$str = preg_replace("/(http:\/\/[^\s]*)/i", "<a href='$1' target='_blank'>$1</a>", $str);
+			$str = preg_replace("/#([^\s]*)/i", "<a href='https://twitter.com/search?q=%23$1&src=hash' target='_blank'>#$1</a>", $str);
+			
 			return $str;
 		}
 		for($i=0; $i<2; $i++){
@@ -85,7 +87,7 @@
 			echo "<div>";
 			echo convertLinks($tweets->results[$i]->text);
 			echo "</div>";
-			echo "<div>";
+			echo "<div style='padding-top:4px;'>";
 			$hoursago = (time() - strtotime($tweets->results[$i]->created_at))/(60*60);
 			if($hoursago<1){
 				$hoursago = "less than an hour ago";
@@ -96,7 +98,7 @@
 			else{
 				$hoursago = floor($hoursago)." hours ago";
 			}
-			echo "<i>".$hoursago." by </i><a href='http://twitter.com/".$tweets->results[$i]->from_user."'>".$tweets->results[$i]->from_user."</a>";
+			echo "<i>".$hoursago." by </i><a href='http://twitter.com/".$tweets->results[$i]->from_user."' target='_blank'>".$tweets->results[$i]->from_user."</a>";
 			echo "</div>";
 			echo "</div>";
 		}
