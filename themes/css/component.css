@@ -97,14 +97,22 @@ body {
   border:none;
 }
 
-.navbar .register {
-    background: url("../img/reg_big_btn.png") no-repeat scroll 0 0 transparent;
+.navbar .register, .navbar a.register:hover, .navbar a.register:focus {
+  background: url("../img/register-btn-sprite.png") no-repeat scroll 0 -5px transparent;
     float: right;
     height: 61px;
     position: relative;
     text-indent: -9999px;
     top: -5px;
     width: 220px;
+}
+
+.navbar a.register:hover {
+    background-position: 0 -70px;
+}
+
+.navbar a.register:focus {
+    background-position: 0 -135px;
 }
 
 .showcase {
