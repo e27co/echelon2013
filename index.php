@@ -283,13 +283,15 @@ get_header();
         </div>
         
         <div class="span3">
+					
 					<div class="side-pillar txt-c" id='side_pillar' style='display:none'>
 						<?php
 						if(is_home()){
 							?>
-							<!-- put your code here jay -->
-							
-							<!-- /end -->
+							<div class="side-pillar-btn">
+								<a href="" class="btn btn-success btn-large mar-bot-xxs">Submit your Startup</a>
+								<a href="" class="btn btn-success btn-large btn-sponsor">Be a sponsor</a>
+							</div>
 							<?
 						}
 						else{
