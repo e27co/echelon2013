@@ -727,6 +727,13 @@ class E_Startup extends Echelon {
 			
 			add_filter('manage_edit-'.$this->slug.'_sortable_columns',array( &$this,  'order_column_register_sortable'));
 			
+			
+			if(get_post_type($_GET['post']) == $this->slug||$_GET['post_type']==$this->slug){
+				add_action( 'admin_head', array( &$this, 'hide_editor' ));
+			}
+			
+			
+			
 		}
 	}
 	
@@ -773,7 +780,7 @@ class E_Startup extends Echelon {
 	 * Add and remove meta boxes from the edit page
 	 */
 	public function meta_boxes() {
-		add_meta_box( $this->slug."-metabox", __( "Startup Details" ), array( &$this, 'meta_box' ), $this->slug, 'side', 'high' );
+		add_meta_box( $this->slug."-metabox", __( "Startup Details" ), array( &$this, 'meta_box' ), $this->slug, 'normal', 'high' );
 	}
 	
 	/**
@@ -1970,6 +1977,251 @@ class E_MediaPartner extends Echelon {
 }
 
 
+class E_Satellite extends Echelon {
+	
+	var $slug;
+	var $label;
+	var $title;
+		
+	public function __construct() {
+		$this->slug = "echelon_satellite";
+		$this->label = "Echelon Satellites";
+		$this->title = "City";
+		
+		add_action( 'init', $this->init($this->slug, $this->label) );	
+		if ( is_admin() ) {
+			add_action( 'admin_init', array( &$this, 'admin_init' ) );
+		}
+	}
+
+	
+	/** Admin methods ******************************************************/
+	
+	
+	/**
+	 * Initialize the admin, adding actions to properly display and handle 
+	 * the carousel custom post type add/edit page
+	 */
+	public function admin_init() {
+		global $pagenow, $post;
+		
+		if ( $pagenow == 'post-new.php' || $pagenow == 'post.php' || $pagenow == 'edit.php' ) {
+			
+			add_action( 'add_meta_boxes', array( &$this, 'meta_boxes' ) );
+			add_filter( 'enter_title_here', array( &$this, 'enter_title_here' ), 1, 2 );
+			add_action( 'save_post', array( &$this, 'meta_boxes_save' ), 1, 2 );
+			
+			add_filter( 'manage_edit-'.$this->slug."_columns", array( &$this, 'columns' ) ) ;
+			add_action( 'manage_'.$this->slug.'_posts_custom_column', array( &$this, 'manage_columns' ), 10, 2 );
+			
+			add_filter('manage_edit-'.$this->slug.'_sortable_columns',array( &$this,  'order_column_register_sortable'));
+			
+		}
+	}
+	
+	/**
+	* make column sortable
+	*/
+	function order_column_register_sortable($columns){
+	 // $columns['order'] = 'order';
+	  return $columns;
+	}
+
+
+	/**
+	 * Save meta boxes
+	 * 
+	 * Runs when a post is saved and does an action which the write panel save scripts can hook into.
+	 */
+	public function meta_boxes_save( $post_id, $post ) {
+		if ( empty( $post_id ) || empty( $post ) || empty( $_POST ) ) return;
+		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) return;
+		if ( is_int( wp_is_post_revision( $post ) ) ) return;
+		if ( is_int( wp_is_post_autosave( $post ) ) ) return;
+		if ( ! current_user_can( 'edit_post', $post_id ) ) return;
+		if ( $post->post_type != $this->slug ) return;
+			
+		$this->process_meta( $post_id, $post );
+	}
+	
+	
+	
+	
+	
+	/**
+	 * Set a more appropriate placeholder text for the New carousel title field
+	 */
+	public function enter_title_here( $text, $post ) {
+		if ( $post->post_type == $this->slug ) return __( $this->title );
+		return $text;
+	}
+	
+	
+	
+	/**
+	 * Add and remove meta boxes from the edit page
+	 */
+	public function meta_boxes() {
+		add_meta_box( $this->slug."-metabox", __( "Satellite Details" ), array( &$this, 'meta_box' ), $this->slug, 'side', 'high' );
+	}
+	
+	/**
+	 * Function for processing and storing all carousel data.
+	 */
+	private function process_meta( $post_id, $post ) {
+		update_post_meta( $post_id, $this->slug.'_image_id', $_POST['upload_image_id'] );
+		update_post_meta( $post_id, $this->slug.'_country', $_POST['country'] );
+		update_post_meta( $post_id, $this->slug.'_when', $_POST['when'] );
+		update_post_meta( $post_id, $this->slug.'_where', $_POST['where'] );
+		update_post_meta( $post_id, $this->slug.'_deadline', $_POST['deadline'] );
+		update_post_meta( $post_id, $this->slug.'_excerpt', $_POST['excerpt'] );
+		update_post_meta( $post_id, $this->slug.'_order', $_POST['order'] );
+		update_post_meta( $post_id, $this->slug.'_attendurl', $_POST['attendurl'] );
+	}
+	
+	//columns in list view
+	function columns( $columns ) {
+		$columns = array(
+			'cb' => '<input type="checkbox" />',
+			'title' => __( $this->label ),
+			//'image' => __( 'Image' ),
+			'date' => __( 'Date' )
+		);
+
+		return $columns;
+	}
+	
+	function manage_columns( $column, $post_id ){
+		global $post;
+		
+		$image_id = get_post_meta( $post_id, $this->slug.'_image_id', true );
+		$image_src = wp_get_attachment_url( $image_id );
+		
+		if($column=='image'){
+			?><img  src="<?php echo $image_src ?>" style="max-width:100px;" /><?php
+		}
+		
+		
+	}
+	
+	/**
+	 * Display the image meta box
+	 */
+	public function meta_box() {
+		global $post;
+		
+		$image_src = '';
+		
+		$image_id = get_post_meta( $post->ID, $this->slug.'_image_id', true );
+		$image_src = wp_get_attachment_url( $image_id );
+		
+		$country = get_post_meta( $post->ID, $this->slug.'_country', true );
+		$when = get_post_meta( $post->ID, $this->slug.'_when', true );
+		$where = get_post_meta( $post->ID, $this->slug.'_where', true );
+		$deadline = get_post_meta( $post->ID, $this->slug.'_deadline', true );
+		$excerpt = get_post_meta( $post->ID, $this->slug.'_excerpt', true );
+		$order = get_post_meta( $post->ID, $this->slug.'_order', true );
+		$attendurl = get_post_meta( $post->ID, $this->slug.'_attendurl', true );
+		$order *= 1;
+		?>
+		<style>
+		#<?php echo $this->slug; ?> td{
+			vertical-align:top;
+		}
+		</style>
+		<table id='<?php echo $this->slug; ?>' style='width:100%'>
+		<!--
+		<tr>
+			<td colspan=2>
+			<b>Image (175px x 175px)<br /><br /></b>
+			<img id="speaker_image" src="<?php echo $image_src ?>" style="max-width:100%;" />
+			<input type="hidden" name="upload_image_id" id="upload_image_id" value="<?php echo $image_id; ?>" />
+			<p>
+				<input type='button' class='button' value="<?php _e( 'Set Image' ) ?>"  id="set-image" />
+				<input type='button' class='button' style="<?php echo ( ! $image_id ? 'display:none;' : '' ); ?>" value="<?php _e( 'Remove Image' ) ?>"  id="remove-image" />
+			</p>
+			</td>
+		</tr>
+		-->
+		<tr>
+			<td>
+			<b>Country<br /><br /></b>
+			<input type="text" name="country" value="<?php echo htmlentities($country); ?>" style='width:100%' /><br /><br />
+			<b>When<br /><br /></b>
+			<input type="text" name="when" value="<?php echo htmlentities($when); ?>" style='width:100%' /><br /><br />
+			<b>Where<br /><br /></b>
+			<input type="text" name="where" value="<?php echo htmlentities($where); ?>" style='width:100%' /><br /><br />
+			<b>Deadline<br /><br /></b>
+			<input type="text" name="deadline" value="<?php echo htmlentities($deadline); ?>" style='width:100%' /><br /><br />
+			<b>Excerpt<br /><br /></b>
+			<textarea name="excerpt" style='width:100%; height:70px'><?php echo htmlentities($excerpt); ?></textarea><br /><br />
+			<!--
+			<b>Attend Button URL<br /><br /></b>
+			<input type="text" name="attendurl" value="<?php echo htmlentities($attendurl); ?>" style='width:100%' /><br /><br />
+			-->
+			<b>Order<br /><br /></b>
+			<input type="text" name="order" value="<?php echo htmlentities($order); ?>" style='width:100%' /><br /><br />
+			</td>
+		</tr>
+		</table>
+
+		<!--- script below -->
+		
+		<script type="text/javascript">
+		jQuery(document).ready(function($) {
+			
+			// save the send_to_editor handler function
+			window.send_to_editor_default = window.send_to_editor;
+	
+			$('#set-image').click(function(){
+				
+				// replace the default send_to_editor handler function with our own
+				window.send_to_editor = window.attach_image;
+				tb_show('', 'media-upload.php?post_id=<?php echo $post->ID ?>&amp;type=image&amp;TB_iframe=true');
+				
+				return false;
+			});
+			
+			$('#remove-image').click(function() {
+				
+				$('#upload_image_id').val('');
+				$('img').attr('src', '');
+				$(this).hide();
+				
+				return false;
+			});
+			
+			// handler function which is invoked after the user selects an image from the gallery popup.
+			// this function displays the image and sets the id so it can be persisted to the post meta
+			window.attach_image = function(html) {
+				
+				// turn the returned image html into a hidden image element so we can easily pull the relevant attributes we need
+				$('body').append('<div id="temp_image">' + html + '</div>');
+					
+				var img = $('#temp_image').find('img');
+				
+				imgurl   = img.attr('src');
+				imgclass = img.attr('class');
+				imgid    = parseInt(imgclass.replace(/\D/g, ''), 10);
+	
+				$('#upload_image_id').val(imgid);
+				$('#remove-image').show();
+	
+				$('img#speaker_image').attr('src', imgurl);
+				try{tb_remove();}catch(e){};
+				$('#temp_image').remove();
+				
+				// restore the send_to_editor handler function
+				window.send_to_editor = window.send_to_editor_default;
+				
+			}
+	
+		});
+		</script>
+		<?php
+	}
+}
+
 class E_Settings {
 	public function __construct() {
 		add_action("admin_menu", $this->setup_theme_admin_menus()); 
@@ -2212,6 +2464,7 @@ $GLOBALS['E_Staff'] = new E_Staff();
 $GLOBALS['E_Quote'] = new E_Quote();
 $GLOBALS['E_Sponsor'] = new E_Sponsor();
 $GLOBALS['E_MediaPartner'] = new E_MediaPartner();
+$GLOBALS['E_Satellite'] = new E_Satellite();
 $GLOBALS['E_Settings'] = new E_Settings();
 
 
@@ -2689,6 +2942,82 @@ function e_startups($content){
 	return $content;
 }
 
+function e_satellites($content){
+	ob_start();
+	$ptype = "echelon_satellite";
+	$args = array(
+		'post_type'=> $ptype,
+		'order'    => 'ASC',
+		'orderby'	=> 'meta_value',
+		'meta_key' 	=> $ptype.'_order',
+		'posts_per_page' => -1
+	);              
+	$the_query = new WP_Query( $args );
+	$i=0;
+	$arr = array();
+	$the = array();
+	if($the_query->have_posts() ){
+		while ( $the_query->have_posts() ){
+			$the_query->the_post();
+			$p = get_post( get_the_ID(), OBJECT );
+			//$image_id = get_post_meta( $p->ID, $ptype.'_image_id', true );
+			$country = get_post_meta( $p->ID, $ptype.'_country', true );
+			$when = get_post_meta( $p->ID, $ptype.'_when', true );
+			$where = get_post_meta( $p->ID, $ptype.'_where', true );
+			$deadline = get_post_meta( $p->ID, $ptype.'_deadline', true );
+			$excerpt = get_post_meta( $p->ID, $ptype.'_excerpt', true );
+			$attendurl = get_post_meta( $p->ID, $ptype.'_attendurl', true );
+
+			$s = array();
+			$s['p'] = $p;
+			$s['country'] = $country;
+			$s['when'] = $when;
+			$s['where'] = $where;
+			$s['deadline'] = $deadline;
+			$s['excerpt'] = $excerpt;
+			$s['attendurl'] = $attendurl;
+			
+			if($p->ID==$_GET['satelliteid']){
+				$the = $s;
+			}
+			$arr[] = $s;
+		}
+	}
+	
+	  $t = count($arr);
+	  for($i=0; $i<$t; $i++){
+		  if($i==0){
+			?><div class="row-fluid add-top"><div class="wrapper-satellite"><?php
+		  }
+		  if($i>0&&$i%3==0){
+			?></div></div><div class="row-fluid add-top"><div class="wrapper-satellite"><?php
+		  }
+		  ?>
+			<div class="span4 country">
+				<div class="country-banner">
+				  <p><?php echo $arr[$i]['p']->post_title; ?></p>
+				  <p class="cntry-big"><?php echo $arr[$i]['country']; ?></p>
+				</div>
+				<span class="shade-small"></span>
+				<div class="country-det">
+				  <p><?php echo $arr[$i]['when']; ?> at <a><?php echo $arr[$i]['where']; ?></a></p>
+				  <p class="satellite-caption"><?php echo $arr[$i]['excerpt']; ?></p>
+				  <a class="btn btn-success btn-large" href="<?php echo get_permalink( $arr[$i]['p']->ID ) ; ?>">Attend Satellite</a>
+				  <p class="date">Deadline: <?php echo $arr[$i]['deadline']; ?></p>
+				</div>
+			  </div>
+		  <?php
+	  }
+	  if($t){
+		?></div></div><?php
+	  }
+	$str = ob_get_contents();
+	ob_end_clean();
+	
+	$content = str_replace("[[ep_satellites]]", $str, $content);
+	return $content;
+}
+
 //rss
 $url = "http://e27.sg/tag/echelon-2013/feed/";
 $e_rss = @fetch_rss( $url );
@@ -2699,6 +3028,7 @@ add_action("the_content", "e_quotes");
 add_action("the_content", "e_news");
 add_action("the_content", "e_crew");
 add_action("the_content", "e_startups");
+add_action("the_content", "e_satellites");
 
 
 
