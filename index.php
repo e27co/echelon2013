@@ -189,7 +189,7 @@ get_header();
          
           </div>
           
-          <div class="view-more"><a href="<?php echo site_url('/speakers'); ?>" class="pull-right add-top">Check out our full list of speakers</a></div>          
+          <div class="view-more"><a href="<?php echo site_url('/speaker-landing'); ?>" class="pull-right add-top">Check out our full list of speakers</a></div>          
           <div class="par-comment">
             <div class="row-fluid comment-wrapper" style='position:relative'>
               <style>
