@@ -2595,6 +2595,10 @@ $GLOBALS['E_Settings'] = new E_Settings();
 
 function e_speakers($content){
 	ob_start();
+	$current_p = $_SESSION['current_p'];
+	$current_posttype = $current_p->post_type;
+	$current_postid = $current_p->ID;
+	
 	$ptype = "echelon_speaker";
 	$args = array(
 		'post_type'=> $ptype,
@@ -2617,6 +2621,10 @@ function e_speakers($content){
 				$fb = get_post_meta( $p->ID, $ptype.'_fb', true );
 				$tw = get_post_meta( $p->ID, $ptype.'_tw', true );
 				$in = get_post_meta( $p->ID, $ptype.'_in', true );
+				$exclude = get_post_meta( $p->ID, $ptype.'_exclude', true );
+				$frontpage = get_post_meta( $p->ID, $ptype.'_frontpage', true );
+				$satellites = get_post_meta( $p->ID, $ptype.'_satellites', true );
+				$satellites = json_decode($satellites);
 				$image_src = wp_get_attachment_url( $image_id );
 				
 				$s = array();
@@ -2624,6 +2632,9 @@ function e_speakers($content){
 				$s['designation'] = $designation;
 				$s['fb'] = $fb;
 				$s['tw'] = $tw;
+				$s['exclude'] = $exclude;
+				$s['frontpage'] = $frontpage;
+				$s['satellites'] = $satellites;
 				$s['in'] = $in;
 				$s['image_src'] = $image_src;
 				
@@ -2678,7 +2689,10 @@ function e_speakers($content){
 		<?php
 	}
 	else{
-		echo '<div class="row-fluid add-top">';
+		$therearesomespeakers = false;
+		echo '<h2>Speakers and Judges</h2>
+		Renowned for our ability to bring in top notch speakers and judges from around the world including US and Asia. You can be assured that we will delivered the utmost relevant trending Asia content.
+		<div class="row-fluid add-top">';
 		if($the_query->have_posts() ){
 			while ( $the_query->have_posts() ){
 				if($i%4==0){
@@ -2692,13 +2706,29 @@ function e_speakers($content){
 				$image_id = get_post_meta( $p->ID, $ptype.'_image_id', true );
 				$designation = get_post_meta( $p->ID, $ptype.'_designation', true );
 				$image_src = wp_get_attachment_url( $image_id );
-				?>
-				 <div class="span3 txt-c">
-					<a href='<?php echo get_permalink( $p->ID ) ; ?>'><img style='cursor:pointer; height:128px; width:128px' src="<?php echo $image_src?>" title="<?php echo htmlentities($p->post_title) ?>" alt="<?php echo htmlentities($p->post_title) ?>" class="rounded"/></a>
-					<p><a href='<?php echo get_permalink( $p->ID ) ; ?>'style='color:black'><em><?php echo htmlentities($p->post_title) ?></em></a><br/><?php echo $designation;?></p>
-				  </div>
-				<?php
-				$i++;
+				$satellites = get_post_meta( $p->ID, $ptype.'_satellites', true );
+				$satellites = json_decode($satellites);
+				
+				$print = false;
+				if($current_posttype=="echelon_satellite"){
+					if(in_array($current_postid, $satellites)){
+						$print = true;
+					}
+				}
+				else {
+					$print = true;
+				}
+				
+				if($print){
+					$therearesomespeakers = true;
+					?>
+					 <div class="span3 txt-c">
+						<a href='<?php echo get_permalink( $p->ID ) ; ?>'><img style='cursor:pointer; height:128px; width:128px' src="<?php echo $image_src?>" title="<?php echo htmlentities($p->post_title) ?>" alt="<?php echo htmlentities($p->post_title) ?>" class="rounded"/></a>
+						<p><a href='<?php echo get_permalink( $p->ID ) ; ?>'style='color:black'><em><?php echo htmlentities($p->post_title) ?></em></a><br/><?php echo $designation;?></p>
+					  </div>
+					<?php
+					$i++;
+				}
 			}
 			?></div></div><?php
 		}
@@ -2712,7 +2742,12 @@ function e_speakers($content){
 		return $speakers;
 	}
 	else{
-		$content = str_replace("[[ep_speakers]]", $speakers, $content);
+		if($therearesomespeakers){
+			$content = str_replace("[[ep_speakers]]", $speakers, $content);
+		}
+		else{
+			$content = str_replace("[[ep_speakers]]", "", $content);
+		}
 		return $content;
 	}
 	
@@ -3141,18 +3176,104 @@ function e_satellites($content){
 	return $content;
 }
 
+function e_sat_sponsors($content){
+	$current_p = $_SESSION['current_p'];
+	ob_start();
+	if($current_p->post_type=='echelon_satellite'){
+		?>
+		<div class="row-fluid satellite-sponsors">
+		<h2><?php echo $current_p->post_title; ?> Satellite Sponsors</h2>
+		<?php
+		
+		$ptype = "echelon_sponsor";
+		$args = array(
+			'post_type'=> $ptype,
+			'order'    => 'ASC',
+			'orderby'	=> 'meta_value',
+			'meta_key' 	=> $ptype.'_order',
+			'posts_per_page' => -1
+		);              
+		$the_query = new WP_Query( $args );
+		$sponsors = array();
+		if($the_query->have_posts() ){
+			while ( $the_query->have_posts() ){
+				$the_query->the_post();
+				$p = get_post( get_the_ID(), OBJECT );
+				$image_id = get_post_meta( $p->ID, $ptype.'_image_id', true );
+				$type = get_post_meta( $p->ID, $ptype.'_type', true );
+				$link = get_post_meta( $p->ID, $ptype.'_link', true );
+				$html = get_post_meta( $p->ID, $ptype.'_html', true );
+				$satellites = get_post_meta( $p->ID, $ptype.'_satellites', true );
+				$satellites = json_decode($satellites);
+				
+				$image_src = wp_get_attachment_url( $image_id );
+				$v = array();
+				$v['post'] = $p;
+				$v['image_src'] = $image_src;
+				$v['link'] = $link;
+				$v['html'] = $html;		
+				if(in_array($current_p->ID, $satellites)){
+					if(!is_array($sponsors[$type])){
+						$sponsors[$type] = array();
+					}
+					$sponsors[$type][] = $v;
+				}
+			}
+		}
+		$thereisasponsor = false;
+		foreach($sponsors as $category => $asponsors){
+			$t = count($asponsors);
+			for($i=0; $i<$t; $i++){
+				if(trim($asponsors[$i]['link'])){
+					?>
+					<a href="<?php echo e_clickurl($asponsors[$i]['link'], $asponsors[$i]['post']); ?>">
+					<img src='<?php echo $asponsors[$i]['image_src']?>' >
+					</a>
+					<?php
+				}
+				else{
+					?>
+					<img src='<?php echo $asponsors[$i]['image_src']?>' >
+					<?php
+				}
+				$thereisasponsor = true;
+			}
+		}
+		?>
+			<div class='wanttobeasponsor' ><a>Want to be a sponsor? Click</a></div>
+		</div>
+		<?php
+	}
+	$str = ob_get_contents();
+	ob_end_clean();
+	if($thereisasponsor){
+		$content = str_replace("[[ep_sat_sponsors]]", $str, $content);
+		return $content;
+	}
+	else{
+		$content = str_replace("[[ep_sat_sponsors]]", "", $content);
+		return $content;
+	}
+}
+
+function set_current_p($content){
+	$_SESSION['current_p'] = get_post( get_the_ID(), OBJECT );
+	return $content;
+}
+
 //rss
 $url = "http://e27.sg/tag/echelon-2013/feed/";
 $e_rss = @fetch_rss( $url );
 
 //plugins
+add_action("the_content", "set_current_p");
 add_action("the_content", "e_speakers");
 add_action("the_content", "e_quotes");
 add_action("the_content", "e_news");
 add_action("the_content", "e_crew");
 add_action("the_content", "e_startups");
 add_action("the_content", "e_satellites");
-
+add_action("the_content", "e_sat_sponsors");
 
 
 
