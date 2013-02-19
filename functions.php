@@ -3031,7 +3031,7 @@ function e_startups($content){
 				jQuery(this).addClass("selected");
 				jQuery(".startup").hide();
 				if(jQuery(this).html()!='ALL COUNTRIES'){
-					jQuery(".c_"+jQuery(this).html()).show();
+					jQuery("."+jQuery(this).attr('name')).show();
 				}
 				else{
 					jQuery(".startup").show();
@@ -3060,7 +3060,7 @@ function e_startups($content){
 		  $ct = count($countries);
 		  for($i=0; $i<$ct; $i++){
 			?>
-			 <a class="country-startup-btn" ><?php echo $countries[$i]; ?></a>
+			 <a class="country-startup-btn" name='<?php echo "c_".md5($countries[$i]); ?>' ><?php echo $countries[$i]; ?></a>
 			<?php
 		  }
 		  ?>
@@ -3077,7 +3077,7 @@ function e_startups($content){
 				?></div><div class="row-fluid"><?php
 			  }
 			  ?>
-				<div class="span4 startup <?php echo "c_".$astartups[$i]['country']; ?>">
+				<div class="span4 startup <?php echo "c_".md5($astartups[$i]['country']); ?>">
 				  <div class="inner-top">
 					<a href="<?php echo $astartups[$i]['url']; ?>"><img style='max-width:220px; margin:auto;' src="<?php echo $astartups[$i]['image_src']; ?>"></a>
 					<h2><?php echo $astartups[$i]['p']->post_title; ?></h2>
