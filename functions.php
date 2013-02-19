@@ -3261,6 +3261,95 @@ function set_current_p($content){
 	return $content;
 }
 
+function e_sponsors($content){
+	$current_p = $_SESSION['current_p'];
+	ob_start();
+	if(1){
+		$ptype = "echelon_sponsor";
+		$args = array(
+			'post_type'=> $ptype,
+			'order'    => 'ASC',
+			'orderby'	=> 'meta_value',
+			'meta_key' 	=> $ptype.'_order',
+			'posts_per_page' => -1
+		);              
+		$the_query = new WP_Query( $args );
+		$sponsors = array();
+		if($the_query->have_posts() ){
+			while ( $the_query->have_posts() ){
+				$the_query->the_post();
+				$p = get_post( get_the_ID(), OBJECT );
+				$image_id = get_post_meta( $p->ID, $ptype.'_image_id', true );
+				$type = get_post_meta( $p->ID, $ptype.'_type', true );
+				$link = get_post_meta( $p->ID, $ptype.'_link', true );
+				$html = get_post_meta( $p->ID, $ptype.'_html', true );
+				$satellites = get_post_meta( $p->ID, $ptype.'_satellites', true );
+				$exclude = get_post_meta( $p->ID, $ptype.'_exclude', true );
+				$satellites = json_decode($satellites);
+				
+				$image_src = wp_get_attachment_url( $image_id );
+				$v = array();
+				$v['post'] = $p;
+				$v['image_src'] = $image_src;
+				$v['link'] = $link;
+				$v['html'] = $html;		
+				if(strtolower($exclude)!="yes"){
+					if(!is_array($sponsors[$type])){
+						$sponsors[$type] = array();
+					}
+					$sponsors[$type][] = $v;
+				}
+			}
+		}
+		
+		$thereisasponsor = trie;
+		foreach($sponsors as $category => $asponsors){
+			?><h2 class="add-top mar-bot"><?php echo $category; ?></h2><?php
+			$t = count($asponsors);
+			for($i=0; $i<$t; $i++){
+				if(trim($asponsors[$i]['link'])){
+					?>				
+					<div class="row-fluid txt-c">
+						<div class="span4"><a href="<?php echo e_clickurl($asponsors[$i]['link'], $asponsors[$i]['post']); ?>">
+						<img src="<?php echo $asponsors[$i]['image_src']?>" alt="<?php echo $asponsors[$i]['post']->post_title?>"></a></div>
+						<div class="span8 txt-l"><p class="sponsor-det">
+							<a href="<?php echo e_clickurl($asponsors[$i]['link'], $asponsors[$i]['post']); ?>"><?php echo $asponsors[$i]['post']->post_title; ?></a> 
+							<?php echo $asponsors[$i]['post']->post_content; ?>
+							</p>
+						</div> 
+					</div>
+					<?php
+				}
+				else{
+					?>
+					<div class="row-fluid txt-c">
+						<div class="span4">
+						<img src="<?php echo $asponsors[$i]['image_src']?>" alt="<?php echo $asponsors[$i]['post']->post_title?>"></div>
+						<div class="span8 txt-l"><p class="sponsor-det">
+							<?php echo $asponsors[$i]['post']->post_title; ?>
+							<?php echo $asponsors[$i]['post']->post_content; ?>
+							</p>
+						</div> 
+					</div>
+					<?php
+				}
+				$thereisasponsor = true;
+			}
+		}
+	}
+	$str = ob_get_contents();
+	ob_end_clean();
+	if($thereisasponsor){
+		$content = str_replace("[[ep_sponsors]]", $str, $content);
+		return $content;
+	}
+	else{
+		$content = str_replace("[[ep_sponsors]]", "", $content);
+		return $content;
+	}
+}
+
+
 //rss
 $url = "http://e27.sg/tag/echelon-2013/feed/";
 $e_rss = @fetch_rss( $url );
@@ -3274,6 +3363,7 @@ add_action("the_content", "e_crew");
 add_action("the_content", "e_startups");
 add_action("the_content", "e_satellites");
 add_action("the_content", "e_sat_sponsors");
+add_action("the_content", "e_sponsors");
 
 
 
