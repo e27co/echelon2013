@@ -676,7 +676,7 @@ table.agenda td span.parallel,
 
 .wrapper-satellite .country {
     background-color: #EBEEEE;
-    height: 300px;
+    max-height: 300px;
     padding: 12px;
     position: relative;
 }
@@ -878,7 +878,7 @@ table.agenda td span.parallel,
 
 .bg_grey { background-color: #EBEEEE; }
 
-.side-pillar-btn .btn-success { width:163px }
+.side-pillar-btn .btn-success { width:164px }
 
 .btn-success {
     background-color:#55b72b;
