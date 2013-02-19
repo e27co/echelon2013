@@ -508,6 +508,8 @@ class E_Speaker extends Echelon {
 		update_post_meta( $post_id, $this->slug.'_fb', $_POST['fb'] );
 		update_post_meta( $post_id, $this->slug.'_tw', $_POST['tw'] );
 		update_post_meta( $post_id, $this->slug.'_in', $_POST['in'] );
+		update_post_meta( $post_id, $this->slug.'_exclude', $_POST['exclude'] );
+		update_post_meta( $post_id, $this->slug.'_satellites', json_encode($_POST['satellites']) );
 	}
 	
 	//columns in list view
@@ -536,6 +538,8 @@ class E_Speaker extends Echelon {
 		$in = get_post_meta( $post_id, $this->slug.'_in', true );
 		$order = get_post_meta( $post_id, $this->slug.'_order', true );
 		$frontpage = get_post_meta( $post_id, $this->slug.'_frontpage', true );
+		//$exclude = get_post_meta( $post_id, $this->slug.'_exclude', true );
+		//$satellites = get_post_meta( $post_id, $this->slug.'_satellites', true );
 		
 		if($column=='image'){
 			?><img id="carousel_image" src="<?php echo $image_src ?>" style="max-width:100px;" /><?php
@@ -569,6 +573,9 @@ class E_Speaker extends Echelon {
 		$fb = get_post_meta( $post->ID, $this->slug.'_fb', true );
 		$tw = get_post_meta( $post->ID, $this->slug.'_tw', true );
 		$in = get_post_meta( $post->ID, $this->slug.'_in', true );
+		$exclude = get_post_meta( $post->ID, $this->slug.'_exclude', true );
+		$satellites = get_post_meta( $post->ID, $this->slug.'_satellites', true );
+		$satellites = json_decode($satellites);
 		$order *= 1;
 		?>
 		<style>
@@ -602,13 +609,60 @@ class E_Speaker extends Echelon {
 			<b>Linked In<br /><br /></b>
 			<input type="text" name="in" value="<?php echo htmlentities($in); ?>" style='width:100%' />
 			<br /><br />
-			<b>Frontpage<br /><br /></b>
+			<b>Show on Frontpage<br /><br /></b>
 			<select name='frontpage' id='frontpagex'>
 				<option value='Yes'>Yes</option>
 				<option value='No'>No</option>
 			</select>
+			<br /><br />
+			<b>Exclude from Speakers Page<br /><br /></b>
+			<select name='exclude' id='excludex'>
+				<option value='No'>No</option>
+				<option value='Yes'>Yes</option>
+			</select>
+			<br /><br />
+			
+			<?php
+			$ptype = "echelon_satellite";
+			$args = array(
+				'post_type'=> $ptype,
+				'order'    => 'ASC',
+				'orderby'	=> 'meta_value',
+				'meta_key' 	=> $ptype.'_order',
+				'posts_per_page' => -1
+			);              
+			$the_query = new WP_Query( $args );
+			$i=0;
+			$arr = array();
+			$the = array();
+			if($the_query->have_posts() ){
+				while ( $the_query->have_posts() ){
+					$the_query->the_post();
+					$p = get_post( get_the_ID(), OBJECT );
+					$arr[] = $p;
+				}
+			}
+			$t = count($arr);
+			if($t){
+				?><b>is a Speaker for the following Satellite(s)<br /><br /></b><?php
+				?><select name='satellites[]' multiple=true style='width:100%; height:100px'><?php
+				for($i=0; $i<$t; $i++){
+					if(in_array($arr[$i]->ID, $satellites)){
+						?><option selected value='<?php echo $arr[$i]->ID; ?>'><?php echo $arr[$i]->post_title; ?></option><?php
+					}
+					else{
+						?><option value='<?php echo $arr[$i]->ID; ?>'><?php echo $arr[$i]->post_title; ?></option><?php
+					}
+				}
+				?></select><?php
+			}
+			?>
+			
+			
+			
 			<script>
 			jQuery("#frontpagex").val("<?php echo htmlentities($frontpage); ?>");
+			jQuery("#excludex").val("<?php echo htmlentities($exclude); ?>");
 			</script>
 			
 			</td>
@@ -1207,7 +1261,7 @@ class E_Quote extends Echelon {
 	public function __construct() {
 		$this->slug = "e_quote";
 		$this->label = "Echelon Quotes";
-		$this->title = "Quote from Name and Designation";
+		$this->title = "&lt;Quote from Name&gt; ~ &lt;Designation&gt;";
 		
 		add_action( 'init', $this->init($this->slug, $this->label) );	
 		if ( is_admin() ) {
@@ -1506,6 +1560,9 @@ class E_Sponsor extends Echelon {
 		update_post_meta( $post_id, $this->slug.'_order', $_POST['order'] );
 		update_post_meta( $post_id, $this->slug.'_html', $_POST['html'] );
 		update_post_meta( $post_id, $this->slug.'_link', $_POST['link'] );
+		update_post_meta( $post_id, $this->slug.'_sidebar', $_POST['sidebar'] );
+		update_post_meta( $post_id, $this->slug.'_exclude', $_POST['exclude'] );
+		update_post_meta( $post_id, $this->slug.'_satellites', json_encode($_POST['satellites']) );
 	}
 	
 	//columns in list view
@@ -1534,6 +1591,7 @@ class E_Sponsor extends Echelon {
 		$html = get_post_meta( $post_id, $this->slug.'_html', true );
 		$views = get_post_meta( $post_id, $this->slug.'_views', true );
 		$clicks = get_post_meta( $post_id, $this->slug.'_clicks', true );
+		
 		$views *= 1;
 		$clicks *= 1;
 		$views += 0;
@@ -1577,6 +1635,11 @@ class E_Sponsor extends Echelon {
 		$link = get_post_meta( $post->ID, $this->slug.'_link', true );
 		$views = get_post_meta( $post->ID, $this->slug.'_views', true );
 		$clicks = get_post_meta( $post->ID, $this->slug.'_clicks', true );
+		
+		$sidebar = get_post_meta( $post->ID, $this->slug.'_sidebar', true );
+		$exclude = get_post_meta( $post->ID, $this->slug.'_exclude', true );
+		$satellites = get_post_meta( $post->ID, $this->slug.'_satellites', true );
+		$satellites = json_decode($satellites);
 		
 		$order *= 1;
 		$views *= 1;
@@ -1638,6 +1701,66 @@ class E_Sponsor extends Echelon {
 			
 			</td>
 		</tr>
+		<tr>
+			<td>
+			<br /><br />
+			<b>Show on Sidebar<br /><br /></b>
+			<select name='sidebar' id='sidebarx'>
+				<option value='Yes'>Yes</option>
+				<option value='No'>No</option>
+			</select>
+			<br /><br />
+			<b>Exclude from Sponsors Page<br /><br /></b>
+			<select name='exclude' id='excludex'>
+				<option value='No'>No</option>
+				<option value='Yes'>Yes</option>
+			</select>
+			<br /><br />
+			
+			<?php
+			$ptype = "echelon_satellite";
+			$args = array(
+				'post_type'=> $ptype,
+				'order'    => 'ASC',
+				'orderby'	=> 'meta_value',
+				'meta_key' 	=> $ptype.'_order',
+				'posts_per_page' => -1
+			);              
+			$the_query = new WP_Query( $args );
+			$i=0;
+			$arr = array();
+			$the = array();
+			if($the_query->have_posts() ){
+				while ( $the_query->have_posts() ){
+					$the_query->the_post();
+					$p = get_post( get_the_ID(), OBJECT );
+					$arr[] = $p;
+				}
+			}
+			$t = count($arr);
+			if($t){
+				?><b>is a Sponsor for the following Satellite(s)<br /><br /></b><?php
+				?><select name='satellites[]' multiple=true style='width:100%; height:100px'><?php
+				for($i=0; $i<$t; $i++){
+					if(in_array($arr[$i]->ID, $satellites)){
+						?><option selected value='<?php echo $arr[$i]->ID; ?>'><?php echo $arr[$i]->post_title; ?></option><?php
+					}
+					else{
+						?><option value='<?php echo $arr[$i]->ID; ?>'><?php echo $arr[$i]->post_title; ?></option><?php
+					}
+				}
+				?></select><?php
+			}
+			?>
+			
+			
+			
+			<script>
+			jQuery("#sidebarx").val("<?php echo htmlentities($sidebar); ?>");
+			jQuery("#excludex").val("<?php echo htmlentities($exclude); ?>");
+			</script>
+			</td>
+		</td>
 		</table>
 
 		<!--- script below -->

@@ -283,21 +283,21 @@ get_header();
         </div>
         
         <div class="span3">
-		<?php
-		if(is_home()){
+			<?php
+			if(is_home()){
+				?>
+				<div class="side-pillar-btn">
+					<a href="" class="btn btn-success btn-large mar-bot-xxs">Submit your Startup</a>
+					<a href="" class="btn btn-success btn-large btn-sponsor">Be a sponsor</a>
+				</div>
+				<?
+			}
 			?>
-			<div class="side-pillar-btn">
-				<a href="" class="btn btn-success btn-large mar-bot-xxs">Submit your Startup</a>
-				<a href="" class="btn btn-success btn-large btn-sponsor">Be a sponsor</a>
+			<div class="side-pillar txt-c" id='side_pillar' style='display:none'>
+				<?php
+				include_once(dirname(__FILE__)."/sidepillar.php");
+				?>
 			</div>
-			<?
-		}
-		?>
-					<div class="side-pillar txt-c" id='side_pillar' style='display:none'>
-						<?php
-						include_once(dirname(__FILE__)."/sidepillar.php");
-						?>
-					</div>
         </div>
 	 
 
@@ -308,15 +308,12 @@ get_header();
 
  <!-- /container -->
  <?php
-  if($side){
-	?>
-	<script>
-		jQuery("#side_pillar").show();
-	</script>
-	<?php		
-  }
-  
-  ?>
-<?php
-get_footer();
+	if($side){
+		?>
+		<script>
+			jQuery("#side_pillar").show();
+		</script>
+		<?php		
+	}
+	get_footer();
 ?>
