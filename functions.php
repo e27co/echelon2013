@@ -2694,13 +2694,9 @@ function e_speakers($content){
 		Renowned for our ability to bring in top notch speakers and judges from around the world including US and Asia. You can be assured that we will delivered the utmost relevant trending Asia content.
 		<div class="row-fluid add-top">';
 		if($the_query->have_posts() ){
+			$i = 0;
 			while ( $the_query->have_posts() ){
-				if($i%4==0){
-					if($i>0){
-						?></div></div><?php
-					}
-					?><div class="row-fluid"><div class="wrapper-speakers"><?php
-				}
+				
 				$the_query->the_post();
 				$p = get_post( get_the_ID(), OBJECT );
 				$image_id = get_post_meta( $p->ID, $ptype.'_image_id', true );
@@ -2720,6 +2716,12 @@ function e_speakers($content){
 				}
 				
 				if($print){
+					if($i%4==0){
+						if($i>0){
+							?></div></div><?php
+						}
+						?><div class="row-fluid"><div class="wrapper-speakers"><?php
+					}
 					$therearesomespeakers = true;
 					?>
 					 <div class="span3 txt-c">
