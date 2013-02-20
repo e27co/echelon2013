@@ -467,19 +467,19 @@ footer.footer {
     padding: 8px 0 8px 8px;
 }
 
-
 .side-pillar-partners a,
 a.sponsor-apply,
 a.startup-apply{
-    background: url("../img/sponsor_btn.png") no-repeat scroll 0 0 transparent;
+    /*background: url("../img/sponsor_btn.png") no-repeat scroll 0 0 transparent;*/
     display: block;
-    height: 40px;
-    left: -12px;
+    /*height: 40px;*/
+    left: -2px;
     margin: 0 12px 12px;
     position: relative;
-    text-align: center;
-    text-indent: -9999px;
-    width: 202px;
+    /*text-align: center;*/
+    /*text-indent: -9999px;*/
+    /*width: 202px;*/
+    font-size:20px
 }
 
 a.startup-apply {
