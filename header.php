@@ -29,6 +29,8 @@
 		
 	?></title>
 	
+	<meta property="og:image" content="<?php echo get_template_directory_uri(); ?>/img/og_image.jpg" />
+	
 	
 	
 	<link rel="shortcut icon" href="<?php echo get_template_directory_uri(); ?>/favicon.ico" />

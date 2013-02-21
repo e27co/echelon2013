@@ -12,7 +12,16 @@ if($_SESSION['current_p']->post_name=='sponsors'){
 	include_once(dirname(__FILE__)."/sidetestimonials.php");
 }
 else{
-	?><div class="side-pillar txt-c" id='side_pillar' style='display:none'><?php
+	?>
+	<div class="side-pillar txt-c" id='side_pillar' style='display:none'>
+	<div class="head-pillar"><p>Organized By</p></div>
+	<ul style='margin-bottom:25px;'>
+		<li >
+				<img alt="e27" title="e27" src="http://e27.wpengine.netdna-cdn.com/wp-content/themes/e27sg/img/e27-logo.png">
+		</li>
+	</ul>
+	
+	<?php
 	$side = false;
 	$ptype = "echelon_sponsor";
 	$args = array(

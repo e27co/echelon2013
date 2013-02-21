@@ -3156,7 +3156,7 @@ function e_satellites($content){
 				  <p><?php echo $arr[$i]['when']; ?> at <a><?php echo $arr[$i]['where']; ?></a></p>
 				  <p class="satellite-caption"><?php echo $arr[$i]['excerpt']; ?></p>
 				  <a class="btn btn-success btn-large" href="<?php echo get_permalink( $arr[$i]['p']->ID ) ; ?>">Attend Satellite</a>
-				  <p class="date">Deadline: <?php echo $arr[$i]['deadline']; ?></p>
+				  <!--<p class="date">Deadline: <?php echo $arr[$i]['deadline']; ?></p>-->
 				</div>
 			  </div>
 		  <?php

@@ -117,7 +117,7 @@
 	</div>
 	<div class="span4" >
 	  <div class="subscribe add-left-med">
-		<h3>Subscribe for <br/>Echelon Newsletter</h3>
+		<h3>Subscribe to e27</h3>
 		<!--
 		<input type="text" placeholder="Your Email"/>
 		<a class="btn btn-success subscribe" data-toggle="modal" href="#signupModal">Subscribe</a>
