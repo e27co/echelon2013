@@ -3,8 +3,8 @@
 if(is_home()){
 	?>
 	<div class="side-pillar-btn">
-		<a href="" class="btn btn-success btn-large mar-bot-xxs">Submit your Startup</a>
-		<a href="" class="btn btn-success btn-large btn-sponsor">Be a sponsor</a>
+		<a href="http://e27.co/echelon-2013-startups/" target="_blank" class="btn btn-success btn-large mar-bot-xxs">Submit your Startup</a>
+		<a href="http://echelon.e27.co/sg2013_/about/sponsors/" class="btn btn-success btn-large btn-sponsor">Be a sponsor</a>
 	</div>
 	<?
 }
