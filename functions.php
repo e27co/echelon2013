@@ -3079,7 +3079,7 @@ function e_startups($content){
 					<h2><?php echo $astartups[$i]['p']->post_title; ?></h2>
 					<p><?php echo $astartups[$i]['country']; ?></p>
 				  </div>
-				  <p><?php echo $astartups[$i]['excerpt']; ?></p>
+				  <p><?php if(strlen($astartups[$i]['excerpt'])>150) { echo substr($astartups[$i]['excerpt'], 0, 150)."..."; } else { echo $astartups[$i]['excerpt']; } ; ?></p>
 				</div>
 			  <?php
 		  }
