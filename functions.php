@@ -3072,12 +3072,6 @@ function e_startups($content){
 		  <?php
 		  $t = count($astartups);
 		  for($i=0; $i<$t; $i++){
-			  if($i==0){
-				?><div class="row-fluid"><?php
-			  }
-			  if($i>0&&$i%3==0){
-				?></div><div class="row-fluid"><?php
-			  }
 			  ?>
 				<div class="span4 startup <?php echo "c_".md5($astartups[$i]['country']); ?>">
 				  <div class="inner-top">
@@ -3090,7 +3084,6 @@ function e_startups($content){
 			  <?php
 		  }
 		  ?>
-		  </div>
 		  
 		</div>
 	  </div>
