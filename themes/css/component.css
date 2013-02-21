@@ -754,8 +754,8 @@ table.agenda td span.parallel,
 }
 .startups-list .inner-top {
     border-bottom: 1px solid #55B72B;
-    margin-bottom: 15px;
     padding-bottom: 5px;
+    margin:0px 8px 15px 0px
 }
 
 .startups-list .inner-top h2 {
