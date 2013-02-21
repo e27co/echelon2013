@@ -510,6 +510,7 @@ class E_Speaker extends Echelon {
 		update_post_meta( $post_id, $this->slug.'_in', $_POST['in'] );
 		update_post_meta( $post_id, $this->slug.'_exclude', $_POST['exclude'] );
 		update_post_meta( $post_id, $this->slug.'_satellites', json_encode($_POST['satellites']) );
+		update_post_meta( $post_id, $this->slug.'_url', $_POST['url'] );
 	}
 	
 	//columns in list view
@@ -538,6 +539,7 @@ class E_Speaker extends Echelon {
 		$in = get_post_meta( $post_id, $this->slug.'_in', true );
 		$order = get_post_meta( $post_id, $this->slug.'_order', true );
 		$frontpage = get_post_meta( $post_id, $this->slug.'_frontpage', true );
+		$url = get_post_meta( $post_id, $this->slug.'_url', true );
 		//$exclude = get_post_meta( $post_id, $this->slug.'_exclude', true );
 		//$satellites = get_post_meta( $post_id, $this->slug.'_satellites', true );
 		
@@ -575,6 +577,7 @@ class E_Speaker extends Echelon {
 		$in = get_post_meta( $post->ID, $this->slug.'_in', true );
 		$exclude = get_post_meta( $post->ID, $this->slug.'_exclude', true );
 		$satellites = get_post_meta( $post->ID, $this->slug.'_satellites', true );
+		$url = get_post_meta( $post->ID, $this->slug.'_url', true );
 		$satellites = json_decode($satellites);
 		$order *= 1;
 		?>
@@ -608,6 +611,9 @@ class E_Speaker extends Echelon {
 			<input type="text" name="tw" value="<?php echo htmlentities($tw); ?>" style='width:100%' /><br /><br />
 			<b>Linked In<br /><br /></b>
 			<input type="text" name="in" value="<?php echo htmlentities($in); ?>" style='width:100%' />
+			<br /><br />
+			<b>External URL<br /><br /></b>
+			<input type="text" name="url" value="<?php echo htmlentities($url); ?>" style='width:100%' />
 			<br /><br />
 			<b>Show on Frontpage<br /><br /></b>
 			<select name='frontpage' id='frontpagex'>
@@ -2626,6 +2632,11 @@ function e_speakers($content){
 				$satellites = get_post_meta( $p->ID, $ptype.'_satellites', true );
 				$satellites = json_decode($satellites);
 				$image_src = wp_get_attachment_url( $image_id );
+				$url = get_post_meta( $p->ID, $ptype.'_url', true );
+				if(!trim($url)){
+					$url = get_permalink( $p->ID );
+				}
+				echo $url."<---</br>";
 				
 				$s = array();
 				$s['p'] = $p;
@@ -2637,6 +2648,7 @@ function e_speakers($content){
 				$s['satellites'] = $satellites;
 				$s['in'] = $in;
 				$s['image_src'] = $image_src;
+				$s['url'] = $url;
 				
 				if($p->ID==$_GET['speakerid']){
 					$thespeaker = $s;
@@ -2653,7 +2665,7 @@ function e_speakers($content){
               <ul>
 				<?php
 				foreach($aspeakers as $value){
-					?><li <?php if($value['p']->ID==$_GET['speakerid']){ echo "class='active'"; } ?> ><a href="<?php echo get_permalink( $value['p']->ID ) ; ?>"><?php echo $value['p']->post_title; ?></a></li><?php
+					?><li <?php if($value['p']->ID==$_GET['speakerid']){ echo "class='active'"; } ?> ><a href="<?php echo $value['url'] ; ?>"><?php echo $value['p']->post_title; ?></a></li><?php
 				}
 				?>
               </ul>          
@@ -2704,7 +2716,12 @@ function e_speakers($content){
 				$image_src = wp_get_attachment_url( $image_id );
 				$satellites = get_post_meta( $p->ID, $ptype.'_satellites', true );
 				$satellites = json_decode($satellites);
-				
+				$url = get_post_meta( $p->ID, $ptype.'_url', true );
+				if(!trim($url)){
+					$url = get_permalink( $p->ID );
+				}
+						
+						
 				$print = false;
 				if($current_posttype=="echelon_satellite"){
 					if(in_array($current_postid, $satellites)){
@@ -2725,8 +2742,8 @@ function e_speakers($content){
 					$therearesomespeakers = true;
 					?>
 					 <div class="span3 txt-c">
-						<a href='<?php echo get_permalink( $p->ID ) ; ?>'><img style='cursor:pointer; height:128px; width:128px' src="<?php echo $image_src?>" title="<?php echo htmlentities($p->post_title) ?>" alt="<?php echo htmlentities($p->post_title) ?>" class="rounded"/></a>
-						<p><a href='<?php echo get_permalink( $p->ID ) ; ?>'style='color:black'><em><?php echo htmlentities($p->post_title) ?></em></a><br/><?php echo $designation;?></p>
+						<a href='<?php echo $url ; ?>'><img style='cursor:pointer; height:128px; width:128px' src="<?php echo $image_src?>" title="<?php echo htmlentities($p->post_title) ?>" alt="<?php echo htmlentities($p->post_title) ?>" class="rounded"/></a>
+						<p><a href='<?php echo $url ; ?>'style='color:black'><em><?php echo htmlentities($p->post_title) ?></em></a><br/><?php echo $designation;?></p>
 					  </div>
 					<?php
 					$i++;

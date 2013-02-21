@@ -174,10 +174,14 @@ get_header();
 						$image_id = get_post_meta( $p->ID, $ptype.'_image_id', true );
 						$designation = get_post_meta( $p->ID, $ptype.'_designation', true );
 						$image_src = wp_get_attachment_url( $image_id );
+						$url = get_post_meta( $p->ID, $ptype.'_url', true );
+						if(!trim($url)){
+							$url = get_permalink( $p->ID );
+						}
 						?>
 						 <div class="span3 txt-c">
-							<a href='<?php echo get_permalink( $p->ID ) ; ?>'><img style='cursor:pointer; height:128px; width:128px' src="<?php echo $image_src?>" title="<?php echo htmlentities($p->post_title) ?>" alt="<?php echo htmlentities($p->post_title) ?>" class="rounded"/></a>
-							<p><a href='<?php echo get_permalink( $p->ID ) ; ?>'style='color:black'><em><?php echo htmlentities($p->post_title) ?></em></a><br/><?php echo $designation;?></p>
+							<a href='<?php echo $url ; ?>'><img style='cursor:pointer; height:128px; width:128px' src="<?php echo $image_src?>" title="<?php echo htmlentities($p->post_title) ?>" alt="<?php echo htmlentities($p->post_title) ?>" class="rounded"/></a>
+							<p><a href='<?php echo $url ; ?>'style='color:black'><em><?php echo htmlentities($p->post_title) ?></em></a><br/><?php echo $designation;?></p>
 						  </div>
 						<?php
 						$i++;
