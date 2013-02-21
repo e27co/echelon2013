@@ -144,9 +144,10 @@ get_header();
 		  <h2 class="add-top">Featured Speakers</h2>
           <p>Renowned for our ability to bring in top notch speakers and judges from around the world including US and Asia. You can be assured that we will delivered the utmost relevant trending Asia content. <a href="">Check out our full list of speakers</a>.</p>
           -->
-		  <h2><?php echo stripslashes(html_entity_decode(get_option("echelon_fphead_2"))); ?></h2>
-		  <p><?php echo nl2br(stripslashes(html_entity_decode(get_option("echelon_fptext_2")))); ?></p>
+		  
 		  <div class="row-fluid add-top">
+			<h2><?php echo stripslashes(html_entity_decode(get_option("echelon_fphead_2"))); ?></h2>
+		  <p><?php echo nl2br(stripslashes(html_entity_decode(get_option("echelon_fptext_2")))); ?></p>
 			 <?php
 				$ptype = "echelon_speaker";
 				$args = array(
