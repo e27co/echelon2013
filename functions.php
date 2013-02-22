@@ -2259,10 +2259,9 @@ class E_Satellite extends Echelon {
 		}
 		</style>
 		<table id='<?php echo $this->slug; ?>' style='width:100%'>
-		<!--
 		<tr>
 			<td colspan=2>
-			<b>Image (175px x 175px)<br /><br /></b>
+			<b>BG Image (223px x 300px)<br /><br /></b>
 			<img id="speaker_image" src="<?php echo $image_src ?>" style="max-width:100%;" />
 			<input type="hidden" name="upload_image_id" id="upload_image_id" value="<?php echo $image_id; ?>" />
 			<p>
@@ -2271,7 +2270,6 @@ class E_Satellite extends Echelon {
 			</p>
 			</td>
 		</tr>
-		-->
 		<tr>
 			<td>
 			<b>Country<br /><br /></b>
@@ -3133,7 +3131,8 @@ function e_satellites($content){
 		while ( $the_query->have_posts() ){
 			$the_query->the_post();
 			$p = get_post( get_the_ID(), OBJECT );
-			//$image_id = get_post_meta( $p->ID, $ptype.'_image_id', true );
+			$image_id = get_post_meta( $p->ID, $ptype.'_image_id', true );
+			$image_src = wp_get_attachment_url( $image_id );
 			$country = get_post_meta( $p->ID, $ptype.'_country', true );
 			$when = get_post_meta( $p->ID, $ptype.'_when', true );
 			$where = get_post_meta( $p->ID, $ptype.'_where', true );
@@ -3149,6 +3148,7 @@ function e_satellites($content){
 			$s['deadline'] = $deadline;
 			$s['excerpt'] = $excerpt;
 			$s['attendurl'] = $attendurl;
+			$s['bg'] = $image_src;
 			
 			if($p->ID==$_GET['satelliteid']){
 				$the = $s;
@@ -3165,7 +3165,8 @@ function e_satellites($content){
 		  if($i>0&&$i%3==0){
 			?></div></div><div class="row-fluid add-top"><div class="wrapper-satellite"><?php
 		  }
-		  ?>
+		/*
+		 ?>
 			<div class="span4 country">
 				<div class="country-banner">
 				  <p><?php echo $arr[$i]['p']->post_title; ?></p>
@@ -3180,6 +3181,16 @@ function e_satellites($content){
 				</div>
 			  </div>
 		  <?php
+		 */
+		 ?>
+		 <div class="span4 country" style='background:url(<?php echo $arr[$i]['bg']; ?>); height:300px;'>
+			<h2><?php echo $arr[$i]['country']; ?></h2>			
+			<div class="country-det pod">
+			  <p><?php echo $arr[$i]['when']; ?><a class="loc"><?php echo $arr[$i]['where']; ?></a></p>
+			  <a href="<?php echo get_permalink( $arr[$i]['p']->ID ) ; ?>" class="btn btn-success btn-large">Attend Satellite</a>
+			</div>
+		  </div>
+		 <?php
 	  }
 	  if($t){
 		?></div></div><?php
