@@ -1,10 +1,10 @@
 <div class="span3">
 <?php
-if(is_home()){
+if(is_home()||1){
 	?>
 	<div class="side-pillar-btn">
 		<a href="http://e27.co/echelon-2013-startups/" target="_blank" class="btn btn-success btn-large mar-bot-xxs">Submit your Startup</a>
-		<a href="http://echelon.e27.co/sg2013_/about/sponsors/" class="btn btn-success btn-large btn-sponsor">Sponsorshop Opportunities</a>
+		<a href="http://echelon.e27.co/sg2013_/about/sponsors/" class="btn btn-success btn-large btn-sponsor" style='font-size:13px'>Sponsorship Opportunities</a>
 	</div>
 	<?
 }

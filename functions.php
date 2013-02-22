@@ -2702,8 +2702,11 @@ function e_speakers($content){
 	}
 	else{
 		$therearesomespeakers = false;
-		echo '<h2>Speakers and Judges</h2>
+		echo '
+		<!--
+		<h2>Speakers and Judges</h2>
 		Renowned for our ability to bring in top notch speakers and judges from around the world including US and Asia. You can be assured that we will delivered the utmost relevant trending Asia content.
+		-->
 		<div class="row-fluid add-top">';
 		if($the_query->have_posts() ){
 			$i = 0;
