@@ -919,7 +919,7 @@ table.agenda td span.parallel,
 .country h2 { font-size:30px; font-weight:bold; color:#ffffff; border-bottom:1px solid #AFAFAF   }
 
 
-.country a.btn { position:absolute; bottom:0; margin-bottom:10px }
+.country a.btn { position:absolute; bottom:0; margin-bottom:15px; width:158px }
 .country a.loc { color:#ffffff; font-size:22px; cursor:pointer }
 
 .country .country-det.pod {
@@ -932,6 +932,7 @@ table.agenda td span.parallel,
 .country .country-det.pod p {    font-size: 30px;
     font-weight: bold;
     line-height: 35px; }
+
 
 
 
