@@ -880,7 +880,8 @@ table.agenda td span.parallel,
 
 .bg_grey { background-color: #EBEEEE; }
 
-.side-pillar-btn .btn-success { width:164px }
+.side-pillar-btn .btn-success { width:188px }
+.side-pillar-btn .btn-large { padding:11px 6px }
 
 .btn-success {
     background-color:#55b72b;
