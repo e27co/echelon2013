@@ -903,6 +903,35 @@ table.agenda td span.parallel,
 
 .oblique { font-style:italic }
 
+.country { border-radius:5%; background-clip:padding-box }
+
+.country.thailand{ background:url('../img/bangkok-bg.jpg')no-repeat scroll 0 0 transparent; }
+.country.indonesia { background:url('../img/indo.jpg')no-repeat scroll 0 0 transparent; }
+.country.taiwan { background:url('../img/taiwan.jpg')no-repeat scroll 0 0 transparent; }
+.country.japan { background:url('../img/japan.jpg')no-repeat scroll 0 0 transparent; }
+.country.singapore { background:url('../img/singapore.jpg')no-repeat scroll 0 0 transparent; }
+.country.manila { background:url('../img/manla.jpg')no-repeat scroll 0 0 transparent; }
+.country.vietnam { background:url('../img/vietnam.jpg')no-repeat scroll 0 0 transparent; }
+.country.malaysia { background:url('../img/malaysia.jpg')no-repeat scroll 0 0 transparent; }
+
+
+.country h2 { font-size:30px; font-weight:bold; color:#ffffff; border-bottom:1px solid #AFAFAF   }
+
+
+.country a.btn { position:absolute; bottom:0; margin-bottom:10px }
+.country a.loc { color:#ffffff; font-size:22px; cursor:pointer }
+
+.country .country-det.pod {
+    line-height:22px;
+    font-size:18px;
+    color:#ffffff;
+    padding:0
+}
+
+.country .country-det.pod p {    font-size: 30px;
+    font-weight: bold;
+    line-height: 35px; }
+
 
 
 
