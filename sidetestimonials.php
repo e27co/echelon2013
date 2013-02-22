@@ -8,7 +8,7 @@
 	<em>Manager, Developer Relations at Research In Motion</em><br>
 	<em>Sponsor, Echelon 2012</em>
 	</p>
-	<a href="" alt="Sponsor" title="Be an e27 Sponsor" class="btn btn-success btn-large">Be a Sponsor</a>
+	<a href="mailto:gabriel@e27.sg?subject=Sponsorship for Echelon 2013" alt="Sponsor" title="Be an e27 Sponsor" class="btn btn-success btn-large">Contact Us</a>
 </div>
 
 <div class="side-pillar-partners">
@@ -19,6 +19,6 @@
 	<p class="auth">-  Mark Hsu<br>
 	<em>Co-Founder & Partner at TMI</em>
 	</p>
-	<a href="" alt="Sponsor" title="Be an e27 Sponsor" class="btn btn-success btn-large">Be a Sponsor</a>
+	<a href="mailto:gabriel@e27.sg?subject=Sponsorship for Echelon 2013" alt="Sponsor" title="Be an e27 Sponsor" class="btn btn-success btn-large">Contact Us</a>
 </div>
 
