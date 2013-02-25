@@ -107,7 +107,7 @@
 	.navbar .nav .current-menu-item > a:hover,
 	.navbar .nav .current-menu-item > a:focus,
 	.current-menu-parent{
-	background-color:#55B72B;
+	background-color:none;
 	color:#2F2F2E;
 	} 
 	
@@ -183,7 +183,8 @@
         </div>
       </header>
     
-      <div class="navbar">
+			<div class="persist-area" style="position:relative; z-index:9999">
+      <div class="navbar persist-header">
         <div class="navbar-inner">
           <div class="container">
             <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
@@ -238,4 +239,5 @@
           </div>
         </div>
       </div>
-      <div class="navbar-border"></div>
+</div>
+     
