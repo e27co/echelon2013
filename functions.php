@@ -3141,7 +3141,7 @@ function e_satellites($content){
 			$where = get_post_meta( $p->ID, $ptype.'_where', true );
 			$deadline = get_post_meta( $p->ID, $ptype.'_deadline', true );
 			$excerpt = get_post_meta( $p->ID, $ptype.'_excerpt', true );
-			$attendurl = get_post_meta( $p->ID, $ptype.'_attendurl', true );
+			/*$attendurl = get_post_meta( $p->ID, $ptype.'_attendurl', true );*/
 
 			$s = array();
 			$s['p'] = $p;
