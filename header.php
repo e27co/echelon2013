@@ -109,6 +109,7 @@
 	.current-menu-parent{
 	background-color:none;
 	color:#2F2F2E;
+	text-shadow:none !important;
 	} 
 	
 	
