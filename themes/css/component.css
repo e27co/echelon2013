@@ -712,16 +712,16 @@ table.agenda td span.parallel,
     font-size: 25px;
     line-height: 22px;
     padding-top:80px;
-    font-weight:bold
+    
 }
 
-.country-det .sat-loc { margin-bottom:10px }
+.country-det .sat-loc { margin-bottom:10px; font-weight:bold }
 
 .country .cntry-big { text-transform:uppercase  }
 .country .country-det p { font-size:18px }
 .country .country-det a { display:block; }
 .country-det p.date { font-size:14px }
-.country-det p.satellite-caption { font-size:16px }
+.country-det p.satellite-caption { font-size:16px; font-weight:normal }
 .country-det .closed-btn {
     background:url('../img/satellite_closed_btn.png')no-repeat scroll 0 0 transparent;
     width:100px;
@@ -924,7 +924,7 @@ table.agenda td span.parallel,
 
 
 .country a.btn { position:absolute; bottom:0; margin-bottom:15px; width:158px }
-.country a.loc { color:#ffffff; font-size:22px; cursor:pointer }
+.country a.loc { color:#ffffff; font-size:18px; line-height:20px; padding-top:15px }
 
 .country .country-det.pod {
     line-height:22px;
