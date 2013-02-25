@@ -60,48 +60,7 @@
     <!--[if lt IE 9]>
       <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
-	
-	
-	<script>
-		jQuery(function () {    
-		  // Carousel
-			jQuery('#slides').slides({
-				preload: true,
-				generatePagination: false,
-				pagination: false,
-				preloadImage: '<?php echo get_template_directory_uri(); ?>/img/ajax-loader.gif',
-				play: 5000,
-				pause: 2500,
-				hoverPause: true
-			});
-			
-			jQuery('#quotes2').slides({
-				effect: 'fade',
-				generatePagination: false,
-				pagination: false,
-				preload: true,
-				preloadImage: '<?php echo get_template_directory_uri(); ?>/img/ajax-loader.gif',
-				play: 8000,
-				pause: 5000,
-				hoverPause: true,
-				
-			});
-			jQuery('#quotes1').slides({
-				effect: 'fade',
-				generatePagination: false,
-				pagination: false,
-				preload: true,
-				preloadImage: '<?php echo get_template_directory_uri(); ?>/img/ajax-loader.gif',
-				play: 8000,
-				pause: 5000,
-				hoverPause: true,
-				
-			});
-			
-		});
-		
 
-	</script>
 
 	<style>
 	.navbar .nav .current-menu-item > a,

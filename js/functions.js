@@ -1,41 +1,64 @@
 /* Create a closure to maintain scope of the '$' and remain compatible with other frameworks.  */
 
-(function ($) {
+(function (jQuery) {
 
-    /* @group same as $(document).ready(); event fires when the DOM is ready */
-    $(function () {    
+    /* @group same as jQuery(document).ready(); event fires when the DOM is ready */
+    jQuery(function () {    
 
-      // Carousel
+       // Carousel
+		jQuery('#slides').slides({
+			preload: true,
+			generatePagination: false,
+			pagination: false,
+			preloadImage: '<?php echo get_template_directory_uri(); ?>/img/ajax-loader.gif',
+			play: 5000,
+			pause: 2500,
+			hoverPause: true
+		});
 
-			$('#slides').slides({
-				preload: true,
-				preloadImage: 'img/loading.gif',
-				play: 5000,
-				pause: 2500,
-				hoverPause: true
-      });
-
+		jQuery('#quotes2').slides({
+			effect: 'fade',
+			generatePagination: false,
+			pagination: false,
+			preload: true,
+			preloadImage: '<?php echo get_template_directory_uri(); ?>/img/ajax-loader.gif',
+			play: 8000,
+			pause: 5000,
+			hoverPause: true,
+			
+		});
+		jQuery('#quotes1').slides({
+			effect: 'fade',
+			generatePagination: false,
+			pagination: false,
+			preload: true,
+			preloadImage: '<?php echo get_template_directory_uri(); ?>/img/ajax-loader.gif',
+			play: 8000,
+			pause: 5000,
+			hoverPause: true,
+			
+		});
        
        
-       //Persistent Header   
-    $(function() {
-    
-       var clonedHeaderRow;
-    
-       $(".persist-area").each(function() {
-           clonedHeaderRow = $(".persist-header", this);
-           clonedHeaderRow
-             .before(clonedHeaderRow.clone())
-             .css("width", clonedHeaderRow.width())
-             .addClass("floatingHeader");
-             
-       });
-       
-      $(window)
-        .scroll(UpdateTableHeaders)
-        .trigger("scroll");
-       
-    });
+		//Persistent Header   
+		jQuery(function() {
+
+		   var clonedHeaderRow;
+
+		   jQuery(".persist-area").each(function() {
+			   clonedHeaderRow = jQuery(".persist-header", this);
+			   clonedHeaderRow
+				 .before(clonedHeaderRow.clone())
+				 .css("width", clonedHeaderRow.width())
+				 .addClass("floatingHeader");
+				 
+		   });
+		   
+		  jQuery(window)
+			.scroll(UpdateTableHeaders)
+			.trigger("scroll");
+		   
+		});
     //Persistent eader end
         
 	
@@ -45,11 +68,11 @@
 
 
     });
-    /* @end $(document).ready(); */
+    /* @end jQuery(document).ready(); */
 
 
     /* @group bind window load. events doesn't fire until the document is fully loaded (images and all) */
-    $(window).bind("load", function () {
+    jQuery(window).bind("load", function () {
 
     });
     /* @end: bind window load */
