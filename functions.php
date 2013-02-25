@@ -3163,7 +3163,15 @@ function e_satellites($content){
 	  $t = count($arr);
 	  for($i=0; $i<$t; $i++){
 		  if($i==0){
-			?><div class="row-fluid add-top"><div class="wrapper-satellite"><?php
+			?>
+			<style>
+			.wrapper-satellite .hover{
+				/*border:5px solid yellow;*/
+				box-shadow: 0 2px 9px gray;
+			}
+			</style>
+			
+			<div class="row-fluid add-top"><div class="wrapper-satellite"><?php
 		  }
 		  if($i>0&&$i%3==0){
 			?></div></div><div class="row-fluid add-top"><div class="wrapper-satellite"><?php
@@ -3186,17 +3194,29 @@ function e_satellites($content){
 		  <?php
 		 */
 		 ?>
-		 <div class="span4 country" style='background:url(<?php echo $arr[$i]['bg']; ?>); height:300px;'>
+		 <div class="span4 country sattelitediv" style='background:url(<?php echo $arr[$i]['bg']; ?>); height:300px; cursor:pointer' onclick='self.location="<?php echo get_permalink( $arr[$i]['p']->ID ) ; ?>"'>
 			<h2><?php echo $arr[$i]['country']; ?></h2>			
 			<div class="country-det pod">
-			  <p><?php echo $arr[$i]['when']; ?><a class="loc"><?php echo $arr[$i]['where']; ?></a></p>
-			  <a href="<?php echo get_permalink( $arr[$i]['p']->ID ) ; ?>" class="btn btn-success btn-large">Attend Satellite</a>
+			  <p><?php echo $arr[$i]['when']; ?><a class="loc" style='text-decoration:none' ><?php echo $arr[$i]['where']; ?></a></p>
+			  <!--<a href="<?php echo get_permalink( $arr[$i]['p']->ID ) ; ?>" class="btn btn-success btn-large">Attend Satellite</a>-->
 			</div>
 		  </div>
 		 <?php
 	  }
 	  if($t){
-		?></div></div><?php
+		?></div></div>
+		
+		<script>
+		jQuery(".sattelitediv").hover(
+			function () {
+				$(this).addClass("hover");
+			},
+			function () {
+				$(this).removeClass("hover");
+			}
+		);
+		</script>
+		<?php
 	  }
 	$str = ob_get_contents();
 	ob_end_clean();
