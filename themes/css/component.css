@@ -709,9 +709,13 @@ table.agenda td span.parallel,
 }
 
 .country .country-det {
-    font-size: 20px;
+    font-size: 25px;
     line-height: 22px;
+    padding-top:80px;
+    font-weight:bold
 }
+
+.country-det .sat-loc { margin-bottom:10px }
 
 .country .cntry-big { text-transform:uppercase  }
 .country .country-det p { font-size:18px }
