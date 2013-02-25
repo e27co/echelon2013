@@ -50,7 +50,7 @@
 
     <script src="<?php echo get_template_directory_uri(); ?>/js/plugins/jquery-1.5.1.js"></script>
     <script src="<?php echo get_template_directory_uri(); ?>/js/plugins/slides.min.jquery.js"></script>
-
+		<script src="<?php echo get_template_directory_uri(); ?>/js/plugins/persisten-header.js"></script>
 	
 	 
 	
