@@ -107,8 +107,8 @@
 	.navbar .nav .current-menu-item > a:hover,
 	.navbar .nav .current-menu-item > a:focus,
 	.current-menu-parent{
-	background-color:#ec6c25;
-	color:#ffffff;
+	background-color:#55B72B;
+	color:#2F2F2E;
 	} 
 	
 	
