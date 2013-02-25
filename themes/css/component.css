@@ -692,9 +692,10 @@ table.agenda td span.parallel,
 }
 
 .country-banner p {
-    font-size: 20px;
+    font-size: 30px;
+    font-weight: bold;
     line-height: 3px;
-    padding: 18px 0 0 20px;
+    padding: 31px 0 0 26px;
 }
 
 .country .shade-small {
@@ -708,9 +709,8 @@ table.agenda td span.parallel,
 }
 
 .country .country-det {
-    padding-top:85px;
-    line-height:22px;
-    font-size:18px
+    font-size: 20px;
+    line-height: 22px;
 }
 
 .country .cntry-big { text-transform:uppercase  }
