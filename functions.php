@@ -3339,14 +3339,16 @@ function e_satellites($content){
 		jQuery(".sattelitediv").hover(
 			function () {
 				name = $(this).attr("name");
-				name = name.split("|");
-				$(this).css("background", "url("+name[1]+")");
+				x = name.split("|");
+				//alert(x[1]);
+				$(this).css("background-image", "url('"+x[1]+"')");
 				$(this).addClass("hover");
 			},
 			function () {
 				name = $(this).attr("name");
-				name = name.split("|");
-				$(this).css("background", "url("+name[0]+")");
+				x = name.split("|");
+				//alert(x[0]);
+				$(this).css("background-image", "url('"+x[0]+"')");
 				$(this).removeClass("hover");
 			}
 		);
