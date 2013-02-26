@@ -172,8 +172,14 @@ get_header();
 						$the_query->the_post();
 						$p = get_post( get_the_ID(), OBJECT );
 						$image_id = get_post_meta( $p->ID, $ptype.'_image_id', true );
-						$designation = get_post_meta( $p->ID, $ptype.'_designation', true );
 						$image_src = wp_get_attachment_url( $image_id );
+						$image_id2 = get_post_meta( $p->ID, $ptype.'_image_id2', true );
+						$image_src2 = wp_get_attachment_url( $image_id2 );
+						if(trim($image_src2)==""){
+							$image_src2 = $image_src;
+						}
+						$designation = get_post_meta( $p->ID, $ptype.'_designation', true );
+						
 						$url = get_post_meta( $p->ID, $ptype.'_url', true );
 						$target = " target='_blank' "; 
 						if(!trim($url)){
@@ -182,13 +188,41 @@ get_header();
 						}
 						?>
 						 <div class="span3 txt-c">
-							<a href='<?php echo $url ; ?>' <?php echo $target; ?>><img style='cursor:pointer; height:128px; width:128px' src="<?php echo $image_src?>" title="<?php echo htmlentities($p->post_title) ?>" alt="<?php echo htmlentities($p->post_title) ?>" class="rounded"/></a>
-							<p><a href='<?php echo $url ; ?>'style='color:black'><em><?php echo htmlentities($p->post_title) ?></em></a><br/><?php echo $designation;?></p>
+							<a href='<?php echo $url ; ?>' <?php echo $target; ?> class='speakerimage'>
+							<img style='cursor:pointer; height:128px; width:128px' src="<?php echo $image_src?>" title="<?php echo htmlentities($p->post_title) ?>" alt="<?php echo htmlentities($p->post_title) ?>" class="rounded primaryimg"/>
+							<img style='display:none; cursor:pointer; height:128px; width:128px' src="<?php echo $image_src2?>" title="<?php echo htmlentities($p->post_title) ?>" alt="<?php echo htmlentities($p->post_title) ?>" class="rounded alternateimg"/>
+							</a>
+							<p><a href='<?php echo $url ; ?>'style='color:black' class='speakerlink'<em><?php echo htmlentities($p->post_title) ?></em></a><br/><?php echo $designation;?></p>
 						  </div>
 						<?php
 						$i++;
 					}
-					?></div></div><?php
+					?></div></div>
+						<script>
+						jQuery(".speakerimage").hover(
+							function(){
+								jQuery(this).find(".primaryimg").hide();
+								jQuery(this).find(".alternateimg").show();
+							},
+							function(){
+								jQuery(this).find(".primaryimg").show();
+								jQuery(this).find(".alternateimg").hide();
+							}
+						);
+						
+						jQuery(".speakerlink").hover(
+							function(){
+								jQuery(".speakerimage .primaryimg").hide();
+								jQuery(".speakerimage .alternateimg").show();
+							},
+							function(){
+								jQuery(".speakerimage .primaryimg").show();
+								jQuery(".speakerimage .alternateimg").hide();
+							}
+						);
+						</script>
+					
+					<?php
 				}
 				wp_reset_postdata();
 			

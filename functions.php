@@ -502,6 +502,7 @@ class E_Speaker extends Echelon {
 	 */
 	private function process_meta( $post_id, $post ) {
 		update_post_meta( $post_id, $this->slug.'_image_id', $_POST['upload_image_id'] );
+		update_post_meta( $post_id, $this->slug.'_image_id2', $_POST['upload_image_id2'] );
 		update_post_meta( $post_id, $this->slug.'_designation', $_POST['designation'] );
 		update_post_meta( $post_id, $this->slug.'_order', $_POST['order'] );
 		update_post_meta( $post_id, $this->slug.'_frontpage', $_POST['frontpage'] );
@@ -544,7 +545,7 @@ class E_Speaker extends Echelon {
 		//$satellites = get_post_meta( $post_id, $this->slug.'_satellites', true );
 		
 		if($column=='image'){
-			?><img id="carousel_image" src="<?php echo $image_src ?>" style="max-width:100px;" /><?php
+			?><img src="<?php echo $image_src ?>" style="max-width:100px;" /><?php
 		}
 		else if($column=='designation'){
 			echo $designation;
@@ -566,9 +567,14 @@ class E_Speaker extends Echelon {
 		global $post;
 		
 		$image_src = '';
+		$image_src2 = '';
 		
 		$image_id = get_post_meta( $post->ID, $this->slug.'_image_id', true );
 		$image_src = wp_get_attachment_url( $image_id );
+		
+		$image_id2 = get_post_meta( $post->ID, $this->slug.'_image_id2', true );
+		$image_src2 = wp_get_attachment_url( $image_id2 );
+		
 		$designation = get_post_meta( $post->ID, $this->slug.'_designation', true );
 		$order = get_post_meta( $post->ID, $this->slug.'_order', true );
 		$frontpage = get_post_meta( $post->ID, $this->slug.'_frontpage', true );
@@ -589,12 +595,23 @@ class E_Speaker extends Echelon {
 		<table id='<?php echo $this->slug; ?>' style='width:100%'>
 		<tr>
 			<td colspan=2>
-			<b>Profile Image (175px x 175px)<br /><br /></b>
+			<b>Primary Image (175px x 175px)<br /><br /></b>
 			<img id="speaker_image" src="<?php echo $image_src ?>" style="max-width:100%;" />
 			<input type="hidden" name="upload_image_id" id="upload_image_id" value="<?php echo $image_id; ?>" />
 			<p>
 				<input type='button' class='button' value="<?php _e( 'Set Image' ) ?>"  id="set-image" />
 				<input type='button' class='button' style="<?php echo ( ! $image_id ? 'display:none;' : '' ); ?>" value="<?php _e( 'Remove Image' ) ?>"  id="remove-image" />
+			</p>
+			</td>
+		</tr>
+		<tr>
+			<td colspan=2>
+			<b>Hover Image (175px x 175px)<br /><br /></b>
+			<img id="speaker_image2" src="<?php echo $image_src2 ?>" style="max-width:100%;" />
+			<input type="hidden" name="upload_image_id2" id="upload_image_id2" value="<?php echo $image_id2; ?>" />
+			<p>
+				<input type='button' class='button' value="<?php _e( 'Set Image' ) ?>"  id="set-image2" />
+				<input type='button' class='button' style="<?php echo ( ! $image_id2 ? 'display:none;' : '' ); ?>" value="<?php _e( 'Remove Image' ) ?>"  id="remove-image2" />
 			</p>
 			</td>
 		</tr>
@@ -680,6 +697,9 @@ class E_Speaker extends Echelon {
 		<script type="text/javascript">
 		jQuery(document).ready(function($) {
 			
+			
+			var imageidtoupdate = "";
+			var upload_image_id = "";
 			// save the send_to_editor handler function
 			window.send_to_editor_default = window.send_to_editor;
 	
@@ -689,13 +709,35 @@ class E_Speaker extends Echelon {
 				window.send_to_editor = window.attach_image;
 				tb_show('', 'media-upload.php?post_id=<?php echo $post->ID ?>&amp;type=image&amp;TB_iframe=true');
 				
+				imageidtoupdate = "speaker_image";
+				upload_image_id = "upload_image_id";
 				return false;
 			});
 			
 			$('#remove-image').click(function() {
 				
 				$('#upload_image_id').val('');
-				$('img').attr('src', '');
+				$('#speaker_image').attr('src', '');
+				$(this).hide();
+				
+				return false;
+			});
+			
+			$('#set-image2').click(function(){
+				
+				// replace the default send_to_editor handler function with our own
+				window.send_to_editor = window.attach_image;
+				tb_show('', 'media-upload.php?post_id=<?php echo $post->ID ?>&amp;type=image&amp;TB_iframe=true');
+				
+				imageidtoupdate = "speaker_image2";
+				upload_image_id = "upload_image_id2";
+				return false;
+			});
+			
+			$('#remove-image2').click(function() {
+				
+				$('#upload_image_id2').val('');
+				$('#speaker_image2').attr('src', '');
 				$(this).hide();
 				
 				return false;
@@ -714,10 +756,10 @@ class E_Speaker extends Echelon {
 				imgclass = img.attr('class');
 				imgid    = parseInt(imgclass.replace(/\D/g, ''), 10);
 	
-				$('#upload_image_id').val(imgid);
+				$('#'+upload_image_id).val(imgid);
 				$('#remove-image').show();
 	
-				$('img#speaker_image').attr('src', imgurl);
+				$('img#'+imageidtoupdate).attr('src', imgurl);
 				try{tb_remove();}catch(e){};
 				$('#temp_image').remove();
 				
@@ -2714,8 +2756,14 @@ function e_speakers($content){
 				$the_query->the_post();
 				$p = get_post( get_the_ID(), OBJECT );
 				$image_id = get_post_meta( $p->ID, $ptype.'_image_id', true );
-				$designation = get_post_meta( $p->ID, $ptype.'_designation', true );
 				$image_src = wp_get_attachment_url( $image_id );
+				$image_id2 = get_post_meta( $p->ID, $ptype.'_image_id2', true );
+				$image_src2 = wp_get_attachment_url( $image_id2 );
+				if(trim($image_src2)==""){
+					$image_src2 = $image_src;
+				}
+				$designation = get_post_meta( $p->ID, $ptype.'_designation', true );
+				
 				$satellites = get_post_meta( $p->ID, $ptype.'_satellites', true );
 				$satellites = json_decode($satellites);
 				$url = get_post_meta( $p->ID, $ptype.'_url', true );
@@ -2746,14 +2794,41 @@ function e_speakers($content){
 					$therearesomespeakers = true;
 					?>
 					 <div class="span3 txt-c">
-						<a href='<?php echo $url; ?>' <?php echo $target; ?>><img style='cursor:pointer; height:128px; width:128px' src="<?php echo $image_src?>" title="<?php echo htmlentities($p->post_title) ?>" alt="<?php echo htmlentities($p->post_title) ?>" class="rounded"/></a>
-						<p><a href='<?php echo $url ; ?>'style='color:black'><em><?php echo htmlentities($p->post_title) ?></em></a><br/><?php echo $designation;?></p>
+						<a href='<?php echo $url ; ?>' <?php echo $target; ?> class='speakerimage'>
+						<img style='cursor:pointer; height:128px; width:128px' src="<?php echo $image_src?>" title="<?php echo htmlentities($p->post_title) ?>" alt="<?php echo htmlentities($p->post_title) ?>" class="rounded primaryimg"/>
+						<img style='display:none; cursor:pointer; height:128px; width:128px' src="<?php echo $image_src2?>" title="<?php echo htmlentities($p->post_title) ?>" alt="<?php echo htmlentities($p->post_title) ?>" class="rounded alternateimg"/>
+						</a>
+						<p><a href='<?php echo $url ; ?>'style='color:black' class='speakerlink' ><em><?php echo htmlentities($p->post_title) ?></em></a><br/><?php echo $designation;?></p>
 					  </div>
 					<?php
 					$i++;
 				}
 			}
-			?></div></div><?php
+			?></div></div>
+			<script>
+			jQuery(".speakerimage").hover(
+				function(){
+					jQuery(this).find(".primaryimg").hide();
+					jQuery(this).find(".alternateimg").show();
+				},
+				function(){
+					jQuery(this).find(".primaryimg").show();
+					jQuery(this).find(".alternateimg").hide();
+				}
+			);
+			
+			jQuery(".speakerlink").hover(
+				function(){
+					jQuery(".speakerimage .primaryimg").hide();
+					jQuery(".speakerimage .alternateimg").show();
+				},
+				function(){
+					jQuery(".speakerimage .primaryimg").show();
+					jQuery(".speakerimage .alternateimg").hide();
+				}
+			);
+			</script>
+			<?php
 		}
 		echo "</div>";
 	}
