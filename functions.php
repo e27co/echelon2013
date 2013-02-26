@@ -2803,6 +2803,8 @@ function e_speakers($content){
 				$image_src = wp_get_attachment_url( $image_id );
 				$image_id2 = get_post_meta( $p->ID, $ptype.'_image_id2', true );
 				$image_src2 = wp_get_attachment_url( $image_id2 );
+				$exclude = get_post_meta( $p->ID, $ptype.'_exclude', true );
+				
 				if(trim($image_src2)==""){
 					$image_src2 = $image_src;
 				}
@@ -2812,6 +2814,9 @@ function e_speakers($content){
 				$satellites = json_decode($satellites);
 				$url = get_post_meta( $p->ID, $ptype.'_url', true );
 				$target = " target='_blank' ";
+				
+				
+				
 				if(!trim($url)){
 					$url = get_permalink( $p->ID );
 					$target = "";
@@ -2824,7 +2829,7 @@ function e_speakers($content){
 						$print = true;
 					}
 				}
-				else {
+				else if(strtolower(trim($exclude))!="yes"){
 					$print = true;
 				}
 				
