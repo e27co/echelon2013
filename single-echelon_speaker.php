@@ -33,11 +33,16 @@ get_header();
 						$the_query->the_post();
 						$p = get_post( get_the_ID(), OBJECT );
 						$image_id = get_post_meta( $p->ID, $ptype.'_image_id', true );
+						$image_src = wp_get_attachment_url( $image_id );
+						$image_id2 = get_post_meta( $p->ID, $ptype.'_image_id2', true );
+						$image_src2 = wp_get_attachment_url( $image_id2 );
+						if(trim($image_src2)==""){
+							$image_src2 = $image_src;
+						}
 						$designation = get_post_meta( $p->ID, $ptype.'_designation', true );
 						$fb = get_post_meta( $p->ID, $ptype.'_fb', true );
 						$tw = get_post_meta( $p->ID, $ptype.'_tw', true );
 						$in = get_post_meta( $p->ID, $ptype.'_in', true );
-						$image_src = wp_get_attachment_url( $image_id );
 						
 						$s = array();
 						$s['p'] = $p;
@@ -45,7 +50,7 @@ get_header();
 						$s['fb'] = $fb;
 						$s['tw'] = $tw;
 						$s['in'] = $in;
-						$s['image_src'] = $image_src;
+						$s['image_src'] = $image_src2;
 						
 						if($p->ID==$spid){
 							$thespeaker = $s;

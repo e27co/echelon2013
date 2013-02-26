@@ -2663,6 +2663,14 @@ function e_speakers($content){
 				$the_query->the_post();
 				$p = get_post( get_the_ID(), OBJECT );
 				$image_id = get_post_meta( $p->ID, $ptype.'_image_id', true );
+				$image_src = wp_get_attachment_url( $image_id );
+				$image_id2 = get_post_meta( $p->ID, $ptype.'_image_id2', true );
+				$image_src2 = wp_get_attachment_url( $image_id2 );
+				if(trim($image_src2)==""){
+					$image_src2 = $image_src;
+				}
+				
+				
 				$designation = get_post_meta( $p->ID, $ptype.'_designation', true );
 				$fb = get_post_meta( $p->ID, $ptype.'_fb', true );
 				$tw = get_post_meta( $p->ID, $ptype.'_tw', true );
@@ -2671,7 +2679,7 @@ function e_speakers($content){
 				$frontpage = get_post_meta( $p->ID, $ptype.'_frontpage', true );
 				$satellites = get_post_meta( $p->ID, $ptype.'_satellites', true );
 				$satellites = json_decode($satellites);
-				$image_src = wp_get_attachment_url( $image_id );
+				
 				$url = get_post_meta( $p->ID, $ptype.'_url', true );
 				$urled = true;
 				if(!trim($url)){
@@ -2688,7 +2696,7 @@ function e_speakers($content){
 				$s['frontpage'] = $frontpage;
 				$s['satellites'] = $satellites;
 				$s['in'] = $in;
-				$s['image_src'] = $image_src;
+				$s['image_src'] = $image_src2;
 				$s['url'] = $url;
 				
 				if($p->ID==$_GET['speakerid']){
