@@ -3,6 +3,10 @@ include_once(dirname(__FILE__)."/../../../wp-admin/includes/plugin.php");
 define('MAGPIE_OUTPUT_ENCODING', "UTF-8");
 define('MAGPIE_CACHE_ON', true);
 include_once(dirname(__FILE__)."/magpie_0.72/rss_fetch.php");
+
+function htmlentitiesx($str){
+	return htmlentities($str, ENT_COMPAT, "UTF-8");
+}
 class Echelon{
 	public function hide_editor(){
 		?>
@@ -191,11 +195,11 @@ class E_Carousel extends Echelon {
 		<table id='<?php echo $this->slug; ?>' style='width:100%'>
 		<tr>
 			<td>Alt Tag</td>
-			<td><textarea name="alt_tag" style='width:90%; height:100px'><?php echo htmlentities($alt); ?></textarea></td>
+			<td><textarea name="alt_tag" style='width:90%; height:100px'><?php echo htmlentitiesx($alt); ?></textarea></td>
 		</tr>
 		<tr>
 			<td>Title Tag</td>
-			<td><textarea name="title_tag" style='width:90%; height:100px'><?php echo htmlentities($title); ?></textarea></td>
+			<td><textarea name="title_tag" style='width:90%; height:100px'><?php echo htmlentitiesx($title); ?></textarea></td>
 		</tr>
 		<tr>
 			<td>Order</td>
@@ -402,7 +406,7 @@ class E_Youtube extends Echelon {
 		<table id='<?php echo $this->slug; ?>' style='width:100%'>
 		<tr>
 			<td>Youtube Link</td>
-			<td><input type="text" name="youtube_link" value="<?php echo htmlentities($youtube_link); ?>" style='width:100%' /></td>
+			<td><input type="text" name="youtube_link" value="<?php echo htmlentitiesx($youtube_link); ?>" style='width:100%' /></td>
 		</tr>
 		</table>
 		<?php
@@ -616,19 +620,19 @@ class E_Speaker extends Echelon {
 		<tr>
 			<td>
 			<b>Designation (e.g. Founder - e27)<br /><br /></b>
-			<input type="text" name="designation" value="<?php echo htmlentities($designation); ?>" style='width:100%' />
+			<input type="text" name="designation" value="<?php echo htmlentitiesx($designation); ?>" style='width:100%' />
 			<br /><br />
 			<b>Order<br /><br /></b>
-			<input type="text" name="order" value="<?php echo htmlentities($order); ?>" style='width:100%' /><br /><br />
+			<input type="text" name="order" value="<?php echo htmlentitiesx($order); ?>" style='width:100%' /><br /><br />
 			<b>Facebook<br /><br /></b>
-			<input type="text" name="fb" value="<?php echo htmlentities($fb); ?>" style='width:100%' /><br /><br />
+			<input type="text" name="fb" value="<?php echo htmlentitiesx($fb); ?>" style='width:100%' /><br /><br />
 			<b>Twitter<br /><br /></b>
-			<input type="text" name="tw" value="<?php echo htmlentities($tw); ?>" style='width:100%' /><br /><br />
+			<input type="text" name="tw" value="<?php echo htmlentitiesx($tw); ?>" style='width:100%' /><br /><br />
 			<b>Linked In<br /><br /></b>
-			<input type="text" name="in" value="<?php echo htmlentities($in); ?>" style='width:100%' />
+			<input type="text" name="in" value="<?php echo htmlentitiesx($in); ?>" style='width:100%' />
 			<br /><br />
 			<b>External URL<br /><br /></b>
-			<input type="text" name="url" value="<?php echo htmlentities($url); ?>" style='width:100%' />
+			<input type="text" name="url" value="<?php echo htmlentitiesx($url); ?>" style='width:100%' />
 			<br /><br />
 			<b>Show on Frontpage<br /><br /></b>
 			<select name='frontpage' id='frontpagex'>
@@ -682,8 +686,8 @@ class E_Speaker extends Echelon {
 			
 			
 			<script>
-			jQuery("#frontpagex").val("<?php echo htmlentities($frontpage); ?>");
-			jQuery("#excludex").val("<?php echo htmlentities($exclude); ?>");
+			jQuery("#frontpagex").val("<?php echo htmlentitiesx($frontpage); ?>");
+			jQuery("#excludex").val("<?php echo htmlentitiesx($exclude); ?>");
 			</script>
 			
 			</td>
@@ -965,13 +969,13 @@ class E_Startup extends Echelon {
 		<tr>
 			<td>
 			<b>Order<br /><br /></b>
-			<input type="text" name="order" value="<?php echo htmlentities($order); ?>" style='width:100%' /><br /><br />
+			<input type="text" name="order" value="<?php echo htmlentitiesx($order); ?>" style='width:100%' /><br /><br />
 			<b>Country<br /><br /></b>
-			<input type="text" name="country" value="<?php echo htmlentities($country); ?>" style='width:100%' /><br /><br />
+			<input type="text" name="country" value="<?php echo htmlentitiesx($country); ?>" style='width:100%' /><br /><br />
 			<b>Website URL<br /><br /></b>
-			<input type="text" name="url" value="<?php echo htmlentities($url); ?>" style='width:100%' /><br /><br />
+			<input type="text" name="url" value="<?php echo htmlentitiesx($url); ?>" style='width:100%' /><br /><br />
 			<b>Excerpt<br /><br /></b>
-			<textarea name="excerpt" style='width:100%; height:70px'><?php echo htmlentities($excerpt); ?></textarea><br /><br />
+			<textarea name="excerpt" style='width:100%; height:70px'><?php echo htmlentitiesx($excerpt); ?></textarea><br /><br />
 			</td>
 		</tr>
 		</table>
@@ -1216,16 +1220,16 @@ class E_Staff extends Echelon {
 		<tr>
 			<td>
 			<b>Designation (e.g. Media & Events Manage)<br /><br /></b>
-			<input type="text" name="designation" value="<?php echo htmlentities($designation); ?>" style='width:100%' />
+			<input type="text" name="designation" value="<?php echo htmlentitiesx($designation); ?>" style='width:100%' />
 			<br /><br />
 			<b>Order<br /><br /></b>
-			<input type="text" name="order" value="<?php echo htmlentities($order); ?>" style='width:100%' /><br /><br />
+			<input type="text" name="order" value="<?php echo htmlentitiesx($order); ?>" style='width:100%' /><br /><br />
 			<b>Facebook<br /><br /></b>
-			<input type="text" name="fb" value="<?php echo htmlentities($fb); ?>" style='width:100%' /><br /><br />
+			<input type="text" name="fb" value="<?php echo htmlentitiesx($fb); ?>" style='width:100%' /><br /><br />
 			<b>Twitter<br /><br /></b>
-			<input type="text" name="tw" value="<?php echo htmlentities($tw); ?>" style='width:100%' /><br /><br />
+			<input type="text" name="tw" value="<?php echo htmlentitiesx($tw); ?>" style='width:100%' /><br /><br />
 			<b>Linked In<br /><br /></b>
-			<input type="text" name="in" value="<?php echo htmlentities($in); ?>" style='width:100%' />
+			<input type="text" name="in" value="<?php echo htmlentitiesx($in); ?>" style='width:100%' />
 			<br /><br />
 			<b>Frontpage<br /><br /></b>
 			<select name='frontpage' id='frontpagex'>
@@ -1233,7 +1237,7 @@ class E_Staff extends Echelon {
 				<option value='No'>No</option>
 			</select>
 			<script>
-			jQuery("#frontpagex").val("<?php echo htmlentities($frontpage); ?>");
+			jQuery("#frontpagex").val("<?php echo htmlentitiesx($frontpage); ?>");
 			</script>
 			
 			</td>
@@ -1708,7 +1712,7 @@ class E_Sponsor extends Echelon {
 			</p>
 			<br />
 			<b>URL Link<br /></b>
-			<input type="text" name="link" value="<?php echo htmlentities($link); ?>" style='width:100%' />
+			<input type="text" name="link" value="<?php echo htmlentitiesx($link); ?>" style='width:100%' />
 			<br /><br />
 			<b>Views: <?php echo $views; ?> Clicks: <?php echo $clicks; ?> <br /></b>
 			<br /><br />
@@ -1733,7 +1737,7 @@ class E_Sponsor extends Echelon {
 			</script>
 			<br /><br />
 			<b>Order<br /></b>
-			<input type="text" name="order" value="<?php echo htmlentities($order); ?>" style='width:100%' />
+			<input type="text" name="order" value="<?php echo htmlentitiesx($order); ?>" style='width:100%' />
 			
 			</td>
 		</tr>
@@ -1743,7 +1747,7 @@ class E_Sponsor extends Echelon {
 			----- Or -----
 			<br /><br />
 			<b>HTML<br /></b>
-			<textarea name='html' style='width:100%; height:200px'><?php echo htmlentities($html);  ?></textarea>
+			<textarea name='html' style='width:100%; height:200px'><?php echo htmlentitiesx($html);  ?></textarea>
 			
 			</td>
 		</tr>
@@ -1802,8 +1806,8 @@ class E_Sponsor extends Echelon {
 			
 			
 			<script>
-			jQuery("#sidebarx").val("<?php echo htmlentities($sidebar); ?>");
-			jQuery("#excludex").val("<?php echo htmlentities($exclude); ?>");
+			jQuery("#sidebarx").val("<?php echo htmlentitiesx($sidebar); ?>");
+			jQuery("#excludex").val("<?php echo htmlentitiesx($exclude); ?>");
 			</script>
 			</td>
 		</td>
@@ -2056,7 +2060,7 @@ class E_MediaPartner extends Echelon {
 			</p>
 			<br />
 			<b>URL Link<br /></b>
-			<input type="text" name="link" value="<?php echo htmlentities($link); ?>" style='width:100%' />
+			<input type="text" name="link" value="<?php echo htmlentitiesx($link); ?>" style='width:100%' />
 			</td>
 		</tr>
 		<tr>
@@ -2072,7 +2076,7 @@ class E_MediaPartner extends Echelon {
 			</script>
 			<br /><br />
 			<b>Order<br /></b>
-			<input type="text" name="order" value="<?php echo htmlentities($order); ?>" style='width:100%' />
+			<input type="text" name="order" value="<?php echo htmlentitiesx($order); ?>" style='width:100%' />
 			
 			</td>
 		</tr>
@@ -2082,7 +2086,7 @@ class E_MediaPartner extends Echelon {
 			----- Or -----
 			<br /><br />
 			<b>HTML<br /></b>
-			<textarea name='html' style='width:100%; height:200px'><?php echo htmlentities($html);  ?></textarea>
+			<textarea name='html' style='width:100%; height:200px'><?php echo htmlentitiesx($html);  ?></textarea>
 			
 			</td>
 		</tr>
@@ -2327,21 +2331,21 @@ class E_Satellite extends Echelon {
 		<tr>
 			<td>
 			<b>Country<br /><br /></b>
-			<input type="text" name="country" value="<?php echo htmlentities($country); ?>" style='width:100%' /><br /><br />
+			<input type="text" name="country" value="<?php echo htmlentitiesx($country); ?>" style='width:100%' /><br /><br />
 			<b>When<br /><br /></b>
-			<input type="text" name="when" value="<?php echo htmlentities($when); ?>" style='width:100%' /><br /><br />
+			<input type="text" name="when" value="<?php echo htmlentitiesx($when); ?>" style='width:100%' /><br /><br />
 			<b>Where<br /><br /></b>
-			<input type="text" name="where" value="<?php echo htmlentities($where); ?>" style='width:100%' /><br /><br />
+			<input type="text" name="where" value="<?php echo htmlentitiesx($where); ?>" style='width:100%' /><br /><br />
 			<b>Deadline<br /><br /></b>
-			<input type="text" name="deadline" value="<?php echo htmlentities($deadline); ?>" style='width:100%' /><br /><br />
+			<input type="text" name="deadline" value="<?php echo htmlentitiesx($deadline); ?>" style='width:100%' /><br /><br />
 			<b>Excerpt<br /><br /></b>
-			<textarea name="excerpt" style='width:100%; height:70px'><?php echo htmlentities($excerpt); ?></textarea><br /><br />
+			<textarea name="excerpt" style='width:100%; height:70px'><?php echo htmlentitiesx($excerpt); ?></textarea><br /><br />
 			<!--
 			<b>Attend Button URL<br /><br /></b>
-			<input type="text" name="attendurl" value="<?php echo htmlentities($attendurl); ?>" style='width:100%' /><br /><br />
+			<input type="text" name="attendurl" value="<?php echo htmlentitiesx($attendurl); ?>" style='width:100%' /><br /><br />
 			-->
 			<b>Order<br /><br /></b>
-			<input type="text" name="order" value="<?php echo htmlentities($order); ?>" style='width:100%' /><br /><br />
+			<input type="text" name="order" value="<?php echo htmlentitiesx($order); ?>" style='width:100%' /><br /><br />
 			</td>
 		</tr>
 		</table>
@@ -2575,7 +2579,7 @@ class E_Settings {
 									</label>   
 								</th>  
 								<td>  
-									<input type='text' class='heading' name="echelon_fb_url" value="<?php echo htmlentities(get_option("echelon_fb_url")) ?>" />
+									<input type='text' class='heading' name="echelon_fb_url" value="<?php echo htmlentitiesx(get_option("echelon_fb_url")) ?>" />
 								</td>  
 							</tr>
 							<tr valign="top">  
@@ -2585,7 +2589,7 @@ class E_Settings {
 									</label>   
 								</th>  
 								<td>  
-									<input type='text' class='heading' name="echelon_tw_url" value="<?php echo htmlentities(get_option("echelon_tw_url")) ?>" />
+									<input type='text' class='heading' name="echelon_tw_url" value="<?php echo htmlentitiesx(get_option("echelon_tw_url")) ?>" />
 								</td>  
 							</tr>
 							<tr valign="top">  
@@ -2595,7 +2599,7 @@ class E_Settings {
 									</label>   
 								</th>  
 								<td>  
-									<input type='text' class='heading' name="echelon_gp_url" value="<?php echo htmlentities(get_option("echelon_gp_url")) ?>" />
+									<input type='text' class='heading' name="echelon_gp_url" value="<?php echo htmlentitiesx(get_option("echelon_gp_url")) ?>" />
 								</td>  
 							</tr>
 							<tr valign="top">  
@@ -2605,7 +2609,7 @@ class E_Settings {
 									</label>   
 								</th>  
 								<td>  
-									<input type='text' class='heading' name="echelon_in_url" value="<?php echo htmlentities(get_option("echelon_in_url")) ?>" />
+									<input type='text' class='heading' name="echelon_in_url" value="<?php echo htmlentitiesx(get_option("echelon_in_url")) ?>" />
 								</td>  
 							</tr> 
 						</table> 
@@ -2844,10 +2848,10 @@ function e_speakers($content){
 					?>
 					 <div class="span3 txt-c">
 						<a href='<?php echo $url ; ?>' <?php echo $target; ?> class='speakerimage'>
-						<img style='cursor:pointer; height:128px; width:128px' src="<?php echo $image_src?>" title="<?php echo htmlentities($p->post_title) ?>" alt="<?php echo htmlentities($p->post_title) ?>" class="rounded primaryimg"/>
-						<img style='display:none; cursor:pointer; height:128px; width:128px' src="<?php echo $image_src2?>" title="<?php echo htmlentities($p->post_title) ?>" alt="<?php echo htmlentities($p->post_title) ?>" class="rounded alternateimg"/>
+						<img style='cursor:pointer; height:128px; width:128px' src="<?php echo $image_src?>" title="<?php echo htmlentitiesx($p->post_title) ?>" alt="<?php echo htmlentitiesx($p->post_title) ?>" class="rounded primaryimg"/>
+						<img style='display:none; cursor:pointer; height:128px; width:128px' src="<?php echo $image_src2?>" title="<?php echo htmlentitiesx($p->post_title) ?>" alt="<?php echo htmlentitiesx($p->post_title) ?>" class="rounded alternateimg"/>
 						</a>
-						<p><a href='<?php echo $url ; ?>'style='color:black' class='speakerlink' ><em><?php echo htmlentities($p->post_title) ?></em></a><br/><?php echo $designation;?></p>
+						<p><a href='<?php echo $url ; ?>'style='color:black' class='speakerlink' ><em><?php echo htmlentitiesx($p->post_title) ?></em></a><br/><?php echo $designation;?></p>
 					  </div>
 					<?php
 					$i++;
