@@ -38,6 +38,7 @@ ul.nav > li.menu-item:hover ul.sub-menu {
     border-left:2px solid #2F2F2E;
     border-right:2px solid #2F2F2E;
     border-bottom:2px solid #2F2F2E;
+    border-top:3px solid #2F2F2E;
     float:left;
     top:50px;
 }
@@ -216,7 +217,7 @@ h1.logo a {
 .social-top li a.google { background-position: 0 -180px}
 .social-top li a.linkedin { background-position: 0 -266px; }
 
-.navbar { border-bottom:3px solid #000000 }
+.navbar { border-bottom:3px solid #2F2F2E }
 .navbar .nav > li > a {
     color: #FFFFFF;
     float: none;
@@ -375,6 +376,8 @@ h1.logo a {
 
 .socials em { font-size:11px; font-weight:normal }
 .socials p { font-weight:bold }
+
+.subscribe { margin-top:-15px }
 
 a.subscribe {
     font-size:15px;
@@ -679,7 +682,7 @@ table.agenda td span.parallel,
 
 .wrapper-satellite .country {
     background-color: #EBEEEE;
-    max-height: 300px;
+    height: 312px;
     padding: 12px;
     position: relative;
 }
@@ -724,7 +727,7 @@ table.agenda td span.parallel,
 .country .country-det p { font-size:18px }
 .country .country-det a { display:block; }
 .country-det p.date { font-size:14px }
-.country-det p.satellite-caption { font-size:16px; font-weight:normal }
+.country-det p.satellite-caption { font-size:15px; font-weight:normal; line-height:20px }
 .country-det .closed-btn {
     background:url('../img/satellite_closed_btn.png')no-repeat scroll 0 0 transparent;
     width:100px;
