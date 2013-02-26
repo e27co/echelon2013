@@ -3167,7 +3167,7 @@ function e_satellites($content){
 			<style>
 			.wrapper-satellite .hover{
 				/*border:5px solid yellow;*/
-				box-shadow: 0 2px 9px gray;
+				box-shadow: 0 3px 9px #2F2F2E;
 			}
 			</style>
 			
