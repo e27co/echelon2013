@@ -210,6 +210,7 @@ get_header();
 							}
 						);
 						
+						/*
 						jQuery(".speakerlink").hover(
 							function(){
 								jQuery(".speakerimage .primaryimg").hide();
@@ -220,6 +221,7 @@ get_header();
 								jQuery(".speakerimage .alternateimg").hide();
 							}
 						);
+						*/
 						</script>
 					
 					<?php

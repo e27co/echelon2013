@@ -567,11 +567,9 @@ class E_Speaker extends Echelon {
 		global $post;
 		
 		$image_src = '';
-		$image_src2 = '';
-		
+		$image_src2 = '';		
 		$image_id = get_post_meta( $post->ID, $this->slug.'_image_id', true );
-		$image_src = wp_get_attachment_url( $image_id );
-		
+		$image_src = wp_get_attachment_url( $image_id );	
 		$image_id2 = get_post_meta( $post->ID, $this->slug.'_image_id2', true );
 		$image_src2 = wp_get_attachment_url( $image_id2 );
 		
@@ -2241,6 +2239,7 @@ class E_Satellite extends Echelon {
 	 */
 	private function process_meta( $post_id, $post ) {
 		update_post_meta( $post_id, $this->slug.'_image_id', $_POST['upload_image_id'] );
+		update_post_meta( $post_id, $this->slug.'_image_id2', $_POST['upload_image_id2'] );
 		update_post_meta( $post_id, $this->slug.'_country', $_POST['country'] );
 		update_post_meta( $post_id, $this->slug.'_when', $_POST['when'] );
 		update_post_meta( $post_id, $this->slug.'_where', $_POST['where'] );
@@ -2282,9 +2281,11 @@ class E_Satellite extends Echelon {
 		global $post;
 		
 		$image_src = '';
-		
+		$image_src2 = '';
 		$image_id = get_post_meta( $post->ID, $this->slug.'_image_id', true );
 		$image_src = wp_get_attachment_url( $image_id );
+		$image_id2 = get_post_meta( $post->ID, $this->slug.'_image_id2', true );
+		$image_src2 = wp_get_attachment_url( $image_id2 );
 		
 		$country = get_post_meta( $post->ID, $this->slug.'_country', true );
 		$when = get_post_meta( $post->ID, $this->slug.'_when', true );
@@ -2309,6 +2310,17 @@ class E_Satellite extends Echelon {
 			<p>
 				<input type='button' class='button' value="<?php _e( 'Set Image' ) ?>"  id="set-image" />
 				<input type='button' class='button' style="<?php echo ( ! $image_id ? 'display:none;' : '' ); ?>" value="<?php _e( 'Remove Image' ) ?>"  id="remove-image" />
+			</p>
+			</td>
+		</tr>
+		<tr>
+			<td colspan=2>
+			<b>Hover Image (223px x 300px)<br /><br /></b>
+			<img id="speaker_image2" src="<?php echo $image_src2 ?>" style="max-width:100%;" />
+			<input type="hidden" name="upload_image_id2" id="upload_image_id2" value="<?php echo $image_id2; ?>" />
+			<p>
+				<input type='button' class='button' value="<?php _e( 'Set Image' ) ?>"  id="set-image2" />
+				<input type='button' class='button' style="<?php echo ( ! $image_id2 ? 'display:none;' : '' ); ?>" value="<?php _e( 'Remove Image' ) ?>"  id="remove-image2" />
 			</p>
 			</td>
 		</tr>
@@ -2339,6 +2351,8 @@ class E_Satellite extends Echelon {
 		<script type="text/javascript">
 		jQuery(document).ready(function($) {
 			
+			var imageidtoupdate = "";
+			var upload_image_id = "";
 			// save the send_to_editor handler function
 			window.send_to_editor_default = window.send_to_editor;
 	
@@ -2348,13 +2362,35 @@ class E_Satellite extends Echelon {
 				window.send_to_editor = window.attach_image;
 				tb_show('', 'media-upload.php?post_id=<?php echo $post->ID ?>&amp;type=image&amp;TB_iframe=true');
 				
+				imageidtoupdate = "speaker_image";
+				upload_image_id = "upload_image_id";
 				return false;
 			});
 			
 			$('#remove-image').click(function() {
 				
 				$('#upload_image_id').val('');
-				$('img').attr('src', '');
+				$('#speaker_image').attr('src', '');
+				$(this).hide();
+				
+				return false;
+			});
+			
+			$('#set-image2').click(function(){
+				
+				// replace the default send_to_editor handler function with our own
+				window.send_to_editor = window.attach_image;
+				tb_show('', 'media-upload.php?post_id=<?php echo $post->ID ?>&amp;type=image&amp;TB_iframe=true');
+				
+				imageidtoupdate = "speaker_image2";
+				upload_image_id = "upload_image_id2";
+				return false;
+			});
+			
+			$('#remove-image2').click(function() {
+				
+				$('#upload_image_id2').val('');
+				$('#speaker_image2').attr('src', '');
 				$(this).hide();
 				
 				return false;
@@ -2373,10 +2409,10 @@ class E_Satellite extends Echelon {
 				imgclass = img.attr('class');
 				imgid    = parseInt(imgclass.replace(/\D/g, ''), 10);
 	
-				$('#upload_image_id').val(imgid);
+				$('#'+upload_image_id).val(imgid);
 				$('#remove-image').show();
 	
-				$('img#speaker_image').attr('src', imgurl);
+				$('img#'+imageidtoupdate).attr('src', imgurl);
 				try{tb_remove();}catch(e){};
 				$('#temp_image').remove();
 				
@@ -2825,16 +2861,18 @@ function e_speakers($content){
 				}
 			);
 			
+			/*
 			jQuery(".speakerlink").hover(
 				function(){
-					jQuery(".speakerimage .primaryimg").hide();
-					jQuery(".speakerimage .alternateimg").show();
+					jQuery(this).parent().find(".speakerimage").find(".primaryimg").hide();
+					jQuery(this).parent().find(".speakerimage").find(".alternateimg").show();
 				},
 				function(){
-					jQuery(".speakerimage .primaryimg").show();
-					jQuery(".speakerimage .alternateimg").hide();
+					jQuery(this).parent().find(".speakerimage").find(".primaryimg").show();
+					jQuery(this).parent().find(".speakerimage").find(".alternateimg").hide();
 				}
 			);
+			*/
 			</script>
 			<?php
 		}
@@ -3219,6 +3257,12 @@ function e_satellites($content){
 			$p = get_post( get_the_ID(), OBJECT );
 			$image_id = get_post_meta( $p->ID, $ptype.'_image_id', true );
 			$image_src = wp_get_attachment_url( $image_id );
+			
+			$image_id2 = get_post_meta( $p->ID, $ptype.'_image_id2', true );
+			$image_src2 = wp_get_attachment_url( $image_id2 );
+			if(!trim($image_src2)){
+				$image_src2 = $image_src;
+			}
 			$country = get_post_meta( $p->ID, $ptype.'_country', true );
 			$when = get_post_meta( $p->ID, $ptype.'_when', true );
 			$where = get_post_meta( $p->ID, $ptype.'_where', true );
@@ -3235,6 +3279,7 @@ function e_satellites($content){
 			$s['excerpt'] = $excerpt;
 			$s['attendurl'] = $attendurl;
 			$s['bg'] = $image_src;
+			$s['bg2'] = $image_src2;
 			
 			if($p->ID==$_GET['satelliteid']){
 				$the = $s;
@@ -3277,7 +3322,8 @@ function e_satellites($content){
 		  <?php
 		 */
 		 ?>
-		 <div class="span4 country sattelitediv" style='background:url(<?php echo $arr[$i]['bg']; ?>); height:300px; cursor:pointer' onclick='self.location="<?php echo get_permalink( $arr[$i]['p']->ID ) ; ?>"'>
+		 <div name='<?php echo $arr[$i]['bg']; ?>|<?php echo $arr[$i]['bg2']; ?>' class="span4 country sattelitediv" style='background:url(<?php echo $arr[$i]['bg']; ?>); height:300px; cursor:pointer' onclick='self.location="<?php echo get_permalink( $arr[$i]['p']->ID ) ; ?>"'>
+			<img src='<?php echo $arr[$i]['bg2']; ?>' style='display:none' />
 			<h2><?php echo $arr[$i]['country']; ?></h2>			
 			<div class="country-det pod">
 			  <p><?php echo $arr[$i]['when']; ?><a class="loc" style='text-decoration:none' ><?php echo $arr[$i]['where']; ?></a></p>
@@ -3292,9 +3338,15 @@ function e_satellites($content){
 		<script>
 		jQuery(".sattelitediv").hover(
 			function () {
+				name = $(this).attr("name");
+				name = name.split("|");
+				$(this).css("background", "url("+name[1]+")");
 				$(this).addClass("hover");
 			},
 			function () {
+				name = $(this).attr("name");
+				name = name.split("|");
+				$(this).css("background", "url("+name[0]+")");
 				$(this).removeClass("hover");
 			}
 		);
