@@ -33,7 +33,7 @@
 	
 	
 	
-	<link rel="shortcut icon" href="<?php echo get_template_directory_uri(); ?>/favicon.ico" />
+	<link rel="shortcut icon" href="<?php //echo get_template_directory_uri(); ?>/wp-content/themes/echelon2013/favicon.ico" />
 	<link rel="profile" href="http://gmpg.org/xfn/11" />
 	<link rel="pingback" href="<?php bloginfo( 'pingback_url' ); ?>" />
 	<?php // Loads HTML5 JavaScript file to add support for HTML5 elements in older IE versions. ?>
@@ -41,7 +41,9 @@
 	<script src="<?php echo get_template_directory_uri(); ?>/js/html5.js" type="text/javascript"></script>
 	<![endif]-->
 	
+	<?php
 	
+	?>
 	 <!-- Le styles -->
 	 <link href="/wp-includes/js/tinymce/themes/advanced/skins/wp_theme/content.css?_=<?php echo time(); ?>" rel="stylesheet">
     <link href="<?php echo get_template_directory_uri(); ?>/themes/css/bootstrap.css?_=<?php echo time(); ?>" rel="stylesheet">
@@ -51,7 +53,7 @@
     <script src="<?php echo get_template_directory_uri(); ?>/js/plugins/jquery-1.5.1.js"></script>
     <script src="<?php echo get_template_directory_uri(); ?>/js/plugins/slides.min.jquery.js"></script>
 	<script src="<?php echo get_template_directory_uri(); ?>/js/plugins/persisten-header.js"></script>
-	<script src="<?php echo get_template_directory_uri(); ?>/js/functions.js"></script>
+	<script src="<?php echo get_template_directory_uri(); ?>/js/functions.js?_=<?php echo time(); ?>"></script>
 	
 	 
 	
