@@ -2,7 +2,7 @@
 <?php
 if(is_home()||1){
 	?>
-	<div class="side-pillar-btn">
+	<div class="side-pillar-btn" >
 		<a href="http://e27.co/echelon-2013-startups/" target="_blank" class="btn btn-success btn-large mar-bot-xxs">Submit Your Startup</a>
 		<a href="http://echelon.e27.co/sg2013_/about/sponsors/" class="btn btn-success btn-large btn-sponsor" style='font-size:15px'>Sponsorship Opportunities</a>
 	</div>
@@ -13,7 +13,7 @@ if($_SESSION['current_p']->post_name=='sponsors'){
 }
 else{
 	?>
-	<div class="side-pillar txt-c" id='side_pillar' style='display:none'>
+	<div class="side-pillar txt-c" id='side_pillar' style='display:none;'>
 	<div class="head-pillar"><p>Organized By</p></div>
 	<ul style='margin-bottom:25px;'>
 		<li >
