@@ -3194,8 +3194,8 @@ function e_startups($content){
 		});
 	</script>
 	<div class="row-fluid add-top">
-		<h2>Startup Marketplace</h2>
-		<p>After going through a grueling judging process, including at the regional satellite events, Echelon 2012 is proud to announce the following startups at our Startup Marketplace:</p>
+		<!--<h2>Startup Marketplace</h2>
+		<p>After going through a grueling judging process, including at the regional satellite events, Echelon 2012 is proud to announce the following startups at our Startup Marketplace:</p> -->
 		<div class="country-startup add-top-small">
 		  <!--
 		  <a class="country-startup-btn selected" href="">all country</a>
