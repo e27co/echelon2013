@@ -2070,6 +2070,7 @@ class E_MediaPartner extends Echelon {
 			<select name='type' id='xtype'>
 				<option value='Premier Media Partner'>Premier Media Partner</option>
 				<option value='Community & Media Partners'>Community & Media Partners</option>
+				<option value='Strategic Partners'>Strategic Partners</option>
 			</select>
 			<script>
 			jQuery("#xtype").val("<?php echo $type; ?>");

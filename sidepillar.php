@@ -75,7 +75,7 @@ else{
 					e_view($sponsors[$key][$i]['post']);
 					if(trim($sponsors[$key][$i]['link'])){
 						?>
-						<a href="<?php echo e_clickurl($sponsors[$key][$i]['link'], $sponsors[$key][$i]['post']); ?>"><img src="<?php echo $sponsors[$key][$i]['image_src']; ?>" title="<?php echo htmlentities($sponsors[$key][$i]['post']->post_title); ?>" alt="<?php echo htmlentities($sponsors[$key][$i]['post']->post_title); ?>"></a>
+						<a target='_blank' href="<?php echo e_clickurl($sponsors[$key][$i]['link'], $sponsors[$key][$i]['post']); ?>"><img src="<?php echo $sponsors[$key][$i]['image_src']; ?>" title="<?php echo htmlentities($sponsors[$key][$i]['post']->post_title); ?>" alt="<?php echo htmlentities($sponsors[$key][$i]['post']->post_title); ?>"></a>
 						<?php
 					}
 					else{
@@ -147,7 +147,7 @@ else{
 					e_view($mps[$key][$i]['post']);
 					if(trim($mps[$key][$i]['link'])){
 						?>
-						<a href="<?php echo e_clickurl($mps[$key][$i]['link'], $mps[$key][$i]['post']); ?>"><img src="<?php echo $mps[$key][$i]['image_src']; ?>" title="<?php echo htmlentities($mps[$key][$i]['post']->post_title); ?>" alt="<?php echo htmlentities($mps[$key][$i]['post']->post_title); ?>"></a>
+						<a target='_blank' href="<?php echo e_clickurl($mps[$key][$i]['link'], $mps[$key][$i]['post']); ?>"><img src="<?php echo $mps[$key][$i]['image_src']; ?>" title="<?php echo htmlentities($mps[$key][$i]['post']->post_title); ?>" alt="<?php echo htmlentities($mps[$key][$i]['post']->post_title); ?>"></a>
 						<?php
 					}
 					else{
