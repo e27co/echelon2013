@@ -18,7 +18,7 @@ get_header();
 			$perm = get_permalink();
 			$perm = urlencode($perm);
 			?>
-			<div style='position:relative; height:20px;'>
+			<div style='margin-bottom: 5px; position: relative; height: 20px; margin-top: 35px;'>
 				<div class="juiz_sps_links  juiz_sps_displayed_both" style='margin:0px; position:absolute; top:-20px; '>
 					<p class="screen-reader-text juiz_sps_maybe_hidden_text">Share the post "<?php the_title(); ?>"</p>
 					<ul class="juiz_sps_links_list juiz_sps_hide_name" style='line-height:20px'>
