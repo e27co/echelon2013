@@ -3227,7 +3227,7 @@ function e_startups($content){
 			  ?>
 				<div class="span4 startup <?php echo "c_".md5($astartups[$i]['country']); ?>">
 				  <div class="inner-top">
-					<a href="<?php echo $astartups[$i]['url']; ?>"><img style='max-width:220px; margin:auto;' src="<?php echo $astartups[$i]['image_src']; ?>"></a>
+					<a target='_blank' href="<?php echo $astartups[$i]['url']; ?>"><img style='max-width:220px; margin:auto;' src="<?php echo $astartups[$i]['image_src']; ?>"></a>
 					<h2><?php echo $astartups[$i]['p']->post_title; ?></h2>
 					<p><?php echo $astartups[$i]['country']; ?></p>
 				  </div>

@@ -77,7 +77,38 @@ get_header();
 			*/
 			?>
 
-			<h2><?php echo stripslashes(html_entity_decode(get_option("echelon_fphead_1"))); ?></h2>
+			<h2><!--social-->
+			<?php
+			$perm = get_bloginfo("home");
+			$perm = urlencode($perm);
+			$title = get_bloginfo("name");
+			?>
+			<div style='margin-bottom: 5px; position: relative; height: 20px; margin-top: 35px;'>
+				<div class="juiz_sps_links  juiz_sps_displayed_both" style='margin:0px; position:absolute; top:-20px; '>
+					<p class="screen-reader-text juiz_sps_maybe_hidden_text">Share the post "<?php the_title(); ?>"</p>
+					<ul class="juiz_sps_links_list juiz_sps_hide_name" style='line-height:20px'>
+						<li class="juiz_sps_item juiz_sps_link_facebook">
+							<a target="_blank" title="Share this article on Facebook" rel="nofollow" href="https://www.facebook.com/sharer/sharer.php?u=<?php echo $perm; ?>">
+							<span class="juiz_sps_icon"></span>
+							<span class="juis_sps_network_name">facebook</span>
+							</a>
+						</li>
+						<li class="juiz_sps_item juiz_sps_link_twitter">
+							<a target="_blank" title="Share this article on Twitter" rel="nofollow" href="https://twitter.com/intent/tweet?source=webclient&amp;original_referer=<?php echo $perm; ?>&amp;text=<?php echo urlencode($title); ?>&amp;url=<?php echo $perm; ?>&amp;related=e27co&amp;via=e27co">
+							<span class="juiz_sps_icon"></span><span class="juis_sps_network_name">twitter</span></a>
+						</li>
+						<li class="juiz_sps_item juiz_sps_link_google">
+							<a target="_blank" title="Share this article on Google+" rel="nofollow" href="https://plus.google.com/share?url=<?php echo $perm; ?>"><span class="juiz_sps_icon"></span><span class="juis_sps_network_name">google</span></a>
+						</li>
+						<li class="juiz_sps_item juiz_sps_link_linkedin">
+							<a target="_blank" title="Share this article on LinkedIn" rel="nofollow" href="http://www.linkedin.com/shareArticle?mini=true&amp;ro=true&amp;trk=JuizSocialPostSharer&amp;title=<?php echo urlencode($title); ?>&amp;url=<?php echo $perm; ?>"><span class="juiz_sps_icon"></span><span class="juis_sps_network_name">linkedin</span></a>
+						</li>
+						<li class="juiz_sps_item juiz_sps_link_mail">
+							<a target="_blank" title="Share this article with a friend (email)" rel="nofollow" href="mailto:?subject=&amp;body= : <?php echo $perm; ?>"><span class="juiz_sps_icon"></span><span class="juis_sps_network_name">mail</span></a>
+						</li>
+					</ul>
+				</div>
+			</div><?php echo stripslashes(html_entity_decode(get_option("echelon_fphead_1"))); ?></h2>
 			<p><?php echo nl2br(stripslashes(html_entity_decode(get_option("echelon_fptext_1")))); ?></p>
           <div class="par-comment">
             <div class="row-fluid comment-wrapper" style='position:relative'>
