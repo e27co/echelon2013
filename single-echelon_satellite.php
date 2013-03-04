@@ -17,11 +17,15 @@ get_header();
 			<?php
 			$perm = get_permalink();
 			$perm = urlencode($perm);
+			$mailto = "?subject=".urlencode("Echelon 2013 :Driving Asia'a Tech Industry Forward. June 4, 5th | organized by e27")."&body=".urlencode("\n\n\n\nMore details : http://echelon.e27.co/sg2013/ | Registration : http://echelon-2013.eventbrite.com/ | Startup Applications : http://e27.co/echelon-2013-startups/");
 			?>
 			<div style='margin-bottom: 5px; position: relative; height: 20px; margin-top: 35px;'>
 				<div class="juiz_sps_links  juiz_sps_displayed_both" style='margin:0px; position:absolute; top:-20px; '>
 					<p class="screen-reader-text juiz_sps_maybe_hidden_text">Share the post "<?php the_title(); ?>"</p>
 					<ul class="juiz_sps_links_list juiz_sps_hide_name" style='line-height:20px'>
+						<li class="juiz_sps_item juiz_sps_link_facebook" style='font-size:11px;'>
+								Share this Marketplace opportunity with your startup friends. &nbsp;&nbsp;&nbsp;
+						</li>
 						<li class="juiz_sps_item juiz_sps_link_facebook">
 							<a target="_blank" title="Share this article on Facebook" rel="nofollow" href="https://www.facebook.com/sharer/sharer.php?u=<?php echo $perm; ?>">
 							<span class="juiz_sps_icon"></span>
@@ -39,7 +43,7 @@ get_header();
 							<a target="_blank" title="Share this article on LinkedIn" rel="nofollow" href="http://www.linkedin.com/shareArticle?mini=true&amp;ro=true&amp;trk=JuizSocialPostSharer&amp;title=<?php echo urlencode($p->post_title); ?>&amp;url=<?php echo $perm; ?>"><span class="juiz_sps_icon"></span><span class="juis_sps_network_name">linkedin</span></a>
 						</li>
 						<li class="juiz_sps_item juiz_sps_link_mail">
-							<a target="_blank" title="Share this article with a friend (email)" rel="nofollow" href="mailto:?subject=&amp;body= : <?php echo $perm; ?>"><span class="juiz_sps_icon"></span><span class="juis_sps_network_name">mail</span></a>
+							<a target="_blank" title="Share this article with a friend (email)" rel="nofollow" href="mailto:<?php echo $mailto; ?>"><span class="juiz_sps_icon"></span><span class="juis_sps_network_name">mail</span></a>
 						</li>
 					</ul>
 				</div>
