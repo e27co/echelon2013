@@ -132,37 +132,75 @@ else{
 	foreach($mps as $key=>$value){
 	$t = count($mps[$key]);
 		if($t){
-			?>
-			<div class="head-pillar"><p><?php echo $key; ?></p></div>
-			<ul>
-			<?php
-			for($i=0; $i<$t; $i++){
+			
+			if(strtolower($key)=='strategic partners'){
 				?>
-				<li>
+				<div class="head-pillar"><p><?php echo $key; ?></p></div>
+				<div id='strategic_partners'>
+				<ul class="slides_container" >
 				<?php
-				if(trim($mps[$key][$i]['html'])){
-					echo trim($mps[$key][$i]['html']);
-				}
-				else{
-					e_view($mps[$key][$i]['post']);
-					if(trim($mps[$key][$i]['link'])){
-						?>
-						<a target='_blank' href="<?php echo e_clickurl($mps[$key][$i]['link'], $mps[$key][$i]['post']); ?>"><img src="<?php echo $mps[$key][$i]['image_src']; ?>" title="<?php echo htmlentities($mps[$key][$i]['post']->post_title); ?>" alt="<?php echo htmlentities($mps[$key][$i]['post']->post_title); ?>"></a>
-						<?php
+				for($i=0; $i<$t; $i++){
+					?>
+					<li>
+					<?php
+					if(trim($mps[$key][$i]['html'])){
+						echo trim($mps[$key][$i]['html']);
 					}
 					else{
-						?>
-						<img src="<?php echo $mps[$key][$i]['image_src']; ?>" title="<?php echo htmlentities($mps[$key][$i]['post']->post_title); ?>" alt="<?php echo htmlentities($mps[$key][$i]['post']->post_title); ?>">
-						<?php
+						e_view($mps[$key][$i]['post']);
+						if(trim($mps[$key][$i]['link'])){
+							?>
+							<a target='_blank' href="<?php echo e_clickurl($mps[$key][$i]['link'], $mps[$key][$i]['post']); ?>"><img src="<?php echo $mps[$key][$i]['image_src']; ?>" title="<?php echo htmlentities($mps[$key][$i]['post']->post_title); ?>" alt="<?php echo htmlentities($mps[$key][$i]['post']->post_title); ?>"></a>
+							<?php
+						}
+						else{
+							?>
+							<img src="<?php echo $mps[$key][$i]['image_src']; ?>" title="<?php echo htmlentities($mps[$key][$i]['post']->post_title); ?>" alt="<?php echo htmlentities($mps[$key][$i]['post']->post_title); ?>">
+							<?php
+						}
 					}
+					?>
+					</li>
+					<?php
 				}
 				?>
-				</li>
+				</ul>
+				</div>
 				<?php
 			}
-			?>
-			</ul>
-			<?php
+			else{
+				?>
+				<div class="head-pillar"><p><?php echo $key; ?></p></div>
+				<ul>
+				<?php
+				for($i=0; $i<$t; $i++){
+					?>
+					<li>
+					<?php
+					if(trim($mps[$key][$i]['html'])){
+						echo trim($mps[$key][$i]['html']);
+					}
+					else{
+						e_view($mps[$key][$i]['post']);
+						if(trim($mps[$key][$i]['link'])){
+							?>
+							<a target='_blank' href="<?php echo e_clickurl($mps[$key][$i]['link'], $mps[$key][$i]['post']); ?>"><img src="<?php echo $mps[$key][$i]['image_src']; ?>" title="<?php echo htmlentities($mps[$key][$i]['post']->post_title); ?>" alt="<?php echo htmlentities($mps[$key][$i]['post']->post_title); ?>"></a>
+							<?php
+						}
+						else{
+							?>
+							<img src="<?php echo $mps[$key][$i]['image_src']; ?>" title="<?php echo htmlentities($mps[$key][$i]['post']->post_title); ?>" alt="<?php echo htmlentities($mps[$key][$i]['post']->post_title); ?>">
+							<?php
+						}
+					}
+					?>
+					</li>
+					<?php
+				}
+				?>
+				</ul>
+				<?php
+			}
 		}
 	}
 	?></div><?php
