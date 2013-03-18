@@ -136,8 +136,8 @@ else{
 			if(strtolower($key)=='strategic partners'){
 				?>
 				<div class="head-pillar"><p><?php echo $key; ?></p></div>
-				<div id='strategic_partners'>
-				<ul class="slides_container" >
+				<div id='strategic_partners' >
+				<ul class="slides_container" style='height:175px' >
 				<?php
 				for($i=0; $i<$t; $i++){
 					?>
