@@ -137,7 +137,7 @@ else{
 				?>
 				<div class="head-pillar"><p><?php echo $key; ?></p></div>
 				<div id='strategic_partners' >
-				<ul class="slides_container" style='height:175px' >
+				<ul class="slides_container" style='height:150px' >
 				<?php
 				for($i=0; $i<$t; $i++){
 					?>
