@@ -168,6 +168,52 @@ else{
 				</div>
 				<?php
 			}
+			else if(strtolower($key)=="community & media partners"){
+				?>
+				<div class="head-pillar"><p><?php echo $key; ?></p></div>
+				<div id='cm_partners' >
+					<div class="slides_container">
+						<?php
+						$n=0;
+						for($i=0; $i<$t; $i++){
+							if($n%4==0){
+								if($n!=0){
+									?></ul><ul style='height:370px' ><?php
+								}
+								else{
+									?><ul style='height:370px' ><?php
+								}
+							}
+							?>
+							<li>
+							<?php
+							if(trim($mps[$key][$i]['html'])){
+								echo trim($mps[$key][$i]['html']);
+							}
+							else{
+								e_view($mps[$key][$i]['post']);
+								if(trim($mps[$key][$i]['link'])){
+									?>
+									<a target='_blank' href="<?php echo e_clickurl($mps[$key][$i]['link'], $mps[$key][$i]['post']); ?>"><img src="<?php echo $mps[$key][$i]['image_src']; ?>" title="<?php echo htmlentities($mps[$key][$i]['post']->post_title); ?>" alt="<?php echo htmlentities($mps[$key][$i]['post']->post_title); ?>"></a>
+									<?php
+								}
+								else{
+									?>
+									<img src="<?php echo $mps[$key][$i]['image_src']; ?>" title="<?php echo htmlentities($mps[$key][$i]['post']->post_title); ?>" alt="<?php echo htmlentities($mps[$key][$i]['post']->post_title); ?>">
+									<?php
+								}
+							}
+							?>
+							</li>
+							<?php
+							$n++;
+						}
+						?>
+						</ul>
+					</div>
+				</div>
+				<?php
+			}
 			else{
 				?>
 				<div class="head-pillar"><p><?php echo $key; ?></p></div>
