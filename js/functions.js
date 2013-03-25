@@ -62,6 +62,18 @@
 			hoverPause: true,
 			
 		});
+		
+		jQuery('#country_sponsors').slides({
+			effect: 'fade',
+			generatePagination: false,
+			pagination: false,
+			preload: true,
+			preloadImage: '<?php echo get_template_directory_uri(); ?>/img/ajax-loader.gif',
+			play: 3000,
+			pause: 3000,
+			hoverPause: true,
+			
+		});
        
        
 		//Persistent Header   

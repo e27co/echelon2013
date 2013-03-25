@@ -1,6 +1,6 @@
 <div class="span3">
 <?php
-if(is_home()||1){
+if(is_home()&&0){
 	?>
 	<div class="side-pillar-btn" >
 		<a href="http://e27.co/echelon-2013-startups/" target="_blank" class="btn btn-success btn-large mar-bot-xxs">Submit Your Startup</a>
@@ -60,37 +60,74 @@ else{
 	foreach($sponsors as $key=>$value){
 	$t = count($sponsors[$key]);
 		if($t){
-			?>
-			<div class="head-pillar"><p><?php echo $key; ?></p></div>
-			<ul>
-			<?php
-			for($i=0; $i<$t; $i++){
+			if(strtolower($key)=='country sponsors'){
 				?>
-				<li>
+				<div class="head-pillar"><p><?php echo $key; ?></p></div>
+				<div id='country_sponsors' >
+				<ul class="slides_container" style='height:150px' >
 				<?php
-				if(trim($sponsors[$key][$i]['html'])){
-					echo trim($sponsors[$key][$i]['html']);
-				}
-				else{
-					e_view($sponsors[$key][$i]['post']);
-					if(trim($sponsors[$key][$i]['link'])){
-						?>
-						<a target='_blank' href="<?php echo e_clickurl($sponsors[$key][$i]['link'], $sponsors[$key][$i]['post']); ?>"><img src="<?php echo $sponsors[$key][$i]['image_src']; ?>" title="<?php echo htmlentities($sponsors[$key][$i]['post']->post_title); ?>" alt="<?php echo htmlentities($sponsors[$key][$i]['post']->post_title); ?>"></a>
-						<?php
+				for($i=0; $i<$t; $i++){
+					?>
+					<li>
+					<?php
+					if(trim($sponsors[$key][$i]['html'])){
+						echo trim($sponsors[$key][$i]['html']);
 					}
 					else{
-						?>
-						<img src="<?php echo $sponsors[$key][$i]['image_src']; ?>" title="<?php echo htmlentities($sponsors[$key][$i]['post']->post_title); ?>" alt="<?php echo htmlentities($sponsors[$key][$i]['post']->post_title); ?>">
-						<?php
+						e_view($sponsors[$key][$i]['post']);
+						if(trim($sponsors[$key][$i]['link'])){
+							?>
+							<a target='_blank' href="<?php echo e_clickurl($sponsors[$key][$i]['link'], $sponsors[$key][$i]['post']); ?>"><img src="<?php echo $sponsors[$key][$i]['image_src']; ?>" title="<?php echo htmlentities($sponsors[$key][$i]['post']->post_title); ?>" alt="<?php echo htmlentities($sponsors[$key][$i]['post']->post_title); ?>"></a>
+							<?php
+						}
+						else{
+							?>
+							<img src="<?php echo $sponsors[$key][$i]['image_src']; ?>" title="<?php echo htmlentities($sponsors[$key][$i]['post']->post_title); ?>" alt="<?php echo htmlentities($sponsors[$key][$i]['post']->post_title); ?>">
+							<?php
+						}
 					}
+					?>
+					</li>
+					<?php
 				}
 				?>
-				</li>
+				</ul>
+				</div>
 				<?php
 			}
-			?>
-			</ul>
-			<?php
+			else{
+				?>
+				<div class="head-pillar"><p><?php echo $key; ?></p></div>
+				<ul>
+				<?php
+				for($i=0; $i<$t; $i++){
+					?>
+					<li>
+					<?php
+					if(trim($sponsors[$key][$i]['html'])){
+						echo trim($sponsors[$key][$i]['html']);
+					}
+					else{
+						e_view($sponsors[$key][$i]['post']);
+						if(trim($sponsors[$key][$i]['link'])){
+							?>
+							<a target='_blank' href="<?php echo e_clickurl($sponsors[$key][$i]['link'], $sponsors[$key][$i]['post']); ?>"><img src="<?php echo $sponsors[$key][$i]['image_src']; ?>" title="<?php echo htmlentities($sponsors[$key][$i]['post']->post_title); ?>" alt="<?php echo htmlentities($sponsors[$key][$i]['post']->post_title); ?>"></a>
+							<?php
+						}
+						else{
+							?>
+							<img src="<?php echo $sponsors[$key][$i]['image_src']; ?>" title="<?php echo htmlentities($sponsors[$key][$i]['post']->post_title); ?>" alt="<?php echo htmlentities($sponsors[$key][$i]['post']->post_title); ?>">
+							<?php
+						}
+					}
+					?>
+					</li>
+					<?php
+				}
+				?>
+				</ul>
+				<?php
+			}
 		}
 	}
 
