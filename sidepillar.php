@@ -170,7 +170,7 @@ else{
 	$t = count($mps[$key]);
 		if($t){
 			
-			if(strtolower($key)=='strategic partners'){
+			if(strtolower($key)=='supporting partners'){
 				?>
 				<div class="head-pillar"><p><?php echo $key; ?></p></div>
 				<div id='strategic_partners' >
