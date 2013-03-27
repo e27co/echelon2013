@@ -1732,7 +1732,7 @@ class E_Sponsor extends Echelon {
 				<option value='Supporting Organizations'>Supporting Organizations</option>
 				<option value='Afterevent Sponsors'>Afterevent Sponsors</option>
 				<option value='Chill Out Sponsors'>Chill Out Sponsors</option>
-				<option value='Country Sponsors'>Country Sponsors</option>
+				<option value='Satellite Sponsors'>Satellite Sponsors</option>
 			</select>
 			<script>
 			jQuery("#xtype").val("<?php echo $type; ?>");
