@@ -60,7 +60,7 @@ else{
 	foreach($sponsors as $key=>$value){
 	$t = count($sponsors[$key]);
 		if($t){
-			if(strtolower($key)=='country sponsors'){
+			if(strtolower($key)=='satellite sponsors'){
 				?>
 				<div class="head-pillar"><p><?php echo $key; ?></p></div>
 				<div id='country_sponsors' >
