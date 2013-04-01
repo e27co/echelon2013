@@ -25,7 +25,14 @@ get_header();
 						$alt = get_post_meta( $p->ID, $ptype.'_alt_tag', true );
 						$title = get_post_meta( $p->ID, $ptype.'_title_tag', true );
 						$order = get_post_meta($p->ID, $ptype.'_order', true );
-						?><img width="490" height="300" alt="<?php echo htmlentities($alt); ?>" title="<?php echo htmlentities($title); ?>" src="<?php echo $image_src ?>" style="max-width:100%;" /><?php
+						$link = get_post_meta($p->ID, $ptype.'_link', true );
+						if(trim($link)){
+							?><a href="<?php htmlentities($link); ?>" target='_blank' ><img width="490" height="300" alt="<?php echo htmlentities($alt); ?>" title="<?php echo htmlentities($title); ?>" src="<?php echo $image_src ?>" style="max-width:100%;" /></a><?php
+						}
+						else{
+							?><img width="490" height="300" alt="<?php echo htmlentities($alt); ?>" title="<?php echo htmlentities($title); ?>" src="<?php echo $image_src ?>" style="max-width:100%;" /><?php
+						}
+						
 					}
 				}
 				wp_reset_postdata();

@@ -21,6 +21,7 @@ class Echelon{
 	 */
 	public function init($slug, $label, $supports=null){
 		register_post_type( $slug, array( 'public' => true, 'label' => $label, 'supports' => $supports ) );
+		flush_rewrite_rules( );
 	}
 }
 
@@ -129,6 +130,7 @@ class E_Carousel extends Echelon {
 		update_post_meta( $post_id, $this->slug.'_alt_tag', $_POST['alt_tag'] );
 		update_post_meta( $post_id, $this->slug.'_title_tag', $_POST['title_tag'] );
 		update_post_meta( $post_id, $this->slug.'_order', $_POST['order'] );
+		update_post_meta( $post_id, $this->slug.'_link', $_POST['link'] );
 	}
 	
 	//columns in list view
@@ -185,7 +187,7 @@ class E_Carousel extends Echelon {
 		$alt = get_post_meta( $post->ID, $this->slug.'_alt_tag', true );
 		$title = get_post_meta( $post->ID, $this->slug.'_title_tag', true );
 		$order = get_post_meta( $post->ID, $this->slug.'_order', true );
-		
+		$link = get_post_meta( $post->ID, $this->slug.'_link', true );
 		?>
 		<style>
 		#<?php echo $this->slug; ?> td{
@@ -204,6 +206,10 @@ class E_Carousel extends Echelon {
 		<tr>
 			<td>Order</td>
 			<td><input type='text' name='order' value="<?php echo $order*1; ?>" /> * must be an integer value</td>
+		</tr>
+		<tr>
+			<td>Link</td>
+			<td><input type='text' style='width:300px;' name='link' value="<?php echo $link; ?>" /> e.g. http://e27.co (leave empty if none) </td>
 		</tr>
 		<tr>
 			<td>Image <br /> (490px x 300px)</td>

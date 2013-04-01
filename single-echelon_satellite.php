@@ -2,7 +2,6 @@
 get_header();
 ?>
 
-
     <div class="container add-top">
       <div class="row add-bot-med">
         <div class="span9 highlights">
