@@ -27,7 +27,7 @@ get_header();
 						$order = get_post_meta($p->ID, $ptype.'_order', true );
 						$link = get_post_meta($p->ID, $ptype.'_link', true );
 						if(trim($link)){
-							?><a href="<?php htmlentities($link); ?>" target='_blank' ><img width="490" height="300" alt="<?php echo htmlentities($alt); ?>" title="<?php echo htmlentities($title); ?>" src="<?php echo $image_src ?>" style="max-width:100%;" /></a><?php
+							?><div style='height:300px; width:490px;'><a href="<?php echo htmlentities($link); ?>" target='_blank' ><img width="490" height="300" alt="<?php echo htmlentities($alt); ?>" title="<?php echo htmlentities($title); ?>" src="<?php echo $image_src ?>" style="max-width:100%;" /></a></div><?php
 						}
 						else{
 							?><img width="490" height="300" alt="<?php echo htmlentities($alt); ?>" title="<?php echo htmlentities($title); ?>" src="<?php echo $image_src ?>" style="max-width:100%;" /><?php

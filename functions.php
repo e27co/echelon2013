@@ -21,7 +21,6 @@ class Echelon{
 	 */
 	public function init($slug, $label, $supports=null){
 		register_post_type( $slug, array( 'public' => true, 'label' => $label, 'supports' => $supports ) );
-		flush_rewrite_rules( );
 	}
 }
 
