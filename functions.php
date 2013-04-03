@@ -425,6 +425,7 @@ class E_Speaker extends Echelon {
 	var $title;
 		
 	public function __construct() {
+		
 		$this->slug = "echelon_speaker";
 		$this->label = "Echelon Speakers";
 		$this->title = "Speaker Name";
@@ -653,25 +654,7 @@ class E_Speaker extends Echelon {
 			<br /><br />
 			
 			<?php
-			$ptype = "echelon_satellite";
-			$args = array(
-				'post_type'=> $ptype,
-				'order'    => 'ASC',
-				'orderby'	=> 'meta_value',
-				'meta_key' 	=> $ptype.'_order',
-				'posts_per_page' => -1
-			);              
-			$the_query = new WP_Query( $args );
-			$i=0;
-			$arr = array();
-			$the = array();
-			if($the_query->have_posts() ){
-				while ( $the_query->have_posts() ){
-					$the_query->the_post();
-					$p = get_post( get_the_ID(), OBJECT );
-					$arr[] = $p;
-				}
-			}
+			$arr = getSatellites();
 			$t = count($arr);
 			if($t){
 				?><b>is a Speaker for the following Satellite(s)<br /><br /></b><?php
@@ -1513,7 +1496,43 @@ class E_Quote extends Echelon {
 		<?php
 	}
 }
-
+$g_satellites = "";
+function getSatellites(){
+	global $wp_query, $g_satellites;
+	if(!$g_satellites){
+		$saved = $wp_query;
+		
+		$ptype = "echelon_satellite";
+		$args = array(
+			'post_type'=> $ptype,
+			'order'    => 'ASC',
+			'orderby'	=> 'meta_value',
+			'meta_key' 	=> $ptype.'_order',
+			'posts_per_page' => -1
+		);              
+		query_posts($args);
+		
+		$the_query = new WP_Query( $args );
+		$i=0;
+		$arr = array();
+		$the = array();
+		if(have_posts() ){
+			while ( have_posts() ){
+				the_post();
+				$p = get_post( get_the_ID(), OBJECT );
+				$arr[] = $p;
+			}
+		}
+		wp_reset_query();
+		$wp_query = $saved;
+		return $arr;
+	}
+	else{
+		echo "here<hr>";
+		return $g_satellites;
+	}
+}
+$g_satellites = getSatellites();
 
 class E_Sponsor extends Echelon {
 	
@@ -1774,26 +1793,8 @@ class E_Sponsor extends Echelon {
 			</select>
 			<br /><br />
 			
-			<?php
-			$ptype = "echelon_satellite";
-			$args = array(
-				'post_type'=> $ptype,
-				'order'    => 'ASC',
-				'orderby'	=> 'meta_value',
-				'meta_key' 	=> $ptype.'_order',
-				'posts_per_page' => -1
-			);              
-			$the_query = new WP_Query( $args );
-			$i=0;
-			$arr = array();
-			$the = array();
-			if($the_query->have_posts() ){
-				while ( $the_query->have_posts() ){
-					$the_query->the_post();
-					$p = get_post( get_the_ID(), OBJECT );
-					$arr[] = $p;
-				}
-			}
+			<?php			
+			$arr = getSatellites();
 			$t = count($arr);
 			if($t){
 				?><b>is a Sponsor for the following Satellite(s)<br /><br /></b><?php
@@ -2672,17 +2673,6 @@ if($_GET['a']=='click'){
 // This theme uses wp_nav_menu() in one location.
 register_nav_menu( 'primary', __( 'Primary Menu', 'echelon2013' ) );
 
-// finally instantiate our plugin class and add it to the set of globals (not really needed but it will instantiate the class)
-$GLOBALS['E_Carousel'] = new E_Carousel();
-$GLOBALS['E_Youtube'] = new E_Youtube();
-$GLOBALS['E_Speaker'] = new E_Speaker();
-$GLOBALS['E_Startup'] = new E_Startup();
-$GLOBALS['E_Staff'] = new E_Staff();
-$GLOBALS['E_Quote'] = new E_Quote();
-$GLOBALS['E_Sponsor'] = new E_Sponsor();
-$GLOBALS['E_MediaPartner'] = new E_MediaPartner();
-$GLOBALS['E_Satellite'] = new E_Satellite();
-$GLOBALS['E_Settings'] = new E_Settings();
 
 
 
@@ -3553,6 +3543,25 @@ function e_sponsors($content){
 }
 
 
+
+// finally instantiate our plugin class and add it to the set of globals (not really needed but it will instantiate the class)
+$GLOBALS['E_Carousel'] = new E_Carousel();
+$GLOBALS['E_Youtube'] = new E_Youtube();
+$GLOBALS['E_Speaker'] = new E_Speaker();
+$GLOBALS['E_Startup'] = new E_Startup();
+$GLOBALS['E_Staff'] = new E_Staff();
+$GLOBALS['E_Quote'] = new E_Quote();
+$GLOBALS['E_Sponsor'] = new E_Sponsor();
+$GLOBALS['E_MediaPartner'] = new E_MediaPartner();
+$GLOBALS['E_Satellite'] = new E_Satellite();
+$GLOBALS['E_Settings'] = new E_Settings();
+
+
+function admin_initx(){
+	flush_rewrite_rules();
+}
+
+
 //rss
 $url = "http://e27.sg/tag/echelon-2013/feed/";
 $e_rss = @fetch_rss( $url );
@@ -3567,6 +3576,7 @@ add_action("the_content", "e_startups");
 add_action("the_content", "e_satellites");
 add_action("the_content", "e_sat_sponsors");
 add_action("the_content", "e_sponsors");
+add_action('admin_init', 'admin_initx');
 
 
 
