@@ -1528,7 +1528,6 @@ function getSatellites(){
 		return $arr;
 	}
 	else{
-		echo "here<hr>";
 		return $g_satellites;
 	}
 }
